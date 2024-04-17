@@ -1,0 +1,15 @@
+# Mac
+.DS_Store
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+DerivedData/
+
+# Swift Package Manager
+/*.xcodeproj
+/.build
+/.swiftpm
+
+# Test
+TestResults/

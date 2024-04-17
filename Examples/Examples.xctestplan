@@ -1,0 +1,37 @@
+{
+  "configurations" : [
+    {
+      "id" : "4BC407B7-03AE-47F5-9F93-33A7282205B1",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "language" : "en",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Examples.xcodeproj",
+      "identifier" : "183D258B2B56695D001FDBDB",
+      "name" : "Examples"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:..",
+        "identifier" : "WebUITests",
+        "name" : "WebUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Examples.xcodeproj",
+        "identifier" : "1899E0F32BC7AE8E00BDCFD4",
+        "name" : "ExamplesUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
