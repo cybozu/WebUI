@@ -106,6 +106,13 @@ public struct WebView {
         webView.allowsBackForwardNavigationGestures = allowsBackForwardNavigationGestures
         webView.allowsLinkPreview = allowsLinkPreview
         webView.isRefreshable = isRefreshable
+    }
+
+    /// Loads the argument URL received during WebView initialization only once.
+    ///
+    /// This must be used after applyModifiers.
+    @MainActor
+    func loadsURLAtFirst(to webView: EnhancedWKWebView) {
         if let url {
             webView.load(URLRequest(url: url))
         }
