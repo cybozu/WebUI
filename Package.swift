@@ -26,8 +26,7 @@ let package = Package(
             ],
             swiftSettings: [
                 .enableUpcomingFeature("ExistentialAny"),
-                .enableUpcomingFeature("StrictConcurrency"),
-                .unsafeFlags(["-Xfrontend", "-enable-actor-data-race-checks"])
+                .enableUpcomingFeature("StrictConcurrency")
             ]
         ),
         .testTarget(
