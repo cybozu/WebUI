@@ -13,6 +13,8 @@ import WebKit
 /// ```
 @available(iOS 16.4, macOS 13.3, *)
 public struct WebView {
+    @Environment(\.webViewProxy) var proxy: WebViewProxy
+
     let configuration: WKWebViewConfiguration
 
     private let url: URL?

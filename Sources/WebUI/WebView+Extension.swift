@@ -1,4 +1,5 @@
 import SwiftUI
+import WebKit
 
 #if os(iOS)
 private typealias ViewRepresentable = UIViewRepresentable
@@ -9,19 +10,20 @@ private typealias ViewRepresentable = NSViewRepresentable
 extension WebView: View {
     /// The content and behavior of the web view.
     public var body: some View {
-        _WebView(parent: self)
+        _WebView(parent: self) {
+            proxy.setUp($0)
+        }
     }
 
     struct _WebView: ViewRepresentable {
-        @Environment(\.webViewProxy) private var proxy: WebViewProxy
-
         let parent: WebView
+        let setUpWebViewHandler: (WKWebView) -> Void
 
         @MainActor
         private func makeEnhancedWKWebView() -> EnhancedWKWebView {
             let webView = EnhancedWKWebView(frame: .zero, configuration: parent.configuration)
             parent.applyModifiers(to: webView)
-            proxy.setUp(webView)
+            setUpWebViewHandler(webView)
             return webView
         }
 
