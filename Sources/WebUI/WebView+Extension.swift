@@ -13,7 +13,7 @@ extension WebView: View {
     }
 
     struct _WebView: ViewRepresentable {
-        @Environment(\.webViewProxy) private var proxy: WebViewProxy
+        @Environment(\.setUpWebViewProxy) private var setUpWebViewProxy
 
         let parent: WebView
 
@@ -21,7 +21,7 @@ extension WebView: View {
         private func makeEnhancedWKWebView() -> EnhancedWKWebView {
             let webView = EnhancedWKWebView(frame: .zero, configuration: parent.configuration)
             parent.applyModifiers(to: webView)
-            proxy.setUp(webView)
+            setUpWebViewProxy(webView)
             return webView
         }
 
