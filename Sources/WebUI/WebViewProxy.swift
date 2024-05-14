@@ -88,6 +88,13 @@ public final class WebViewProxy: ObservableObject {
         webView?.load(URLRequest(url: url))
     }
 
+    /// Navigates to a requested URL.
+    /// - Parameters:
+    ///   - request: The request specifying the URL to which to navigate.
+    public func load(request: URLRequest) {
+        webView?.load(request)
+    }
+
     /// Reloads the current webpage.
     public func reload() {
         webView?.reload()
