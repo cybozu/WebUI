@@ -109,7 +109,7 @@ public struct WebView {
     }
 
     @MainActor
-    func loadsURLAtFirst(to webView: EnhancedWKWebView) {
+    func loadInitialURL(to webView: EnhancedWKWebView) {
         if let url {
             webView.load(URLRequest(url: url))
         }
