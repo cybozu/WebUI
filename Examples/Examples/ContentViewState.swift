@@ -36,7 +36,7 @@ final class ContentViewState: NSObject, ObservableObject {
     @Published var promptInput = ""
 
     let configuration = WKWebViewConfiguration()
-    let requestURL = URL(string: "https://cybozu.github.io/webview-debugger")!
+    let request = URLRequest(url: URL(string: "https://cybozu.github.io/webview-debugger")!)
 
     override init() {
         super.init()
@@ -44,7 +44,7 @@ final class ContentViewState: NSObject, ObservableObject {
     }
 
     private func setCookie(name: String, value: String) {
-        if let domain = requestURL.host(), let cookie = HTTPCookie(properties: [
+        if let domain = request.url?.host(), let cookie = HTTPCookie(properties: [
             HTTPCookiePropertyKey.name: name,
             HTTPCookiePropertyKey.value: value,
             HTTPCookiePropertyKey.domain: domain,

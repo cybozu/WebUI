@@ -15,7 +15,7 @@ import WebKit
 public struct WebView {
     let configuration: WKWebViewConfiguration
 
-    private let initialURL: URL?
+    private let initialRequest: URLRequest?
 
     private var uiDelegate: (any WKUIDelegate)?
     private var navigationDelegate: (any WKNavigationDelegate)?
@@ -26,10 +26,10 @@ public struct WebView {
 
     /// Creates new WebView.
     /// - Parameters:
-    ///   - url: The initial URL to load.
+    ///   - request: The initial request specifying the URL to load.
     ///   - configuration: The configuration for the new web view.
-    public init(url: URL? = nil, configuration: WKWebViewConfiguration = .init()) {
-        self.initialURL = url
+    public init(request: URLRequest? = nil, configuration: WKWebViewConfiguration = .init()) {
+        self.initialRequest = request
         self.configuration = configuration
     }
 
@@ -109,9 +109,9 @@ public struct WebView {
     }
 
     @MainActor
-    func loadInitialURL(in webView: EnhancedWKWebView) {
-        if let initialURL {
-            webView.load(URLRequest(url: initialURL))
+    func loadInitialRequest(in webView: EnhancedWKWebView) {
+        if let initialRequest {
+            webView.load(initialRequest)
         }
     }
 }

@@ -50,7 +50,7 @@ struct ContentView: View {
                     .border(Color.gray)
             }
             .onAppear {
-                proxy.load(url: viewState.requestURL)
+                proxy.load(request: viewState.request)
             }
         }
         .padding()

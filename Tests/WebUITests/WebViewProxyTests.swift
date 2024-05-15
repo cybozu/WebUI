@@ -3,13 +3,13 @@ import XCTest
 
 final class WebViewProxyTests: XCTestCase {
     @MainActor
-    func test_load_the_specified_URL() {
+    func test_load_the_specified_URLRequest() {
         let sut = WebViewProxy()
         let webViewMock = WKWebViewMock()
         sut.setUp(webViewMock)
-        let url = URL(string: "https://www.example.com")!
-        sut.load(url: url)
-        XCTAssertEqual(webViewMock.loadedURL, url)
+        let request = URLRequest(url: URL(string: "https://www.example.com")!)
+        sut.load(request: request)
+        XCTAssertEqual(webViewMock.loadedRequest, request)
     }
 
     @MainActor

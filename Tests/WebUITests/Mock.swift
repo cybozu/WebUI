@@ -2,14 +2,14 @@
 import WebKit
 
 final class WKWebViewMock: EnhancedWKWebView {
-    private(set) var loadedURL: URL?
+    private(set) var loadedRequest: URLRequest?
     private(set) var reloadCalled = false
     private(set) var goBackCalled = false
     private(set) var goForwardCalled = false
     private(set) var javaScriptString: String?
 
     override func load(_ request: URLRequest) -> WKNavigation? {
-        loadedURL = request.url
+        loadedRequest = request
         return nil
     }
 
