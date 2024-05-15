@@ -83,13 +83,6 @@ public final class WebViewProxy: ObservableObject {
 
     /// Navigates to a requested URL.
     /// - Parameters:
-    ///   - url: The URL to which to navigate.
-    public func load(url: URL) {
-        webView?.load(URLRequest(url: url))
-    }
-
-    /// Navigates to a requested URL.
-    /// - Parameters:
     ///   - request: The request specifying the URL to which to navigate.
     public func load(request: URLRequest) {
         webView?.load(request)

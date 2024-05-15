@@ -22,7 +22,7 @@ extension WebView: View {
             let webView = EnhancedWKWebView(frame: .zero, configuration: parent.configuration)
             setUpWebViewProxy(webView)
             parent.applyModifiers(to: webView)
-            parent.loadInitialURL(in: webView)
+            parent.loadInitialRequest(in: webView)
             return webView
         }
 

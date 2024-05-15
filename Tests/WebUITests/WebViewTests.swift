@@ -53,19 +53,19 @@ final class WebViewTests: XCTestCase {
     }
 
     @MainActor
-    func test_loadInitialURL_do_not_load_URL_if_URL_is_not_specified_in_init() {
+    func test_loadInitialRequest_do_not_load_URL_request_if_request_is_not_specified_in_init() {
         let sut = WebView()
         let webViewMock = WKWebViewMock()
-        sut.loadInitialURL(in: webViewMock)
-        XCTAssertNil(webViewMock.loadedURL)
+        sut.loadInitialRequest(in: webViewMock)
+        XCTAssertNil(webViewMock.loadedRequest)
     }
 
     @MainActor
-    func test_loadInitialURL_load_URL_if_URL_is_specified_in_init() {
-        let url = URL(string: "https://www.example.com")!
-        let sut = WebView(url: url)
+    func test_loadInitialRequest_load_URL_request_if_request_is_specified_in_init() {
+        let request = URLRequest(url: URL(string: "https://www.example.com")!)
+        let sut = WebView(request: request)
         let webViewMock = WKWebViewMock()
-        sut.loadInitialURL(in: webViewMock)
-        XCTAssertEqual(webViewMock.loadedURL, url)
+        sut.loadInitialRequest(in: webViewMock)
+        XCTAssertEqual(webViewMock.loadedRequest, request)
     }
 }
