@@ -140,14 +140,3 @@ public final class WebViewProxy: ObservableObject {
         }
     }
 }
-
-private struct WebViewProxyKey: EnvironmentKey {
-    static let defaultValue = WebViewProxy()
-}
-
-extension EnvironmentValues {
-    var webViewProxy: WebViewProxy {
-        get { self[WebViewProxyKey.self] }
-        set { self[WebViewProxyKey.self] = newValue }
-    }
-}
