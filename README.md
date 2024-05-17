@@ -26,9 +26,9 @@ WebUI is available through [Swift Package Manager](https://github.com/apple/swif
 
 1. File > Add Package Dependencies…
 2. Search `https://github.com/cybozu/WebUI.git`.  
-   <img src="Screenshots/add-package-dependencies.png" width="600px">
+   <img src="Screenshots/add-package-dependencies.png" width="800px">
 3. Add package and link `WebUI` to your application target.  
-   <img src="Screenshots/add-package.png" width="500px">
+   <img src="Screenshots/add-package.png" width="600px">
 
 **CLI**
 
