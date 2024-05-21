@@ -14,6 +14,12 @@ struct RefreshControl {
 #endif
 
 class EnhancedWKWebView: WKWebView {
+    private let webViewHistory = WebViewHistory()
+
+    override var backForwardList: WKBackForwardList {
+        return webViewHistory
+    }
+
     override var navigationDelegate: (any WKNavigationDelegate)? {
         get {
             navigationDelegateProxy
@@ -52,6 +58,10 @@ class EnhancedWKWebView: WKWebView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func clearHistory() {
+        webViewHistory.clear()
     }
 
     final class NavigationDelegateProxy: NSObject, WKNavigationDelegate {

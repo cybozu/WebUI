@@ -9,7 +9,7 @@ import WebKit
 @available(iOS 16.4, macOS 13.3, *)
 @MainActor
 public final class WebViewProxy: ObservableObject {
-    weak var webView: WKWebView?
+    weak var webView: EnhancedWKWebView?
 
     /// The page title.
     @Published public private(set) var title: String?
@@ -37,7 +37,7 @@ public final class WebViewProxy: ObservableObject {
         task?.cancel()
     }
 
-    func setUp(_ webView: WKWebView) {
+    func setUp(_ webView: EnhancedWKWebView) {
         self.webView = webView
 
         task = Task {
@@ -138,5 +138,9 @@ public final class WebViewProxy: ObservableObject {
                 }
             }
         }
+    }
+
+    public func clean() {
+        webView?.clearHistory()
     }
 }

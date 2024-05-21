@@ -35,6 +35,8 @@ final class WKWebViewMock: EnhancedWKWebView {
         self.javaScriptString = javaScriptString
         completionHandler?(true, nil)
     }
+
+    override func clearHistory() {}
 }
 
 final class UIDelegateMock: NSObject, WKUIDelegate {}

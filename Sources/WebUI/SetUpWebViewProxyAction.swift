@@ -1,10 +1,9 @@
 import SwiftUI
-import WebKit
 
 struct SetUpWebViewProxyAction {
-    let action: (WKWebView) -> Void
+    let action: (EnhancedWKWebView) -> Void
 
-    func callAsFunction(_ webView: WKWebView) {
+    func callAsFunction(_ webView: EnhancedWKWebView) {
         action(webView)
     }
 }
