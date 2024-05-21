@@ -142,6 +142,7 @@ public final class WebViewProxy: ObservableObject {
 
     public func clean() async {
         webView?.clearHistory()
-        await webView?.clearAllCookies()
+        await webView?.clearAllDataStore()
+        webView?.resetProcessPool()
     }
 }

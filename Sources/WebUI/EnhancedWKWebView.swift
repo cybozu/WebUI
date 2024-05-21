@@ -64,14 +64,14 @@ class EnhancedWKWebView: WKWebView {
         webViewHistory.clear()
     }
 
-    func clearAllCookies() async {
-        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-
+    func clearAllDataStore() async {
         let dataStore = WKWebsiteDataStore.default()
         let allDataTypes = WKWebsiteDataStore.allWebsiteDataTypes()
         let dataRecords = await dataStore.dataRecords(ofTypes: allDataTypes)
         await dataStore.removeData(ofTypes: allDataTypes, for: dataRecords)
+    }
 
+    func resetProcessPool() {
         configuration.processPool = WKProcessPool()
     }
 
