@@ -64,6 +64,17 @@ class EnhancedWKWebView: WKWebView {
         webViewHistory.clear()
     }
 
+    func clearAllCookies() async {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+
+        let dataStore = WKWebsiteDataStore.default()
+        let allDataTypes = WKWebsiteDataStore.allWebsiteDataTypes()
+        let dataRecords = await dataStore.dataRecords(ofTypes: allDataTypes)
+        await dataStore.removeData(ofTypes: allDataTypes, for: dataRecords)
+
+        configuration.processPool = WKProcessPool()
+    }
+
     final class NavigationDelegateProxy: NSObject, WKNavigationDelegate {
         weak var delegate: (any WKNavigationDelegate)?
 

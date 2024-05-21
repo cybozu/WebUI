@@ -37,6 +37,8 @@ final class WKWebViewMock: EnhancedWKWebView {
     }
 
     override func clearHistory() {}
+
+    override func clearAllCookies() async {}
 }
 
 final class UIDelegateMock: NSObject, WKUIDelegate {}
