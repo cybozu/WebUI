@@ -26,7 +26,8 @@ let package = Package(
             ],
             swiftSettings: [
                 .enableUpcomingFeature("ExistentialAny"),
-                .enableUpcomingFeature("StrictConcurrency")
+                .enableUpcomingFeature("GlobalConcurrency"),
+                .enableUpcomingFeature("StrictConcurrency"),
             ]
         ),
         .testTarget(

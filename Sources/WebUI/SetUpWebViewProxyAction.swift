@@ -10,7 +10,7 @@ struct SetUpWebViewProxyAction {
 }
 
 private struct SetUpWebViewProxyActionKey: EnvironmentKey {
-    static var defaultValue = SetUpWebViewProxyAction(action: { _ in })
+    static let defaultValue = SetUpWebViewProxyAction(action: { _ in })
 }
 
 extension EnvironmentValues {
