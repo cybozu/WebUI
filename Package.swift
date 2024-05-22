@@ -21,12 +21,10 @@ let package = Package(
     targets: [
         .target(
             name: "WebUI",
-            resources: [
-                .process("Resources/PrivacyInfo.xcprivacy")
-            ],
             swiftSettings: [
+                .enableExperimentalFeature("StrictConcurrency"),
                 .enableUpcomingFeature("ExistentialAny"),
-                .enableUpcomingFeature("StrictConcurrency")
+                .enableUpcomingFeature("GlobalConcurrency"),
             ]
         ),
         .testTarget(
