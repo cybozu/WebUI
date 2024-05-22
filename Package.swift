@@ -25,9 +25,9 @@ let package = Package(
                 .process("Resources/PrivacyInfo.xcprivacy")
             ],
             swiftSettings: [
+                .enableExperimentalFeature("StrictConcurrency"),
                 .enableUpcomingFeature("ExistentialAny"),
                 .enableUpcomingFeature("GlobalConcurrency"),
-                .enableUpcomingFeature("StrictConcurrency"),
             ]
         ),
         .testTarget(
