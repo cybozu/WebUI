@@ -21,9 +21,6 @@ let package = Package(
     targets: [
         .target(
             name: "WebUI",
-            resources: [
-                .process("Resources/PrivacyInfo.xcprivacy")
-            ],
             swiftSettings: [
                 .enableUpcomingFeature("ExistentialAny"),
                 .enableUpcomingFeature("GlobalConcurrency"),
