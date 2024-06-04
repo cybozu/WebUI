@@ -49,4 +49,17 @@ final class WebViewProxyTests: XCTestCase {
         let result = try XCTUnwrap(actual as? Bool)
         XCTAssertTrue(result)
     }
+
+    @MainActor
+    func test_clear_history() async {
+        let sut = WebViewProxy()
+        let webViewMock = WKWebViewMock()
+        let expectation = XCTestExpectation()
+        sut.setUp(webViewMock) {
+            expectation.fulfill()
+            return webViewMock
+        }
+        sut.clearHistory()
+        await fulfillment(of: [expectation], timeout: 0.1)
+    }
 }
