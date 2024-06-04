@@ -44,8 +44,8 @@ class EnhancedWKWebView: WKWebView {
         return _refreshControl
     }()
 
-    init(configuration: WKWebViewConfiguration) {
-        super.init(frame: .zero, configuration: configuration)
+    override init(frame: CGRect, configuration: WKWebViewConfiguration) {
+        super.init(frame: frame, configuration: configuration)
         navigationDelegateProxy = NavigationDelegateProxy(refreshControl: refreshControl)
         super.navigationDelegate = navigationDelegateProxy
     }

@@ -11,7 +11,7 @@ final class EnhancedWKWebViewWrapper: OSView {
     var webView: EnhancedWKWebView
 
     init(configuration: WKWebViewConfiguration) {
-        webView = EnhancedWKWebView(configuration: configuration)
+        webView = EnhancedWKWebView(frame: .zero, configuration: configuration)
         super.init(frame: .zero)
         addSubview(webView)
         setConstraints()
@@ -23,7 +23,7 @@ final class EnhancedWKWebViewWrapper: OSView {
 
     func remakeWebView(configuration: WKWebViewConfiguration) {
         webView.removeFromSuperview()
-        webView = EnhancedWKWebView(configuration: configuration)
+        webView = EnhancedWKWebView(frame: .zero, configuration: configuration)
         addSubview(webView)
         setConstraints()
     }
