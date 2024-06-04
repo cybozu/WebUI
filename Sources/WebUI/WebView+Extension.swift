@@ -20,7 +20,9 @@ extension WebView: View {
         @MainActor
         private func makeView() -> EnhancedWKWebViewWrapper {
             let view = EnhancedWKWebViewWrapper(configuration: parent.configuration)
-            setUpWebViewProxy(view.webView)
+            setUpWebViewProxy(view.webView) {
+                view.remakeWebView(configuration: parent.configuration)
+            }
             parent.applyModifiers(to: view.webView)
             parent.loadInitialRequest(in: view.webView)
             return view

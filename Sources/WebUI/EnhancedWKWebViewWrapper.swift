@@ -21,11 +21,12 @@ final class EnhancedWKWebViewWrapper: OSView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func remakeWebView(configuration: WKWebViewConfiguration) {
+    func remakeWebView(configuration: WKWebViewConfiguration) -> WKWebView {
         webView.removeFromSuperview()
         webView = EnhancedWKWebView(frame: .zero, configuration: configuration)
         addSubview(webView)
         setConstraints()
+        return webView
     }
 
     private func setConstraints() {
