@@ -18,34 +18,34 @@ extension WebView: View {
         let parent: WebView
 
         @MainActor
-        private func makeEnhancedWKWebView() -> EnhancedWKWebView {
-            let webView = EnhancedWKWebView(frame: .zero, configuration: parent.configuration)
-            setUpWebViewProxy(webView)
-            parent.applyModifiers(to: webView)
-            parent.loadInitialRequest(in: webView)
-            return webView
+        private func makeView() -> EnhancedWKWebViewWrapper {
+            let view = EnhancedWKWebViewWrapper(configuration: parent.configuration)
+            setUpWebViewProxy(view.webView)
+            parent.applyModifiers(to: view.webView)
+            parent.loadInitialRequest(in: view.webView)
+            return view
         }
 
         @MainActor
-        private func updateEnhancedWKWebView(_ webView: EnhancedWKWebView) {
-            parent.applyModifiers(to: webView)
+        private func updateView(_ view: EnhancedWKWebViewWrapper) {
+            parent.applyModifiers(to: view.webView)
         }
 
         #if os(iOS)
-        func makeUIView(context: Context) -> EnhancedWKWebView {
-            makeEnhancedWKWebView()
+        func makeUIView(context: Context) -> EnhancedWKWebViewWrapper {
+            makeView()
         }
 
-        func updateUIView(_ webView: EnhancedWKWebView, context: Context) {
-            updateEnhancedWKWebView(webView)
+        func updateUIView(_ view: EnhancedWKWebViewWrapper, context: Context) {
+            updateView(view)
         }
         #elseif os(macOS)
-        func makeNSView(context: Context) -> EnhancedWKWebView {
-            makeEnhancedWKWebView()
+        func makeNSView(context: Context) -> EnhancedWKWebViewWrapper {
+            makeView()
         }
 
-        func updateNSView(_ webView: EnhancedWKWebView, context: Context) {
-            updateEnhancedWKWebView(webView)
+        func updateNSView(_ view: EnhancedWKWebViewWrapper, context: Context) {
+            updateView(view)
         }
         #endif
     }
