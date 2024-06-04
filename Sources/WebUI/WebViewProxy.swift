@@ -9,7 +9,8 @@ import WebKit
 @available(iOS 16.4, macOS 13.3, *)
 @MainActor
 public final class WebViewProxy: ObservableObject {
-    weak var webView: WKWebView?
+    private weak var webView: WKWebView?
+    private var remakeHandler: (() -> WKWebView)?
 
     /// The page title.
     @Published public private(set) var title: String?
@@ -37,7 +38,12 @@ public final class WebViewProxy: ObservableObject {
         task?.cancel()
     }
 
-    func setUp(_ webView: WKWebView) {
+    func setUp(_ webView: WKWebView, _ remakeHandler: @escaping () -> WKWebView) {
+        setUpWebView(webView)
+        setUpRemakeHandler(remakeHandler)
+    }
+
+    func setUpWebView(_ webView: WKWebView) {
         self.webView = webView
 
         task = Task {
@@ -79,6 +85,10 @@ public final class WebViewProxy: ObservableObject {
                 }
             }
         }
+    }
+
+    func setUpRemakeHandler(_ remakeHandler: @escaping () -> WKWebView) {
+        self.remakeHandler = remakeHandler
     }
 
     /// Navigates to a requested URL.
@@ -138,5 +148,14 @@ public final class WebViewProxy: ObservableObject {
                 }
             }
         }
+    }
+
+    /// Clears all history.
+    ///
+    /// As a side effect, the WKWebView instance will be remade.
+    public func clearHistory() {
+        guard let webView = remakeHandler?() else { return }
+        task?.cancel()
+        setUpWebView(webView)
     }
 }
