@@ -53,11 +53,10 @@ final class WebViewProxyTests: XCTestCase {
     @MainActor
     func test_clear_history() async {
         let sut = WebViewProxy()
-        let webViewMock = WKWebViewMock()
         let expectation = XCTestExpectation()
-        sut.setUp(webViewMock) {
+        sut.setUpRemakeHandler {
             expectation.fulfill()
-            return webViewMock
+            return WKWebViewMock()
         }
         sut.clearHistory()
         await fulfillment(of: [expectation], timeout: 0.1)
