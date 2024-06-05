@@ -38,6 +38,11 @@ public final class WebViewProxy: ObservableObject {
         task?.cancel()
     }
 
+    func setUp(_ webView: WKWebView, _ remakeHandler: @escaping () -> WKWebView) {
+        setUpWebView(webView)
+        setUpRemakeHandler(remakeHandler)
+    }
+
     func setUpWebView(_ webView: WKWebView) {
         self.webView = webView
 

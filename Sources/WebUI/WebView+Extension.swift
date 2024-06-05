@@ -13,16 +13,14 @@ extension WebView: View {
     }
 
     struct _WebView: ViewRepresentable {
-        @Environment(\.setUpWebView) private var setUpWebView
-        @Environment(\.setUpRemakeHandler) private var setUpRemakeHandler
+        @Environment(\.setUpWebViewProxy) private var setUpWebViewProxy
 
         let parent: WebView
 
         @MainActor
         private func makeView() -> EnhancedWKWebViewWrapper {
             let view = EnhancedWKWebViewWrapper(configuration: parent.configuration)
-            setUpWebView(view.webView)
-            setUpRemakeHandler {
+            setUpWebViewProxy(view.webView) {
                 view.remakeWebView(configuration: parent.configuration)
             }
             parent.applyModifiers(to: view.webView)
