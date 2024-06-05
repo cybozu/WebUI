@@ -2,8 +2,9 @@ import SwiftUI
 import WebKit
 
 struct SetUpWebViewProxyAction {
-    let action: (WKWebView) -> Void
+    let action: @MainActor @Sendable (WKWebView) -> Void
 
+    @MainActor
     func callAsFunction(_ webView: WKWebView) {
         action(webView)
     }
