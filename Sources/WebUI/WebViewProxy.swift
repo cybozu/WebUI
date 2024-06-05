@@ -151,7 +151,8 @@ public final class WebViewProxy: ObservableObject {
     }
 
     /// Clears all history.
-    /// A side effect is that the WKWebView instance is remade.
+    ///
+    /// As a side effect, the WKWebView instance will be remade.
     public func clearHistory() {
         guard let webView = remakeHandler?() else { return }
         task?.cancel()
