@@ -38,11 +38,6 @@ public final class WebViewProxy: ObservableObject {
         task?.cancel()
     }
 
-    func setUp(_ webView: WKWebView, _ remakeHandler: @escaping () -> WKWebView) {
-        setUpWebView(webView)
-        self.remakeHandler = remakeHandler
-    }
-
     func setUpWebView(_ webView: WKWebView) {
         self.webView = webView
 
@@ -85,6 +80,10 @@ public final class WebViewProxy: ObservableObject {
                 }
             }
         }
+    }
+
+    func setUpRemakeHandler(_ remakeHandler: @escaping () -> WKWebView) {
+        self.remakeHandler = remakeHandler
     }
 
     /// Navigates to a requested URL.

@@ -34,8 +34,11 @@ public struct WebViewReader<Content: View>: View {
     /// The content and behavior of the view.
     public var body: some View {
         content(proxy)
-            .environment(\.setUpWebViewProxy, SetUpWebViewProxyAction(action: {
-                proxy.setUp($0)
+            .environment(\.setUpWebView, SetUpWebViewAction(action: {
+                proxy.setUpWebView($0)
+            }))
+            .environment(\.setUpRemakeHandler, SetUpRemakeHandlerAction(action: {
+                proxy.setUpRemakeHandler($0)
             }))
     }
 }
