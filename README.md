@@ -74,7 +74,7 @@ struct ContentView: View {
         WebViewReader { proxy in
             WebView()
                 .onAppear {
-                    proxy.load(url: URL(string: "https://www.example.com")!)
+                    proxy.load(request: URLRequest(url: URL(string: "https://www.example.com")!))
                 }
         }
         .padding()
