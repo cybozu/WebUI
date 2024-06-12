@@ -6,7 +6,7 @@ final class WebViewProxyTests: XCTestCase {
     func test_load_the_specified_URLRequest() {
         let sut = WebViewProxy()
         let webViewMock = WKWebViewMock()
-        sut.setUp(webViewMock)
+        sut.setUpWebView(webViewMock)
         let request = URLRequest(url: URL(string: "https://www.example.com")!)
         sut.load(request: request)
         XCTAssertEqual(webViewMock.loadedRequest, request)
@@ -16,7 +16,7 @@ final class WebViewProxyTests: XCTestCase {
     func test_reload() {
         let sut = WebViewProxy()
         let webViewMock = WKWebViewMock()
-        sut.setUp(webViewMock)
+        sut.setUpWebView(webViewMock)
         sut.reload()
         XCTAssertTrue(webViewMock.reloadCalled)
     }
@@ -25,7 +25,7 @@ final class WebViewProxyTests: XCTestCase {
     func test_go_back() {
         let sut = WebViewProxy()
         let webViewMock = WKWebViewMock()
-        sut.setUp(webViewMock)
+        sut.setUpWebView(webViewMock)
         sut.goBack()
         XCTAssertTrue(webViewMock.goBackCalled)
     }
@@ -34,7 +34,7 @@ final class WebViewProxyTests: XCTestCase {
     func test_go_forward() {
         let sut = WebViewProxy()
         let webViewMock = WKWebViewMock()
-        sut.setUp(webViewMock)
+        sut.setUpWebView(webViewMock)
         sut.goForward()
         XCTAssertTrue(webViewMock.goForwardCalled)
     }
@@ -43,10 +43,22 @@ final class WebViewProxyTests: XCTestCase {
     func test_evaluate_JavaScript() async throws {
         let sut = WebViewProxy()
         let webViewMock = WKWebViewMock()
-        sut.setUp(webViewMock)
+        sut.setUpWebView(webViewMock)
         let actual = try await sut.evaluateJavaScript("test")
         XCTAssertEqual(webViewMock.javaScriptString, "test")
         let result = try XCTUnwrap(actual as? Bool)
         XCTAssertTrue(result)
+    }
+
+    @MainActor
+    func test_clear_history() async {
+        let sut = WebViewProxy()
+        let expectation = XCTestExpectation()
+        sut.setUpRemakeHandler {
+            expectation.fulfill()
+            return WKWebViewMock()
+        }
+        sut.clearHistory()
+        await fulfillment(of: [expectation], timeout: 0.1)
     }
 }
