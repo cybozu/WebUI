@@ -9,8 +9,7 @@ import WebKit
 @available(iOS 16.4, macOS 13.3, *)
 @MainActor
 public final class WebViewProxy: ObservableObject {
-    private weak var webView: WKWebView?
-    private var remakeHandler: (() -> WKWebView)?
+    private(set) weak var webView: Remakeable<EnhancedWKWebView>?
 
     /// The page title.
     @Published public private(set) var title: String?
@@ -38,14 +37,18 @@ public final class WebViewProxy: ObservableObject {
         task?.cancel()
     }
 
-    func setUp(_ webView: WKWebView, _ remakeHandler: @escaping () -> WKWebView) {
-        setUpWebView(webView)
-        setUpRemakeHandler(remakeHandler)
+    func setUp(_ webView: Remakeable<EnhancedWKWebView>) {
+        self.webView = webView
+        observe(webView.wrappedValue)
+
+        webView.onRemake { [weak self] in
+            guard let self else { return }
+            observe($0)
+        }
     }
 
-    func setUpWebView(_ webView: WKWebView) {
-        self.webView = webView
-
+    private func observe(_ webView: WKWebView) {
+        task?.cancel()
         task = Task {
             await withTaskGroup(of: Void.self) { group in
                 group.addTask { @MainActor in
@@ -87,30 +90,26 @@ public final class WebViewProxy: ObservableObject {
         }
     }
 
-    func setUpRemakeHandler(_ remakeHandler: @escaping () -> WKWebView) {
-        self.remakeHandler = remakeHandler
-    }
-
     /// Navigates to a requested URL.
     /// - Parameters:
     ///   - request: The request specifying the URL to which to navigate.
     public func load(request: URLRequest) {
-        webView?.load(request)
+        webView?.wrappedValue.load(request)
     }
 
     /// Reloads the current webpage.
     public func reload() {
-        webView?.reload()
+        webView?.wrappedValue.reload()
     }
 
     /// Navigates to the back item in the back-forward list.
     public func goBack() {
-        webView?.goBack()
+        webView?.wrappedValue.goBack()
     }
 
     /// Navigates to the forward item in the back-forward list.
     public func goForward() {
-        webView?.goForward()
+        webView?.wrappedValue.goForward()
     }
 
     /// Evaluates the specified JavaScript string.
@@ -140,7 +139,7 @@ public final class WebViewProxy: ObservableObject {
     public func evaluateJavaScript(_ javaScriptString: String) async throws -> Any? {
         guard let webView else { return nil }
         return try await withCheckedThrowingContinuation { continuation in
-            webView.evaluateJavaScript(javaScriptString) { result, error in
+            webView.wrappedValue.evaluateJavaScript(javaScriptString) { result, error in
                 if let error {
                     continuation.resume(throwing: error)
                 } else {
@@ -150,12 +149,10 @@ public final class WebViewProxy: ObservableObject {
         }
     }
 
-    /// Clears all history.
+    /// Clears all properties managed by `WKWebView`.
     ///
     /// As a side effect, the WKWebView instance will be remade.
-    public func clearHistory() {
-        guard let webView = remakeHandler?() else { return }
-        task?.cancel()
-        setUpWebView(webView)
+    public func clearAll() {
+        webView?.remake()
     }
 }

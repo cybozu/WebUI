@@ -18,35 +18,35 @@ extension WebView: View {
         let parent: WebView
 
         @MainActor
-        private func makeView() -> EnhancedWKWebViewWrapper {
-            let view = EnhancedWKWebViewWrapper(configuration: parent.configuration)
-            setUpWebViewProxy(view.webView) {
-                view.remakeWebView(configuration: parent.configuration)
+        private func makeView() -> Remakeable<EnhancedWKWebView> {
+            let webView = Remakeable {
+                EnhancedWKWebView(frame: .zero, configuration: parent.configuration)
             }
-            parent.applyModifiers(to: view.webView)
-            parent.loadInitialRequest(in: view.webView)
-            return view
+            setUpWebViewProxy(webView)
+            parent.applyModifiers(to: webView.wrappedValue)
+            parent.loadInitialRequest(in: webView.wrappedValue)
+            return webView
         }
 
         @MainActor
-        private func updateView(_ view: EnhancedWKWebViewWrapper) {
-            parent.applyModifiers(to: view.webView)
+        private func updateView(_ view: Remakeable<EnhancedWKWebView>) {
+            parent.applyModifiers(to: view.wrappedValue)
         }
 
         #if os(iOS)
-        func makeUIView(context: Context) -> EnhancedWKWebViewWrapper {
+        func makeUIView(context: Context) -> Remakeable<EnhancedWKWebView> {
             makeView()
         }
 
-        func updateUIView(_ view: EnhancedWKWebViewWrapper, context: Context) {
+        func updateUIView(_ view: Remakeable<EnhancedWKWebView>, context: Context) {
             updateView(view)
         }
         #elseif os(macOS)
-        func makeNSView(context: Context) -> EnhancedWKWebViewWrapper {
+        func makeNSView(context: Context) -> Remakeable<EnhancedWKWebView> {
             makeView()
         }
 
-        func updateNSView(_ view: EnhancedWKWebViewWrapper, context: Context) {
+        func updateNSView(_ view: Remakeable<EnhancedWKWebView>, context: Context) {
             updateView(view)
         }
         #endif

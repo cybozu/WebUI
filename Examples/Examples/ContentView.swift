@@ -35,7 +35,7 @@ struct ContentView: View {
                             .labelStyle(.iconOnly)
                     }
                     Button {
-                        proxy.clearHistory()
+                        proxy.clearAll()
                         proxy.load(request: viewState.request)
                     } label: {
                         Label("Clear", systemImage: "clear")
