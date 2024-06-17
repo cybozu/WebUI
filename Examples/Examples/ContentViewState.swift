@@ -95,40 +95,46 @@ final class ContentViewState: NSObject, ObservableObject {
 }
 
 extension ContentViewState: WKUIDelegate {
-    func webView(
+    nonisolated func webView(
         _ webView: WKWebView,
         runJavaScriptAlertPanelWithMessage message: String,
         initiatedByFrame frame: WKFrameInfo
     ) async {
-        await withCheckedContinuation { continuation in
-            showAlert(message, continuation)
-        }
+        await Task { @MainActor in
+            await withCheckedContinuation { continuation in
+                showAlert(message, continuation)
+            }
+        }.value
     }
 
-    func webView(
+    nonisolated func webView(
         _ webView: WKWebView,
         runJavaScriptConfirmPanelWithMessage message: String,
         initiatedByFrame frame: WKFrameInfo
     ) async -> Bool {
-        await withCheckedContinuation { continuation in
-            showConfirm(message, continuation)
-        }
+        await Task { @MainActor in
+            await withCheckedContinuation { continuation in
+                showConfirm(message, continuation)
+            }
+        }.value
     }
 
-    func webView(
+    nonisolated func webView(
         _ webView: WKWebView,
         runJavaScriptTextInputPanelWithPrompt prompt: String,
         defaultText: String?,
         initiatedByFrame frame: WKFrameInfo
     ) async -> String? {
-        await withCheckedContinuation { continuation in
-            showPrompt(prompt, defaultText, continuation)
-        }
+        await Task { @MainActor in
+            await withCheckedContinuation { continuation in
+                showPrompt(prompt, defaultText, continuation)
+            }
+        }.value
     }
 }
 
 extension ContentViewState: WKNavigationDelegate {
-    func webView(
+    nonisolated func webView(
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction,
         preferences: WKWebpagePreferences
@@ -143,17 +149,21 @@ extension ContentViewState: WKNavigationDelegate {
         }
 
         // Check if the user wants to open the URL in an external app.
-        let resultConfirm = await withCheckedContinuation { continuation in
-            let urlString = requestedURL.absoluteString
-            showConfirm("Open this link in external app?\n\(urlString)", continuation)
-        }
+        let resultConfirm = await Task { @MainActor in
+            await withCheckedContinuation { continuation in
+                let urlString = requestedURL.absoluteString
+                showConfirm("Open this link in external app?\n\(urlString)", continuation)
+            }
+        }.value
         guard resultConfirm else {
             return (.cancel, preferences)
         }
 
         // Open the URL in an external app.
         #if os(iOS)
-        let resultOpenURL = await UIApplication.shared.open(requestedURL)
+        let resultOpenURL = await Task { @MainActor in
+            await UIApplication.shared.open(requestedURL)
+        }.value
         #elseif os(macOS)
         let resultOpenURL = NSWorkspace.shared.open(requestedURL)
         #endif
@@ -162,9 +172,11 @@ extension ContentViewState: WKNavigationDelegate {
         }
 
         // Show an alert if the external app fails to open the URL.
-        await withCheckedContinuation { continuation in
-            showAlert("Failed to open the link in external app.", continuation)
-        }
+        await Task { @MainActor in
+            await withCheckedContinuation { continuation in
+                showAlert("Failed to open the link in external app.", continuation)
+            }
+        }.value
 
         return (.cancel, preferences)
     }
