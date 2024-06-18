@@ -34,6 +34,13 @@ struct ContentView: View {
                         Label("Reload", systemImage: "arrow.clockwise")
                             .labelStyle(.iconOnly)
                     }
+                    Button {
+                        proxy.clearAll()
+                        proxy.load(request: viewState.request)
+                    } label: {
+                        Label("Clear", systemImage: "clear")
+                            .labelStyle(.iconOnly)
+                    }
                 }
                 .padding(.vertical, 8)
 

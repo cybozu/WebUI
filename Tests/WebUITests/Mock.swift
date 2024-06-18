@@ -1,7 +1,7 @@
 @testable import WebUI
 import WebKit
 
-final class WKWebViewMock: EnhancedWKWebView {
+final class EnhancedWKWebViewMock: EnhancedWKWebView {
     private(set) var loadedRequest: URLRequest?
     private(set) var reloadCalled = false
     private(set) var goBackCalled = false

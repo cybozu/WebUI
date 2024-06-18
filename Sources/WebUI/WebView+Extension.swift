@@ -18,34 +18,36 @@ extension WebView: View {
         let parent: WebView
 
         @MainActor
-        private func makeEnhancedWKWebView() -> EnhancedWKWebView {
-            let webView = EnhancedWKWebView(frame: .zero, configuration: parent.configuration)
+        private func makeView() -> Remakeable<EnhancedWKWebView> {
+            let webView = Remakeable {
+                EnhancedWKWebView(frame: .zero, configuration: parent.configuration)
+            }
             setUpWebViewProxy(webView)
-            parent.applyModifiers(to: webView)
-            parent.loadInitialRequest(in: webView)
+            parent.applyModifiers(to: webView.wrappedValue)
+            parent.loadInitialRequest(in: webView.wrappedValue)
             return webView
         }
 
         @MainActor
-        private func updateEnhancedWKWebView(_ webView: EnhancedWKWebView) {
-            parent.applyModifiers(to: webView)
+        private func updateView(_ view: Remakeable<EnhancedWKWebView>) {
+            parent.applyModifiers(to: view.wrappedValue)
         }
 
         #if os(iOS)
-        func makeUIView(context: Context) -> EnhancedWKWebView {
-            makeEnhancedWKWebView()
+        func makeUIView(context: Context) -> Remakeable<EnhancedWKWebView> {
+            makeView()
         }
 
-        func updateUIView(_ webView: EnhancedWKWebView, context: Context) {
-            updateEnhancedWKWebView(webView)
+        func updateUIView(_ view: Remakeable<EnhancedWKWebView>, context: Context) {
+            updateView(view)
         }
         #elseif os(macOS)
-        func makeNSView(context: Context) -> EnhancedWKWebView {
-            makeEnhancedWKWebView()
+        func makeNSView(context: Context) -> Remakeable<EnhancedWKWebView> {
+            makeView()
         }
 
-        func updateNSView(_ webView: EnhancedWKWebView, context: Context) {
-            updateEnhancedWKWebView(webView)
+        func updateNSView(_ view: Remakeable<EnhancedWKWebView>, context: Context) {
+            updateView(view)
         }
         #endif
     }

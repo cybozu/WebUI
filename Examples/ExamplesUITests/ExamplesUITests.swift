@@ -51,6 +51,12 @@ final class ExamplesUITests: XCTestCase {
             XCTAssertTrue(app.webViews.staticTexts["0"].waitForExistence(timeout: 3))
         }
 
+        XCTContext.runActivity(named: "WebViewProxy.clearAll()") { _ in
+            app.buttons["Clear"].tap()
+            XCTAssertFalse(app.buttons["Go Back"].isEnabled)
+            XCTAssertFalse(app.buttons["Go Forward"].isEnabled)
+        }
+
         XCTContext.runActivity(named: "WebView.uiDelegate(_:)") { _ in
             app.webViews.buttons["Confirm"].tap()
             XCTAssertTrue(app.alerts.staticTexts["Confirm Test"].waitForExistence(timeout: 3))

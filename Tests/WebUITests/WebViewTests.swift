@@ -6,7 +6,7 @@ final class WebViewTests: XCTestCase {
     func test_applyModifiers_uiDelegate() {
         let uiDelegateMock = UIDelegateMock()
         let sut = WebView().uiDelegate(uiDelegateMock)
-        let webViewMock = WKWebViewMock()
+        let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
         XCTAssertTrue(uiDelegateMock === webViewMock.uiDelegate)
     }
@@ -15,7 +15,7 @@ final class WebViewTests: XCTestCase {
     func test_applyModifiers_navigationDelegate() {
         let navigationDelegateMock = NavigationDelegateMock()
         let sut = WebView().navigationDelegate(navigationDelegateMock)
-        let webViewMock = WKWebViewMock()
+        let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
         XCTAssertTrue(navigationDelegateMock === webViewMock.navigationDelegateProxy.delegate)
     }
@@ -23,7 +23,7 @@ final class WebViewTests: XCTestCase {
     @MainActor
     func test_applyModifiers_isInspectable() {
         let sut = WebView().allowsInspectable(true)
-        let webViewMock = WKWebViewMock()
+        let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
         XCTAssertTrue(webViewMock.isInspectable)
     }
@@ -31,7 +31,7 @@ final class WebViewTests: XCTestCase {
     @MainActor
     func test_applyModifiers_allowsBackForwardNavigationGestures() {
         let sut = WebView().allowsBackForwardNavigationGestures(true)
-        let webViewMock = WKWebViewMock()
+        let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
         XCTAssertTrue(webViewMock.allowsBackForwardNavigationGestures)
     }
@@ -39,7 +39,7 @@ final class WebViewTests: XCTestCase {
     @MainActor
     func test_applyModifiers_allowsLinkPreview() {
         let sut = WebView().allowsLinkPreview(true)
-        let webViewMock = WKWebViewMock()
+        let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
         XCTAssertTrue(webViewMock.allowsLinkPreview)
     }
@@ -47,7 +47,7 @@ final class WebViewTests: XCTestCase {
     @MainActor
     func test_applyModifiers_isRefreshable() {
         let sut = WebView().refreshable()
-        let webViewMock = WKWebViewMock()
+        let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
         XCTAssertTrue(webViewMock.isRefreshable)
     }
@@ -55,7 +55,7 @@ final class WebViewTests: XCTestCase {
     @MainActor
     func test_loadInitialRequest_do_not_load_URL_request_if_request_is_not_specified_in_init() {
         let sut = WebView()
-        let webViewMock = WKWebViewMock()
+        let webViewMock = EnhancedWKWebViewMock()
         sut.loadInitialRequest(in: webViewMock)
         XCTAssertNil(webViewMock.loadedRequest)
     }
@@ -64,7 +64,7 @@ final class WebViewTests: XCTestCase {
     func test_loadInitialRequest_load_URL_request_if_request_is_specified_in_init() {
         let request = URLRequest(url: URL(string: "https://www.example.com")!)
         let sut = WebView(request: request)
-        let webViewMock = WKWebViewMock()
+        let webViewMock = EnhancedWKWebViewMock()
         sut.loadInitialRequest(in: webViewMock)
         XCTAssertEqual(webViewMock.loadedRequest, request)
     }
