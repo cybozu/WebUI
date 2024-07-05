@@ -2,10 +2,10 @@ import SwiftUI
 import WebKit
 
 struct SetUpWebViewProxyAction {
-    let action: @MainActor @Sendable (WKWebView) -> Void
+    let action: @MainActor @Sendable (Remakeable<EnhancedWKWebView>) -> Void
 
     @MainActor
-    func callAsFunction(_ webView: WKWebView) {
+    func callAsFunction(_ webView: Remakeable<EnhancedWKWebView>) {
         action(webView)
     }
 }
@@ -20,4 +20,3 @@ extension EnvironmentValues {
         set { self[SetUpWebViewProxyActionKey.self] = newValue }
     }
 }
-
