@@ -12,7 +12,7 @@ jobs:
     name: Unit Test
     runs-on: macos-14
     env:
-      DEVELOPER_DIR: "/Applications/Xcode_15.1.app/Contents/Developer"
+      DEVELOPER_DIR: "/Applications/Xcode_15.4.app/Contents/Developer"
     timeout-minutes: 30
 
     steps:
@@ -27,7 +27,7 @@ jobs:
           xcodebuild test \
             -project Examples/Examples.xcodeproj \
             -scheme Examples \
-            -destination "platform=iOS Simulator,name=iPhone 15,OS=17.2" \
+            -destination "platform=iOS Simulator,name=iPhone 15,OS=17.5" \
             -resultBundlePath TestResults/result_bundle
 
       - name: Archive test results
