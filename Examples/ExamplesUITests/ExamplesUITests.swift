@@ -58,7 +58,9 @@ final class ExamplesUITests: XCTestCase {
         }
 
         XCTContext.runActivity(named: "WebView.uiDelegate(_:)") { _ in
-            app.webViews.buttons["Confirm"].tap()
+            let confirmButton = app.webViews.buttons["Confirm"]
+            XCTAssertTrue(confirmButton.waitForExistence(timeout: 15))
+            confirmButton.tap()
             XCTAssertTrue(app.alerts.staticTexts["Confirm Test"].waitForExistence(timeout: 3))
             app.alerts.buttons["OK"].tap()
             XCTAssertTrue(app.alerts.staticTexts["Result: OK"].waitForExistence(timeout: 3))
