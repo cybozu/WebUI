@@ -68,17 +68,13 @@ final class ExamplesUITests: XCTestCase {
         }
 
         XCTContext.runActivity(named: "WebView.init(configuration:)") { _ in
-            let cookiesButton = app.webViews.buttons["Cookies"]
-            XCTAssertTrue(cookiesButton.waitForExistence(timeout: 3))
-            cookiesButton.tap()
+            app.webViews.buttons["Cookies"].tap()
             XCTAssertTrue(app.alerts.staticTexts["SampleKey = SampleValue"].waitForExistence(timeout: 3))
             app.alerts.buttons["OK"].tap()
         }
 
         XCTContext.runActivity(named: "WebView.navigationDelegate(_:)") { _ in
-            let smsButton = app.webViews.buttons["sms://"]
-            XCTAssertTrue(smsButton.waitForExistence(timeout: 3))
-            smsButton.tap()
+            app.webViews.buttons["sms://"].tap()
             let expectMessage = "Open this link in external app? sms://"
             XCTAssertTrue(app.alerts.staticTexts[expectMessage].waitForExistence(timeout: 3))
             app.alerts.buttons["OK"].tap()
