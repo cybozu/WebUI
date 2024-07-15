@@ -86,6 +86,6 @@ struct ContentView: View {
 
 ## Demo
 
-This repository includes demonstration app for UIKit & SwiftUI.
+This repository includes demonstration app for iOS & macOS.
 
 Open [Examples/Examples.xcodeproj](/Examples/Examples.xcodeproj) and Run it.
