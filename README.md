@@ -18,7 +18,7 @@ WebUI is a Swift package that provides WKWebView wrapped by SwiftUI.
 
 ## Documentation
 
-[Latest (Swift DocC)](https://cybozu.github.io/WebUI/documentation/webui/)
+[Latest (Swift-DocC)](https://cybozu.github.io/WebUI/documentation/webui/)
 
 ## Privacy Manifest
 
@@ -83,3 +83,9 @@ struct ContentView: View {
     }
 }
 ```
+
+## Demo
+
+This repository includes demonstration app for UIKit & SwiftUI.
+
+Open [Examples/Examples.xcodeproj](/Examples/Examples.xcodeproj) and Run it.
