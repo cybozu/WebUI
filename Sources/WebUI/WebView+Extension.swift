@@ -19,8 +19,10 @@ extension WebView: View {
 
         @MainActor
         private func makeView() -> Remakeable<EnhancedWKWebView> {
-            let webView = Remakeable {
-                EnhancedWKWebView(frame: .zero, configuration: parent.configuration)
+            let webView = Remakeable<EnhancedWKWebView> {
+                let wrappedView = EnhancedWKWebView(frame: .zero, configuration: parent.configuration)
+                parent.applyModifiers(to: wrappedView)
+                return wrappedView
             }
             setUpWebViewProxy(webView)
             parent.applyModifiers(to: webView.wrappedValue)
