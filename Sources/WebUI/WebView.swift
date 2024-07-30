@@ -1,6 +1,17 @@
 import SwiftUI
 import WebKit
 
+/// This is a workaround for the absence of refresh control in macOS.
+#if os(iOS)
+/// The behavior for determining the adjusted content offsets.
+public typealias ContentInsetAdjustmentBehavior = UIScrollView.ContentInsetAdjustmentBehavior
+#elseif os(macOS)
+/// The behavior for determining the adjusted content offsets.
+public enum ContentInsetAdjustmentBehavior {
+    case automatic
+}
+#endif
+
 /// A view that displays interactive web content.
 ///
 /// This is a wrapper around WKWebView aimed at simplifying web view implementation in SwiftUI.
@@ -22,6 +33,7 @@ public struct WebView {
     private var isInspectable = false
     private var allowsBackForwardNavigationGestures = false
     private var allowsLinkPreview = true
+    private var contentInsetAdjustmentBehavior =  ContentInsetAdjustmentBehavior.automatic
     private var isRefreshable = false
 
     /// Creates new WebView.
@@ -86,6 +98,12 @@ public struct WebView {
         return modified
     }
 
+    public func contentInsetAdjustmentBehavior(_ behavior: ContentInsetAdjustmentBehavior) -> Self {
+        var modified = self
+        modified.contentInsetAdjustmentBehavior = behavior
+        return modified
+    }
+
     /// Marks this view as refreshable.
     ///
     /// Applying this modifier to a WebView reloads page contents when users perform an action to refresh.
@@ -105,6 +123,7 @@ public struct WebView {
         webView.isInspectable = isInspectable
         webView.allowsBackForwardNavigationGestures = allowsBackForwardNavigationGestures
         webView.allowsLinkPreview = allowsLinkPreview
+        webView.contentInsetAdjustmentBehavior = contentInsetAdjustmentBehavior
         webView.isRefreshable = isRefreshable
     }
 
