@@ -45,6 +45,14 @@ final class WebViewTests: XCTestCase {
     }
 
     @MainActor
+    func test_applyModifiers_contentInsetAdjustmentBehavior() {
+        let sut = WebView().contentInsetAdjustmentBehavior(.never)
+        let webViewMock = EnhancedWKWebViewMock()
+        sut.applyModifiers(to: webViewMock)
+        XCTAssertEqual(webViewMock.contentInsetAdjustmentBehavior, .never)
+    }
+
+    @MainActor
     func test_applyModifiers_isRefreshable() {
         let sut = WebView().refreshable()
         let webViewMock = EnhancedWKWebViewMock()
