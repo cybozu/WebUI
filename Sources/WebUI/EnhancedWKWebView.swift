@@ -36,6 +36,14 @@ class EnhancedWKWebView: WKWebView {
         }
     }
 
+    var contentInsetAdjustmentBehavior = ContentInsetAdjustmentBehavior.automatic {
+        willSet {
+            #if os(iOS)
+            self.scrollView.contentInsetAdjustmentBehavior = newValue
+            #endif
+        }
+    }
+
     private(set) var navigationDelegateProxy: NavigationDelegateProxy!
 
     private lazy var refreshControl = {
