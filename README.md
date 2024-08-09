@@ -1,6 +1,6 @@
 <picture>
-  <source srcset="Media/logo-dark.svg" media="(prefers-color-scheme: dark)" alt="WebUI by Cybozu">
-  <img src="Media/logo.svg" alt="WebUI by Cybozu">
+  <source srcset="./Media/logo-dark.svg" media="(prefers-color-scheme: dark)" alt="WebUI by Cybozu">
+  <img src="./Media/logo.svg" alt="WebUI by Cybozu">
 </picture>
 
 WebUI is a Swift package that provides WKWebView wrapped by SwiftUI.
@@ -35,9 +35,9 @@ WebUI is available through [Swift Package Manager](https://github.com/apple/swif
 
 1. File > Add Package Dependencies…
 2. Search `https://github.com/cybozu/WebUI.git`.  
-   <img src="Media/add-package-dependencies.png" width="800px">
+   <img src="./Media/add-package-dependencies.png" width="800px">
 3. Add package and link `WebUI` to your application target.  
-   <img src="Media/add-package.png" width="600px">
+   <img src="./Media/add-package.png" width="600px">
 
 **CLI**
 
