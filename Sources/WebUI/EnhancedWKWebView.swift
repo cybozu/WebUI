@@ -54,7 +54,7 @@ class EnhancedWKWebView: WKWebView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    final class NavigationDelegateProxy: NSObject, WKNavigationDelegate {
+    final class NavigationDelegateProxy: NSObject {
         weak var delegate: (any WKNavigationDelegate)?
 
         let refreshControl: RefreshControl
@@ -74,38 +74,39 @@ class EnhancedWKWebView: WKWebView {
 
             return delegate
         }
+    }
+}
 
-        private func endRefreshing() {
-            Task { @MainActor [refreshControl] in
-                refreshControl.endRefreshing()
-            }
+extension EnhancedWKWebView.NavigationDelegateProxy: WKNavigationDelegate {
+    private func endRefreshing() {
+        Task { @MainActor [refreshControl] in
+            refreshControl.endRefreshing()
         }
+    }
 
-        // MARK: WKNavigationDelegate
-        func webView(
-            _ webView: WKWebView,
-            didFail navigation: WKNavigation!,
-            withError error: any Error
-        ) {
-            endRefreshing()
-            delegate?.webView?(webView, didFail: navigation, withError: error)
-        }
+    func webView(
+        _ webView: WKWebView,
+        didFail navigation: WKNavigation!,
+        withError error: any Error
+    ) {
+        endRefreshing()
+        delegate?.webView?(webView, didFail: navigation, withError: error)
+    }
 
-        func webView(
-            _ webView: WKWebView,
-            didFailProvisionalNavigation navigation: WKNavigation!,
-            withError error: any Error
-        ) {
-            endRefreshing()
-            delegate?.webView?(webView, didFailProvisionalNavigation: navigation, withError: error)
-        }
+    func webView(
+        _ webView: WKWebView,
+        didFailProvisionalNavigation navigation: WKNavigation!,
+        withError error: any Error
+    ) {
+        endRefreshing()
+        delegate?.webView?(webView, didFailProvisionalNavigation: navigation, withError: error)
+    }
 
-        func webView(
-            _ webView: WKWebView,
-            didFinish navigation: WKNavigation!
-        ) {
-            endRefreshing()
-            delegate?.webView?(webView, didFinish: navigation)
-        }
+    func webView(
+        _ webView: WKWebView,
+        didFinish navigation: WKNavigation!
+    ) {
+        endRefreshing()
+        delegate?.webView?(webView, didFinish: navigation)
     }
 }

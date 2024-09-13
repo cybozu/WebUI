@@ -28,6 +28,7 @@ public struct WebView {
     /// - Parameters:
     ///   - request: The initial request specifying the URL to load.
     ///   - configuration: The configuration for the new web view.
+    @MainActor
     public init(request: URLRequest? = nil, configuration: WKWebViewConfiguration = .init()) {
         self.initialRequest = request
         self.configuration = configuration

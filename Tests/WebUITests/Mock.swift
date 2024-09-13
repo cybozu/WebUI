@@ -28,6 +28,15 @@ final class EnhancedWKWebViewMock: EnhancedWKWebView {
         return nil
     }
 
+    #if compiler(>=6.0)
+    override func evaluateJavaScript(
+        _ javaScriptString: String,
+        completionHandler: (@MainActor (Any?, (any Error)?) -> Void)? = nil
+    ) {
+        self.javaScriptString = javaScriptString
+        completionHandler?(true, nil)
+    }
+    #else
     override func evaluateJavaScript(
         _ javaScriptString: String,
         completionHandler: ((Any?, (any Error)?) -> Void)? = nil
@@ -35,6 +44,7 @@ final class EnhancedWKWebViewMock: EnhancedWKWebView {
         self.javaScriptString = javaScriptString
         completionHandler?(true, nil)
     }
+    #endif
 }
 
 final class UIDelegateMock: NSObject, WKUIDelegate {}
