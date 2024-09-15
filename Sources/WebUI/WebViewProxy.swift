@@ -29,12 +29,12 @@ public final class WebViewProxy: ObservableObject {
     /// A Boolean value indicating whether there is a forward item in the back-forward list that can be navigated to.
     @Published public private(set) var canGoForward = false
 
-    private var task: Task<Void, Never>?
+    private var tasks: [Task<Void, Never>] = []
 
     nonisolated init() {}
 
     deinit {
-        task?.cancel()
+        tasks.forEach { $0.cancel() }
     }
 
     func setUp(_ webView: Remakeable<EnhancedWKWebView>) {
@@ -48,46 +48,41 @@ public final class WebViewProxy: ObservableObject {
     }
 
     private func observe(_ webView: WKWebView) {
-        task?.cancel()
-        task = Task {
-            await withTaskGroup(of: Void.self) { group in
-                group.addTask { @MainActor in
-                    for await value in webView.publisher(for: \.title).bufferedValues() {
-                        self.title = value
-                    }
-                }
+        tasks.forEach { $0.cancel() }
+        tasks.removeAll()
 
-                group.addTask { @MainActor in
-                    for await value in webView.publisher(for: \.url).bufferedValues() {
-                        self.url = value
-                    }
+        tasks = [
+            Task { @MainActor in
+                for await value in webView.publisher(for: \.title).bufferedValues() {
+                    self.title = value
                 }
-
-                group.addTask { @MainActor in
-                    for await value in webView.publisher(for: \.isLoading).bufferedValues() {
-                        self.isLoading = value
-                    }
+            },
+            Task { @MainActor in
+                for await value in webView.publisher(for: \.url).bufferedValues() {
+                    self.url = value
                 }
-
-                group.addTask { @MainActor in
-                    for await value in webView.publisher(for: \.estimatedProgress).bufferedValues() {
-                        self.estimatedProgress = value
-                    }
+            },
+            Task { @MainActor in
+                for await value in webView.publisher(for: \.isLoading).bufferedValues() {
+                    self.isLoading = value
                 }
-
-                group.addTask { @MainActor in
-                    for await value in webView.publisher(for: \.canGoBack).bufferedValues() {
-                        self.canGoBack = value
-                    }
+            },
+            Task { @MainActor in
+                for await value in webView.publisher(for: \.estimatedProgress).bufferedValues() {
+                    self.estimatedProgress = value
                 }
-
-                group.addTask { @MainActor in
-                    for await value in webView.publisher(for: \.canGoForward).bufferedValues() {
-                        self.canGoForward = value
-                    }
+            },
+            Task { @MainActor in
+                for await value in webView.publisher(for: \.canGoBack).bufferedValues() {
+                    self.canGoBack = value
+                }
+            },
+            Task { @MainActor in
+                for await value in webView.publisher(for: \.canGoForward).bufferedValues() {
+                    self.canGoForward = value
                 }
             }
-        }
+        ]
     }
 
     /// Navigates to a requested URL.
@@ -140,10 +135,12 @@ public final class WebViewProxy: ObservableObject {
         guard let webView else { return nil }
         return try await withCheckedThrowingContinuation { continuation in
             webView.wrappedValue.evaluateJavaScript(javaScriptString) { result, error in
-                if let error {
-                    continuation.resume(throwing: error)
-                } else {
-                    continuation.resume(returning: result)
+                Task { @MainActor in
+                    if let error {
+                        continuation.resume(throwing: error)
+                    } else {
+                        continuation.resume(returning: result)
+                    }
                 }
             }
         }
