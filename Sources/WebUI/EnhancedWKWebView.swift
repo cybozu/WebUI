@@ -24,6 +24,14 @@ class EnhancedWKWebView: WKWebView {
         }
     }
 
+    var allowsScrollViewBounces = true {
+        willSet {
+            #if os(iOS)
+            self.scrollView.bounces = newValue
+            #endif
+        }
+    }
+
     var isRefreshable = false {
         willSet {
             #if os(iOS)

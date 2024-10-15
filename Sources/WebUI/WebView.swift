@@ -22,6 +22,7 @@ public struct WebView {
     private var isInspectable = false
     private var allowsBackForwardNavigationGestures = false
     private var allowsLinkPreview = true
+    private var allowsScrollViewBounces = true
     private var isRefreshable = false
 
     /// Creates new WebView.
@@ -87,6 +88,16 @@ public struct WebView {
         return modified
     }
 
+    /// Sets value for scrollView.bounces to WebView.
+    /// - Parameters:
+    ///   - enabled: A Boolean value that controls whether the scroll view bounces past the edge of content and back again.
+    /// - Returns: WebView that controls whether the scroll view bounces past the edge of content and back again.
+    public func allowsScrollViewBounces(_ enabled: Bool) -> Self {
+        var modified = self
+        modified.allowsScrollViewBounces = enabled
+        return modified
+    }
+
     /// Marks this view as refreshable.
     ///
     /// Applying this modifier to a WebView reloads page contents when users perform an action to refresh.
@@ -106,6 +117,7 @@ public struct WebView {
         webView.isInspectable = isInspectable
         webView.allowsBackForwardNavigationGestures = allowsBackForwardNavigationGestures
         webView.allowsLinkPreview = allowsLinkPreview
+        webView.allowsScrollViewBounces = allowsScrollViewBounces
         webView.isRefreshable = isRefreshable
     }
 
