@@ -41,6 +41,12 @@ struct ContentView: View {
                         Label("Clear", systemImage: "clear")
                             .labelStyle(.iconOnly)
                     }
+                    Button {
+                        proxy.loadHTMLString(viewState.htmlString, baseURL: viewState.htmlURL)
+                    } label: {
+                        Label("Load HTML String", systemImage: "doc")
+                            .labelStyle(.iconOnly)
+                    }
                 }
                 .padding(.vertical, 8)
 

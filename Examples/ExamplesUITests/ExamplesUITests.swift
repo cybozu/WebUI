@@ -51,6 +51,11 @@ final class ExamplesUITests: XCTestCase {
             XCTAssertTrue(app.webViews.staticTexts["0"].waitForExistence(timeout: 3))
         }
 
+        XCTContext.runActivity(named: "WebViewProxy.loadHTMLString()") { _ in
+            app.buttons["Load HTML String"].tap()
+            XCTAssertTrue(app.webViews.staticTexts["Sample"].waitForExistence(timeout: 3))
+        }
+
         XCTContext.runActivity(named: "WebViewProxy.clearAll()") { _ in
             app.buttons["Clear"].tap()
             XCTAssertFalse(app.buttons["Go Back"].isEnabled)
