@@ -3,7 +3,8 @@
 WebUI is a Swift Package for building WebView in SwiftUI. It wraps WKWebView and provides a simple API to load a URL or HTML string.
 
 ## Additional Resources
- - [GitHub Repository](https://github.com/cybozu/WebUI)
+
+- [GitHub Repository](https://github.com/cybozu/WebUI)
 
 ## Overview
 
