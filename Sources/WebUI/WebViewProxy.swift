@@ -92,6 +92,14 @@ public final class WebViewProxy: ObservableObject {
         webView?.wrappedValue.load(request)
     }
 
+    /// Loads the contents of the specified HTML string and navigates to it.
+    /// - Parameters:
+    ///   - string: The string to use as the contents of the webpage.
+    ///   - baseURL: The base URL to use when the system resolves relative URLs within the HTML string.
+    public func loadHTMLString(_ string: String, baseURL: URL?) {
+        webView?.wrappedValue.loadHTMLString(string, baseURL: baseURL)
+    }
+
     /// Reloads the current webpage.
     public func reload() {
         webView?.wrappedValue.reload()

@@ -37,8 +37,11 @@ final class ContentViewState: NSObject, ObservableObject {
 
     let configuration = WKWebViewConfiguration()
     let request = URLRequest(url: URL(string: "https://cybozu.github.io/webview-debugger")!)
+    let htmlURL = Bundle.main.url(forResource: "sample", withExtension: "html")!
+    let htmlString: String
 
     override init() {
+        htmlString = try! String(contentsOf: htmlURL, encoding: .utf8)
         super.init()
         setCookie(name: "SampleKey", value: "SampleValue")
     }

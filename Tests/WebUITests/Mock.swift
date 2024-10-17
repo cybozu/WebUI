@@ -3,6 +3,8 @@ import WebKit
 
 final class EnhancedWKWebViewMock: EnhancedWKWebView {
     private(set) var loadedRequest: URLRequest?
+    private(set) var loadedHTMLString: String?
+    private(set) var loadedBaseURL: URL?
     private(set) var reloadCalled = false
     private(set) var goBackCalled = false
     private(set) var goForwardCalled = false
@@ -10,6 +12,12 @@ final class EnhancedWKWebViewMock: EnhancedWKWebView {
 
     override func load(_ request: URLRequest) -> WKNavigation? {
         loadedRequest = request
+        return nil
+    }
+
+    override func loadHTMLString(_ string: String, baseURL: URL?) -> WKNavigation? {
+        loadedHTMLString = string
+        loadedBaseURL = baseURL
         return nil
     }
 

@@ -15,6 +15,18 @@ final class WebViewProxyTests: XCTestCase {
     }
 
     @MainActor
+    func test_load_html_string() {
+        let sut = WebViewProxy()
+        let webViewMock = Remakeable {
+            EnhancedWKWebViewMock() as EnhancedWKWebView
+        }
+        sut.setUp(webViewMock)
+        sut.loadHTMLString("<dummy/>", baseURL: URL(string: "/dummy")!)
+        XCTAssertEqual((webViewMock.wrappedValue as! EnhancedWKWebViewMock).loadedHTMLString, "<dummy/>")
+        XCTAssertEqual((webViewMock.wrappedValue as! EnhancedWKWebViewMock).loadedBaseURL, URL(string: "/dummy")!)
+    }
+
+    @MainActor
     func test_reload() {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
