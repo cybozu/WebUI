@@ -45,6 +45,14 @@ final class WebViewTests: XCTestCase {
     }
 
     @MainActor
+    func test_applyModifiers_allowsScrollViewBounces() {
+        let sut = WebView().allowsScrollViewBounces(true)
+        let webViewMock = EnhancedWKWebViewMock()
+        sut.applyModifiers(to: webViewMock)
+        XCTAssertTrue(webViewMock.allowsScrollViewBounces)
+    }
+
+    @MainActor
     func test_applyModifiers_isRefreshable() {
         let sut = WebView().refreshable()
         let webViewMock = EnhancedWKWebViewMock()
