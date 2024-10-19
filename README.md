@@ -88,7 +88,8 @@ struct ContentView: View {
 ```
 
 ### Manipulating WebView
-Use `WebViewReader`.Within the scope of `WebViewReader`, you can receive `WebViewProxy`.You can manipulate `WebView` within the scope of `WebViewReader` via `WebViewProxy`.
+Use `WebViewReader`.Within the scope of `WebViewReader`, you can receive `WebViewProxy`.
+You can manipulate `WebView` within the scope of `WebViewReader` via `WebViewProxy`.
 
 ```swift
 struct ContentView: View {
