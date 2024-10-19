@@ -42,11 +42,10 @@ WebUI is available through [Swift Package Manager](https://github.com/apple/swif
 **CLI**
 
 1. Create `Package.swift` that describes dependencies.
-
    ```swift
    // swift-tools-version: 5.9
    import PackageDescription
-
+   
    let package = Package(
        name: "SomeProduct",
        products: [
@@ -65,18 +64,19 @@ WebUI is available through [Swift Package Manager](https://github.com/apple/swif
        ]
    )
    ```
-
 2. Run the following command in Terminal.
    ```sh
    $ swift package resolve
    ```
 
 ## Usage
+
 Using `WebUI`, you can build a WebView in `SwiftUI` with simple APIs.
 
 For more in-depth infomation, see [API Documentation](https://cybozu.github.io/WebUI/documentation/webui/).
 
 ### Display Web Page
+
 Use `WebView(request:)`.
 
 ```swift
@@ -88,7 +88,8 @@ struct ContentView: View {
 ```
 
 ### Manipulating WebView
-Use `WebViewReader`.Within the scope of `WebViewReader`, you can receive `WebViewProxy`.
+
+Use `WebViewReader`.Within the scope of `WebViewReader`, you can receive `WebViewProxy`.  
 You can manipulate `WebView` within the scope of `WebViewReader` via `WebViewProxy`.
 
 ```swift
@@ -110,6 +111,7 @@ struct ContentView: View {
 ```
 
 ### Customizing WebView
+
 Use `WebView(configuration:)`.
 
 ```swift
@@ -140,6 +142,7 @@ struct ContentView: View {
 ```
 
 ### Using with Delegates
+
 Use `uiDelegate(_:)`, `navigationDelegate(_:)` method.
 
 ```swift
@@ -155,6 +158,7 @@ struct ContentView: View {
     }
 }
 ```
+
 ## Demo
 
 This repository includes demonstration app for iOS & macOS.
