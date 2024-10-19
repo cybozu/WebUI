@@ -74,7 +74,7 @@ WebUI is available through [Swift Package Manager](https://github.com/apple/swif
 ## Usage
 Using `WebUI`, you can build a WebView in `SwiftUI` with simple APIs.
 
-For more in-depth infomation, see API Documentation.
+For more in-depth infomation, see [API Documentation](https://cybozu.github.io/WebUI/documentation/webui/).
 
 ### Display Web Page
 Use `WebView(request:)`.
