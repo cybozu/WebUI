@@ -6,7 +6,7 @@ final class ExamplesUITests: XCTestCase {
         app.launch()
 
         // MARK: WebViewProxy
-        XCTContext.runActivity(named: "WebViewProxy.load(url:)") { _ in
+        XCTContext.runActivity(named: "WebViewProxy.load(request:)") { _ in
             XCTAssertTrue(app.webViews.staticTexts["History"].waitForExistence(timeout: 15))
         }
 

@@ -3,7 +3,7 @@ import SwiftUI
 /// A view that provides programmatic control by working with a proxy to access a known web view within a view hierarchy.
 ///
 /// The web view reader's content view builder receives a ``WebViewProxy`` instance;
-/// you use the proxy's ``WebViewProxy/load(url:)`` to perform loading the URL.
+/// you use the proxy's ``WebViewProxy/load(request:)`` to perform loading the URL.
 ///
 /// The following example creates a ``WebView`` that loads [example.com](https://www.example.com) when it appears.
 ///
@@ -12,7 +12,7 @@ import SwiftUI
 ///     WebViewReader { proxy in
 ///         WebView()
 ///             .onAppear {
-///                 proxy.load(url: URL(string: "https://www.example.com")!)
+///                 proxy.load(request: URLRequest(url: URL(string: "https://www.example.com")!))
 ///             }
 ///     }
 /// }
