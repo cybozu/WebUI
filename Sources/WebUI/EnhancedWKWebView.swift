@@ -1,7 +1,7 @@
 import WebKit
 
 /// This is a workaround for the absence of refresh control in macOS.
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 typealias RefreshControl = UIRefreshControl
 #elseif os(macOS)
 struct RefreshControl {
@@ -26,7 +26,7 @@ class EnhancedWKWebView: WKWebView {
 
     var isRefreshable = false {
         willSet {
-            #if os(iOS)
+            #if os(iOS) || os(visionOS)
             if newValue {
                 self.scrollView.refreshControl = refreshControl
             } else {
