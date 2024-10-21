@@ -28,7 +28,9 @@ public final class WebViewProxy: ObservableObject {
 
     /// A Boolean value indicating whether there is a forward item in the back-forward list that can be navigated to.
     @Published public private(set) var canGoForward = false
-
+    
+    @Published public private(set) var customUserAgent: String?
+    
     private var tasks: [Task<Void, Never>] = []
 
     nonisolated init() {}
@@ -81,7 +83,12 @@ public final class WebViewProxy: ObservableObject {
                 for await value in webView.publisher(for: \.canGoForward).bufferedValues() {
                     self.canGoForward = value
                 }
-            }
+            },
+            Task { @MainActor in
+                for await value in webView.publisher(for: \.customUserAgent).bufferedValues() {
+                    self.customUserAgent = value
+                }
+            },
         ]
     }
 
@@ -114,7 +121,11 @@ public final class WebViewProxy: ObservableObject {
     public func goForward() {
         webView?.wrappedValue.goForward()
     }
-
+    
+    public func setAgent(_ customUserAgent: String) {
+        webView?.wrappedValue.customUserAgent = customUserAgent
+    }
+    
     /// Evaluates the specified JavaScript string.
     /// - Parameters:
     ///   - javaScriptString: The JavaScript string to evaluate.
