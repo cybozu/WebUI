@@ -19,13 +19,99 @@ WebUI is a Swift package that provides WKWebView wrapped by SwiftUI.
 - Compatible with iOS 16.4+
 - Compatible with macOS 13.3+
 
+## Usage
+
+Using `WebUI`, you can build a WebView in `SwiftUI` with simple APIs.
+
+For more in-depth infomation, see [API Documentation](https://cybozu.github.io/WebUI/documentation/webui/).
+
+### Display Web Page
+
+Use `WebView(request:)`.
+
+```swift
+struct ContentView: View {
+    var body: some View {
+        WebView(request: URLRequest(url: URL(string: "https://example.com/")!))
+    }
+}
+```
+
+### Manipulating WebView
+
+Use `WebViewReader`.Within the scope of `WebViewReader`, you can receive `WebViewProxy`.  
+You can manipulate `WebView` within the scope of `WebViewReader` via `WebViewProxy`.
+
+```swift
+struct ContentView: View {
+    var body: some View {
+        WebViewReader { proxy in
+            WebView()
+                .onAppear {
+                    proxy.load(request: URLRequest(url: URL(string: "https://www.example.com")!))
+                }
+
+            Button("Reload") {
+                proxy.reload()
+            }
+        }
+        .padding()
+    }
+}
+```
+
+### Customizing WebView
+
+Use `WebView(configuration:)`.
+
+```swift
+struct ContentView: View {
+    let configuration: WKWebViewConfiguration
+
+    init() {
+        configuration = .init()
+        configuration.allowsInlineMediaPlayback = true
+    }
+
+    var body: some View {
+        WebView(configuration: configuration)
+    }
+}
+```
+
+Other useful APIs are available.
+
+```swift
+struct ContentView: View {
+    var body: some View {
+        WebView()
+            .allowsLinkPreview(true)
+            .refreshable()
+    }
+}
+```
+
+### Using with Delegates
+
+Use `uiDelegate(_:)`, `navigationDelegate(_:)` method.
+
+```swift
+final class MyUIDelegate: NSObject, WKUIDelegate {}
+
+final class MyNavigationDelegate: NSObject, WKNavigationDelegate {}
+
+struct ContentView: View {
+    var body: some View {
+        WebView()
+            .uiDelegate(MyUIDelegate())
+            .navigationDelegate(MyNavigationDelegate())
+    }
+}
+```
+
 ## Documentation
 
 [Latest (Swift-DocC)](https://cybozu.github.io/WebUI/documentation/webui/)
-
-## Privacy Manifest
-
-This library does not collect or track user information, so it does not include a PrivacyInfo.xcprivacy file.
 
 ## Installation
 
@@ -42,11 +128,10 @@ WebUI is available through [Swift Package Manager](https://github.com/apple/swif
 **CLI**
 
 1. Create `Package.swift` that describes dependencies.
-
    ```swift
    // swift-tools-version: 5.9
    import PackageDescription
-
+   
    let package = Package(
        name: "SomeProduct",
        products: [
@@ -65,27 +150,14 @@ WebUI is available through [Swift Package Manager](https://github.com/apple/swif
        ]
    )
    ```
-
 2. Run the following command in Terminal.
    ```sh
    $ swift package resolve
    ```
 
-## Usage
+## Privacy Manifest
 
-```swift
-struct ContentView: View {
-    var body: some View {
-        WebViewReader { proxy in
-            WebView()
-                .onAppear {
-                    proxy.load(request: URLRequest(url: URL(string: "https://www.example.com")!))
-                }
-        }
-        .padding()
-    }
-}
-```
+This library does not collect or track user information, so it does not include a PrivacyInfo.xcprivacy file.
 
 ## Demo
 
