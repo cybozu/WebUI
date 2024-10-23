@@ -1,10 +1,3 @@
-//
-//  ContentViewState.swift
-//  Examples
-//
-//  Created by ky0me22 on 2024/02/01.
-//
-
 import Foundation
 import WebKit
 
