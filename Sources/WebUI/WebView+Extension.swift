@@ -1,6 +1,6 @@
 import SwiftUI
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 private typealias ViewRepresentable = UIViewRepresentable
 #elseif os(macOS)
 private typealias ViewRepresentable = NSViewRepresentable
@@ -35,7 +35,7 @@ extension WebView: View {
             parent.applyModifiers(to: view.wrappedValue)
         }
 
-        #if os(iOS)
+        #if os(iOS) || os(visionOS)
         func makeUIView(context: Context) -> Remakeable<EnhancedWKWebView> {
             makeView()
         }
