@@ -1,7 +1,7 @@
-#if os(iOS) || os(visionOS)
+#if canImport(UIKit)
 import UIKit
 typealias OSView = UIView
-#elseif os(macOS)
+#elseif canImport(AppKit)
 import AppKit
 typealias OSView = NSView
 #endif

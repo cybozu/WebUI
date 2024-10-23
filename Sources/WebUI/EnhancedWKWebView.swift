@@ -1,15 +1,25 @@
 import WebKit
 
 /// This is a workaround for the absence of refresh control in macOS.
-#if os(iOS) || os(visionOS)
+#if canImport(UIKit)
 typealias RefreshControl = UIRefreshControl
-#elseif os(macOS)
+#else
 struct RefreshControl {
     enum ControlEvent {
         case valueChanged
     }
     func addTarget(_ target: Any?, action: Selector, for controlEvents: ControlEvent) {}
     func endRefreshing() {}
+}
+private extension WKWebView {
+    struct ScrollView {
+        var bounces = false
+        var refreshControl: RefreshControl? = .init()
+    }
+    var scrollView: ScrollView {
+        get { .init() }
+        set {}
+    }
 }
 #endif
 
@@ -26,21 +36,17 @@ class EnhancedWKWebView: WKWebView {
 
     var allowsScrollViewBounces = true {
         willSet {
-            #if os(iOS)
             self.scrollView.bounces = newValue
-            #endif
         }
     }
 
     var isRefreshable = false {
         willSet {
-            #if os(iOS) || os(visionOS)
             if newValue {
                 self.scrollView.refreshControl = refreshControl
             } else {
                 self.scrollView.refreshControl = nil
             }
-            #endif
         }
     }
 
