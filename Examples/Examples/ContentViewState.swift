@@ -1,5 +1,17 @@
 import WebKit
 
+#if canImport(UIKit)
+private typealias OSEnvironment = UIApplication
+#elseif canImport(AppKit)
+private typealias OSEnvironment = NSWorkspace
+private extension OSEnvironment {
+    @MainActor func open(_ url: URL) async -> Bool {
+        let syncOpen: (URL) -> Bool = self.open
+        return syncOpen(url)
+    }
+}
+#endif
+
 @MainActor
 final class ContentViewState: NSObject, ObservableObject {
     enum WebDialog {
@@ -147,11 +159,7 @@ extension ContentViewState: WKNavigationDelegate {
         }
 
         // Open the URL in an external app.
-        #if os(iOS)
-        let resultOpenURL = await UIApplication.shared.open(requestedURL)
-        #elseif os(macOS)
-        let resultOpenURL = NSWorkspace.shared.open(requestedURL)
-        #endif
+        let resultOpenURL = await OSEnvironment.shared.open(requestedURL)
         guard !resultOpenURL else {
             return (.cancel, preferences)
         }
