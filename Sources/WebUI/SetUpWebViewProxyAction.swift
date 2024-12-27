@@ -2,7 +2,7 @@ import SwiftUI
 import WebKit
 
 struct SetUpWebViewProxyAction {
-    let action: @MainActor @Sendable (Remakeable<EnhancedWKWebView>) -> Void
+    var action: @MainActor @Sendable (Remakeable<EnhancedWKWebView>) -> Void
 
     @MainActor
     func callAsFunction(_ webView: Remakeable<EnhancedWKWebView>) {

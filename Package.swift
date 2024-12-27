@@ -1,14 +1,17 @@
-// swift-tools-version: 5.10
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version: 6.0
 
 import PackageDescription
+
+let swiftSettings: [SwiftSetting] = [
+    .enableUpcomingFeature("ExistentialAny"),
+]
 
 let package = Package(
     name: "WebUI",
     platforms: [
         .macOS("13.3"),
         .iOS("16.4"),
-        .visionOS("2.0")
+        .visionOS(.v2),
     ],
     products: [
         .library(
@@ -17,23 +20,17 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-docc-plugin.git", exact: "1.3.0")
+        .package(url: "https://github.com/apple/swift-docc-plugin.git", exact: "1.4.3")
     ],
     targets: [
         .target(
             name: "WebUI",
-            swiftSettings: [
-                .enableExperimentalFeature("StrictConcurrency"),
-                .enableUpcomingFeature("ExistentialAny"),
-                .enableUpcomingFeature("GlobalConcurrency"),
-            ]
+            swiftSettings: swiftSettings
         ),
         .testTarget(
             name: "WebUITests",
             dependencies: ["WebUI"],
-            swiftSettings: [
-                .enableUpcomingFeature("ExistentialAny")
-            ]
+            swiftSettings: swiftSettings
         )
     ]
 )

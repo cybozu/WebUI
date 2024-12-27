@@ -14,8 +14,8 @@ WebUI is a Swift package that provides WKWebView wrapped by SwiftUI.
 
 ## Requirements
 
-- Development with Xcode 15.4+
-- Written in Swift 5.10
+- Development with Xcode 16.0+
+- Written in Swift 6.0
 - Compatible with iOS 16.4+
 - Compatible with macOS 13.3+
 
@@ -129,7 +129,7 @@ WebUI is available through [Swift Package Manager](https://github.com/apple/swif
 
 1. Create `Package.swift` that describes dependencies.
    ```swift
-   // swift-tools-version: 5.10
+   // swift-tools-version: 6.0
    import PackageDescription
    
    let package = Package(
@@ -138,7 +138,7 @@ WebUI is available through [Swift Package Manager](https://github.com/apple/swif
            .library(name: "SomeProduct", targets: ["SomeProduct"])
        ],
        dependencies: [
-           .package(url: "https://github.com/cybozu/WebUI.git", exact: "2.0.0")
+           .package(url: "https://github.com/cybozu/WebUI.git", exact: "3.0.0")
        ],
        targets: [
            .target(
