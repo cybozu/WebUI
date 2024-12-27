@@ -3,14 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		183D25902B56695D001FDBDB /* ExamplesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D258F2B56695D001FDBDB /* ExamplesApp.swift */; };
 		183D25922B56695D001FDBDB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D25912B56695D001FDBDB /* ContentView.swift */; };
 		183D25942B566967001FDBDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 183D25932B566967001FDBDB /* Assets.xcassets */; };
-		183D25982B566967001FDBDB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 183D25972B566967001FDBDB /* Preview Assets.xcassets */; };
 		183D25A12B5669ED001FDBDB /* WebUI in Frameworks */ = {isa = PBXBuildFile; productRef = 183D25A02B5669ED001FDBDB /* WebUI */; };
 		183D25A32B566AE8001FDBDB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D25A22B566AE8001FDBDB /* AppDelegate.swift */; };
 		1852BC8F2CBFB72600133987 /* sample.html in Resources */ = {isa = PBXBuildFile; fileRef = 1852BC8E2CBFB72600133987 /* sample.html */; };
@@ -34,7 +33,6 @@
 		183D25912B56695D001FDBDB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		183D25932B566967001FDBDB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		183D25952B566967001FDBDB /* Examples.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Examples.entitlements; sourceTree = "<group>"; };
-		183D25972B566967001FDBDB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		183D259E2B56699B001FDBDB /* WebUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WebUI; path = ..; sourceTree = "<group>"; };
 		183D25A22B566AE8001FDBDB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		183D25A42B566BDB001FDBDB /* Examples.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Examples.xctestplan; sourceTree = "<group>"; };
@@ -87,24 +85,15 @@
 		183D258E2B56695D001FDBDB /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				183D25952B566967001FDBDB /* Examples.entitlements */,
+				183D25932B566967001FDBDB /* Assets.xcassets */,
+				1852BC8E2CBFB72600133987 /* sample.html */,
 				183D25A22B566AE8001FDBDB /* AppDelegate.swift */,
 				183D258F2B56695D001FDBDB /* ExamplesApp.swift */,
 				183D25912B56695D001FDBDB /* ContentView.swift */,
 				18C686112B6B3DB600D45A40 /* ContentViewState.swift */,
-				183D25932B566967001FDBDB /* Assets.xcassets */,
-				183D25952B566967001FDBDB /* Examples.entitlements */,
-				183D25962B566967001FDBDB /* Preview Content */,
-				1852BC8E2CBFB72600133987 /* sample.html */,
 			);
 			path = Examples;
-			sourceTree = "<group>";
-		};
-		183D25962B566967001FDBDB /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				183D25972B566967001FDBDB /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		183D259F2B5669ED001FDBDB /* Frameworks */ = {
@@ -171,7 +160,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1530;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					183D258B2B56695D001FDBDB = {
 						CreatedOnToolsVersion = 15.2;
@@ -183,7 +172,6 @@
 				};
 			};
 			buildConfigurationList = 183D25872B56695D001FDBDB /* Build configuration list for PBXProject "Examples" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -191,6 +179,7 @@
 				Base,
 			);
 			mainGroup = 183D25832B56695D001FDBDB;
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 183D258D2B56695D001FDBDB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -206,7 +195,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				183D25982B566967001FDBDB /* Preview Assets.xcassets in Resources */,
 				183D25942B566967001FDBDB /* Assets.xcassets in Resources */,
 				1852BC8F2CBFB72600133987 /* sample.html in Resources */,
 			);
@@ -286,6 +274,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -349,6 +338,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -378,7 +368,7 @@
 				CODE_SIGN_ENTITLEMENTS = Examples/Examples.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Examples/Preview Content\"";
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -402,7 +392,7 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -415,7 +405,7 @@
 				CODE_SIGN_ENTITLEMENTS = Examples/Examples.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Examples/Preview Content\"";
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -439,7 +429,7 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -449,6 +439,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cybozu.ExamplesUITests;
@@ -456,7 +447,7 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Examples;
 			};
@@ -467,6 +458,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cybozu.ExamplesUITests;
@@ -474,7 +466,7 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Examples;
 			};

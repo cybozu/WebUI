@@ -1,6 +1,7 @@
 import XCTest
 
 final class ExamplesUITests: XCTestCase {
+    @MainActor
     func testHappyPath() {
         let app = XCUIApplication()
         app.launch()
