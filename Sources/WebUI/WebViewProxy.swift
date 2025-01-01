@@ -35,6 +35,7 @@ public final class WebViewProxy: ObservableObject {
 
     deinit {
         tasks.forEach { $0.cancel() }
+        tasks.removeAll()
     }
 
     func setUp(_ webView: Remakeable<EnhancedWKWebView>) {
@@ -42,8 +43,7 @@ public final class WebViewProxy: ObservableObject {
         observe(webView.wrappedValue)
 
         webView.onRemake { [weak self] in
-            guard let self else { return }
-            observe($0)
+            self?.observe($0)
         }
     }
 
@@ -52,34 +52,34 @@ public final class WebViewProxy: ObservableObject {
         tasks.removeAll()
 
         tasks = [
-            Task { @MainActor in
+            Task { @MainActor [weak self] in
                 for await value in webView.publisher(for: \.title).bufferedValues() {
-                    self.title = value
+                    self?.title = value
                 }
             },
-            Task { @MainActor in
+            Task { @MainActor [weak self] in
                 for await value in webView.publisher(for: \.url).bufferedValues() {
-                    self.url = value
+                    self?.url = value
                 }
             },
-            Task { @MainActor in
+            Task { @MainActor [weak self] in
                 for await value in webView.publisher(for: \.isLoading).bufferedValues() {
-                    self.isLoading = value
+                    self?.isLoading = value
                 }
             },
-            Task { @MainActor in
+            Task { @MainActor [weak self] in
                 for await value in webView.publisher(for: \.estimatedProgress).bufferedValues() {
-                    self.estimatedProgress = value
+                    self?.estimatedProgress = value
                 }
             },
-            Task { @MainActor in
+            Task { @MainActor [weak self] in
                 for await value in webView.publisher(for: \.canGoBack).bufferedValues() {
-                    self.canGoBack = value
+                    self?.canGoBack = value
                 }
             },
-            Task { @MainActor in
+            Task { @MainActor [weak self] in
                 for await value in webView.publisher(for: \.canGoForward).bufferedValues() {
-                    self.canGoForward = value
+                    self?.canGoForward = value
                 }
             }
         ]
