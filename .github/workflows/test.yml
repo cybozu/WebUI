@@ -2,18 +2,21 @@ name: Test
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - "*.*.*"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  unit_test:
-    name: Unit Test
+  test:
+    name: Test
     runs-on: macos-14
+    timeout-minutes: 30
     env:
       DEVELOPER_DIR: "/Applications/Xcode_16.app/Contents/Developer"
-    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -22,10 +25,24 @@ jobs:
       - name: Show Xcode Version
         run: xcodebuild -version
 
-      - name: Run Tests
+      - name: Run Unit Tests
         run: |
           xcodebuild test \
             -project Examples/Examples.xcodeproj \
             -scheme Examples \
+            -only-testing:WebUITests \
             -destination "platform=iOS Simulator,name=iPhone 15,OS=18.0" \
-            -resultBundlePath TestResults/result_bundle
+            -derivedDataPath DerivedData \
+            -resultBundlePath TestResults/unit_test_result_bundle | \
+            xcbeautify && exit ${PIPESTATUS[0]}
+
+      - name: Run UI Tests
+        run: |
+          xcodebuild test-without-building \
+            -project Examples/Examples.xcodeproj \
+            -scheme Examples \
+            -only-testing:ExamplesUITests \
+            -destination "platform=iOS Simulator,name=iPhone 15,OS=18.0" \
+            -derivedDataPath DerivedData \
+            -resultBundlePath TestResults/ui_test_result_bundle | \
+            xcbeautify && exit ${PIPESTATUS[0]}
