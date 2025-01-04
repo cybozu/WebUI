@@ -33,7 +33,7 @@ jobs:
             -only-testing:WebUITests \
             -destination "platform=iOS Simulator,name=iPhone 15,OS=18.0" \
             -resultBundlePath TestResults/unit_test_result_bundle | \
-            xcpretty -c && exit ${PIPESTATUS[0]}
+            xcbeautify && exit ${PIPESTATUS[0]}
 
       - name: Run UI Tests
         run: |
@@ -43,4 +43,4 @@ jobs:
             -only-testing:ExamplesUITests \
             -destination "platform=iOS Simulator,name=iPhone 15,OS=18.0" \
             -resultBundlePath TestResults/ui_test_result_bundle | \
-            xcpretty -c && exit ${PIPESTATUS[0]}
+            xcbeautify && exit ${PIPESTATUS[0]}
