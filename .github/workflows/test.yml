@@ -2,6 +2,9 @@ name: Test
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - "*.*.*"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -11,9 +14,9 @@ jobs:
   test:
     name: Test
     runs-on: macos-14
+    timeout-minutes: 30
     env:
       DEVELOPER_DIR: "/Applications/Xcode_16.app/Contents/Developer"
-    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -29,13 +32,15 @@ jobs:
             -scheme Examples \
             -only-testing:WebUITests \
             -destination "platform=iOS Simulator,name=iPhone 15,OS=18.0" \
-            -resultBundlePath TestResults/unit_test_result_bundle
+            -resultBundlePath TestResults/unit_test_result_bundle | \
+            xcpretty -c && exit ${PIPESTATUS[0]}
 
       - name: Run UI Tests
         run: |
-          xcodebuild test-without-building \
+          xcodebuild test \
             -project Examples/Examples.xcodeproj \
             -scheme Examples \
             -only-testing:ExamplesUITests \
             -destination "platform=iOS Simulator,name=iPhone 15,OS=18.0" \
-            -resultBundlePath TestResults/ui_test_result_bundle
+            -resultBundlePath TestResults/ui_test_result_bundle | \
+            xcpretty -c && exit ${PIPESTATUS[0]}
