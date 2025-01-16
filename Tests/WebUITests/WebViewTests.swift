@@ -25,9 +25,6 @@ final class WebViewTests: XCTestCase {
         let actual = weaklyScope(UIDelegateMock()) {
             sut = sut.uiDelegate($0)
         }
-        var webViewMock: EnhancedWKWebViewMock? = .init()
-        sut.applyModifiers(to: webViewMock!)
-        webViewMock = nil
         XCTAssertNil(actual)
     }
 
@@ -46,9 +43,6 @@ final class WebViewTests: XCTestCase {
         let actual = weaklyScope(NavigationDelegateMock()) {
             sut = sut.navigationDelegate($0)
         }
-        var webViewMock: EnhancedWKWebViewMock? = .init()
-        sut.applyModifiers(to: webViewMock!)
-        webViewMock = nil
         XCTAssertNil(actual)
     }
 
