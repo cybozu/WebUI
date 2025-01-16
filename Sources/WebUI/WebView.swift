@@ -13,12 +13,12 @@ import WebKit
 /// ```
 @available(iOS 16.4, macOS 13.3, *)
 public struct WebView {
-    let configuration: WKWebViewConfiguration
+    weak var configuration: WKWebViewConfiguration?
 
     private let initialRequest: URLRequest?
 
-    private var uiDelegate: (any WKUIDelegate)?
-    private var navigationDelegate: (any WKNavigationDelegate)?
+    private weak var uiDelegate: (any WKUIDelegate)?
+    private weak var navigationDelegate: (any WKNavigationDelegate)?
     private var isInspectable = false
     private var allowsBackForwardNavigationGestures = false
     private var allowsLinkPreview = true
@@ -30,7 +30,7 @@ public struct WebView {
     ///   - request: The initial request specifying the URL to load.
     ///   - configuration: The configuration for the new web view.
     @MainActor
-    public init(request: URLRequest? = nil, configuration: WKWebViewConfiguration = .init()) {
+    public init(request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil) {
         self.initialRequest = request
         self.configuration = configuration
     }
