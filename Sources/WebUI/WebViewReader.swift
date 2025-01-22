@@ -21,7 +21,7 @@ import SwiftUI
 public struct WebViewReader<Content: View>: View {
     @StateObject private var proxy = WebViewProxy()
 
-    private let content: (WebViewProxy) -> Content
+    private var content: (WebViewProxy) -> Content
 
     /// Creates an instance that can perform programmatic control of its child web view.
     /// - Parameters:

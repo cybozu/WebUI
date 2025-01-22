@@ -13,9 +13,9 @@ import WebKit
 /// ```
 @available(iOS 16.4, macOS 13.3, *)
 public struct WebView {
-    let configuration: WKWebViewConfiguration
+    var configuration: WKWebViewConfiguration
 
-    private let initialRequest: URLRequest?
+    private var initialRequest: URLRequest?
 
     private var uiDelegate: (any WKUIDelegate)?
     private var navigationDelegate: (any WKNavigationDelegate)?

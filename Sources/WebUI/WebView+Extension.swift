@@ -15,7 +15,7 @@ extension WebView: View {
     struct _WebView: ViewRepresentable {
         @Environment(\.setUpWebViewProxy) private var setUpWebViewProxy
 
-        let parent: WebView
+        var parent: WebView
 
         @MainActor
         private func makeView() -> Remakeable<EnhancedWKWebView> {
