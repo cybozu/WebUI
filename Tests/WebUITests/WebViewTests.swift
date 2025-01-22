@@ -21,14 +21,12 @@ final class WebViewTests: XCTestCase {
 
     @MainActor
     func test_uiDelegate_is_weakly_referenced() {
-        var sut = WebView()
-        let actual = weaklyScope(UIDelegateMock()) {
-            sut = sut.uiDelegate($0)
-        }
+        let actual = WeakReference<UIDelegateMock>()
+        let sut = WebView().uiDelegate(actual.bypass(.init()))
         var webViewMock: EnhancedWKWebViewMock? = .init()
         sut.applyModifiers(to: webViewMock!)
         webViewMock = nil
-        XCTAssertNil(actual)
+        XCTAssertNil(actual.value)
     }
 
     @MainActor
@@ -42,14 +40,12 @@ final class WebViewTests: XCTestCase {
 
     @MainActor
     func test_navigationDelegate_is_weakly_referenced() {
-        var sut = WebView()
-        let actual = weaklyScope(NavigationDelegateMock()) {
-            sut = sut.navigationDelegate($0)
-        }
+        let actual = WeakReference<NavigationDelegateMock>()
+        let sut = WebView().navigationDelegate(actual.bypass(.init()))
         var webViewMock: EnhancedWKWebViewMock? = .init()
         sut.applyModifiers(to: webViewMock!)
         webViewMock = nil
-        XCTAssertNil(actual)
+        XCTAssertNil(actual.value)
     }
 
     @MainActor
