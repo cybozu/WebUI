@@ -15,7 +15,7 @@ struct WebViewProxyTests {
         sut.load(request: request)
         #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).loadedRequest == request)
     }
-    
+
     @MainActor @Test
     func load_html_string() {
         let sut = WebViewProxy()
@@ -27,7 +27,7 @@ struct WebViewProxyTests {
         #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).loadedHTMLString == "<dummy/>")
         #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).loadedBaseURL == URL(string: "/dummy")!)
     }
-    
+
     @MainActor @Test
     func reload() {
         let sut = WebViewProxy()
@@ -38,7 +38,7 @@ struct WebViewProxyTests {
         sut.reload()
         #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).reloadCalled)
     }
-    
+
     @MainActor @Test
     func go_back() {
         let sut = WebViewProxy()
@@ -49,7 +49,7 @@ struct WebViewProxyTests {
         sut.goBack()
         #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).goBackCalled)
     }
-    
+
     @MainActor @Test
     func go_forward() {
         let sut = WebViewProxy()
@@ -60,7 +60,7 @@ struct WebViewProxyTests {
         sut.goForward()
         #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).goForwardCalled)
     }
-    
+
     @MainActor @Test
     func evaluate_JavaScript() async throws {
         let sut = WebViewProxy()
@@ -73,7 +73,7 @@ struct WebViewProxyTests {
         let result = try #require(actual as? Bool)
         #expect(result)
     }
-    
+
     @MainActor @Test
     func clear_all() {
         let sut = WebViewProxy()
