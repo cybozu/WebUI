@@ -1,79 +1,81 @@
-@testable import WebUI
-import XCTest
+import Foundation
+import Testing
 
-final class WebViewTests: XCTestCase {
-    @MainActor
+@testable import WebUI
+
+struct WebViewTests {
+    @MainActor @Test
     func test_applyModifiers_uiDelegate() {
         let uiDelegateMock = UIDelegateMock()
         let sut = WebView().uiDelegate(uiDelegateMock)
         let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
-        XCTAssertTrue(uiDelegateMock === webViewMock.uiDelegate)
+        #expect(uiDelegateMock === webViewMock.uiDelegate)
     }
 
-    @MainActor
+    @MainActor @Test
     func test_applyModifiers_navigationDelegate() {
         let navigationDelegateMock = NavigationDelegateMock()
         let sut = WebView().navigationDelegate(navigationDelegateMock)
         let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
-        XCTAssertTrue(navigationDelegateMock === webViewMock.navigationDelegateProxy.delegate)
+        #expect(navigationDelegateMock === webViewMock.navigationDelegateProxy.delegate)
     }
 
-    @MainActor
+    @MainActor @Test
     func test_applyModifiers_isInspectable() {
         let sut = WebView().allowsInspectable(true)
         let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
-        XCTAssertTrue(webViewMock.isInspectable)
+        #expect(webViewMock.isInspectable)
     }
 
-    @MainActor
+    @MainActor @Test
     func test_applyModifiers_allowsBackForwardNavigationGestures() {
         let sut = WebView().allowsBackForwardNavigationGestures(true)
         let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
-        XCTAssertTrue(webViewMock.allowsBackForwardNavigationGestures)
+        #expect(webViewMock.allowsBackForwardNavigationGestures)
     }
 
-    @MainActor
+    @MainActor @Test
     func test_applyModifiers_allowsLinkPreview() {
         let sut = WebView().allowsLinkPreview(true)
         let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
-        XCTAssertTrue(webViewMock.allowsLinkPreview)
+        #expect(webViewMock.allowsLinkPreview)
     }
 
-    @MainActor
+    @MainActor @Test
     func test_applyModifiers_allowsScrollViewBounces() {
         let sut = WebView().allowsScrollViewBounces(true)
         let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
-        XCTAssertTrue(webViewMock.allowsScrollViewBounces)
+        #expect(webViewMock.allowsScrollViewBounces)
     }
 
-    @MainActor
+    @MainActor @Test
     func test_applyModifiers_isRefreshable() {
         let sut = WebView().refreshable()
         let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
-        XCTAssertTrue(webViewMock.isRefreshable)
+        #expect(webViewMock.isRefreshable)
     }
 
-    @MainActor
+    @MainActor @Test
     func test_loadInitialRequest_do_not_load_URL_request_if_request_is_not_specified_in_init() {
         let sut = WebView()
         let webViewMock = EnhancedWKWebViewMock()
         sut.loadInitialRequest(in: webViewMock)
-        XCTAssertNil(webViewMock.loadedRequest)
+        #expect(webViewMock.loadedRequest == nil)
     }
 
-    @MainActor
+    @MainActor @Test
     func test_loadInitialRequest_load_URL_request_if_request_is_specified_in_init() {
         let request = URLRequest(url: URL(string: "https://www.example.com")!)
         let sut = WebView(request: request)
         let webViewMock = EnhancedWKWebViewMock()
         sut.loadInitialRequest(in: webViewMock)
-        XCTAssertEqual(webViewMock.loadedRequest, request)
+        #expect(webViewMock.loadedRequest == request)
     }
 }

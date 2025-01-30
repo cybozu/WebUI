@@ -1,9 +1,11 @@
-@testable import WebUI
-import XCTest
+import Foundation
+import Testing
 
-final class WebViewProxyTests: XCTestCase {
-    @MainActor
-    func test_load_the_specified_URLRequest() {
+@testable import WebUI
+
+struct WebViewProxyTests {
+    @MainActor @Test
+    func load_the_specified_URLRequest() {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
             EnhancedWKWebViewMock() as EnhancedWKWebView
@@ -11,80 +13,77 @@ final class WebViewProxyTests: XCTestCase {
         sut.setUp(webViewMock)
         let request = URLRequest(url: URL(string: "https://www.example.com")!)
         sut.load(request: request)
-        XCTAssertEqual((webViewMock.wrappedValue as! EnhancedWKWebViewMock).loadedRequest, request)
+        #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).loadedRequest == request)
     }
 
-    @MainActor
-    func test_load_html_string() {
+    @MainActor @Test
+    func load_html_string() {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
             EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
         sut.loadHTMLString("<dummy/>", baseURL: URL(string: "/dummy")!)
-        XCTAssertEqual((webViewMock.wrappedValue as! EnhancedWKWebViewMock).loadedHTMLString, "<dummy/>")
-        XCTAssertEqual((webViewMock.wrappedValue as! EnhancedWKWebViewMock).loadedBaseURL, URL(string: "/dummy")!)
+        #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).loadedHTMLString == "<dummy/>")
+        #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).loadedBaseURL == URL(string: "/dummy")!)
     }
 
-    @MainActor
-    func test_reload() {
+    @MainActor @Test
+    func reload() {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
             EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
         sut.reload()
-        XCTAssertTrue((webViewMock.wrappedValue as! EnhancedWKWebViewMock).reloadCalled)
+        #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).reloadCalled)
     }
 
-    @MainActor
-    func test_go_back() {
+    @MainActor @Test
+    func go_back() {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
             EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
         sut.goBack()
-        XCTAssertTrue((webViewMock.wrappedValue as! EnhancedWKWebViewMock).goBackCalled)
+        #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).goBackCalled)
     }
 
-    @MainActor
-    func test_go_forward() {
+    @MainActor @Test
+    func go_forward() {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
             EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
         sut.goForward()
-        XCTAssertTrue((webViewMock.wrappedValue as! EnhancedWKWebViewMock).goForwardCalled)
+        #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).goForwardCalled)
     }
 
-    @MainActor
-    func test_evaluate_JavaScript() async throws {
+    @MainActor @Test
+    func evaluate_JavaScript() async throws {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
             EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
         let actual = try await sut.evaluateJavaScript("test")
-        XCTAssertEqual((webViewMock.wrappedValue as! EnhancedWKWebViewMock).javaScriptString, "test")
-        let result = try XCTUnwrap(actual as? Bool)
-        XCTAssertTrue(result)
+        #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).javaScriptString == "test")
+        let result = try #require(actual as? Bool)
+        #expect(result)
     }
 
-    @MainActor
-    func test_clear_all() async {
+    @MainActor @Test
+    func clear_all() {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
             EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
         let oldInstance = sut.webView?.wrappedValue
-
         sut.clearAll()
-
         let newInstance = sut.webView?.wrappedValue
-
-        XCTAssertNotEqual(oldInstance, newInstance)
+        #expect(oldInstance != newInstance)
     }
 }
