@@ -9,7 +9,7 @@ WebUI is a Swift package that provides WKWebView wrapped by SwiftUI.
 [![Github stars](https://img.shields.io/github/stars/cybozu/WebUI)](https://github.com/cybozu/WebUI/stargazers)
 [![Github issues](https://img.shields.io/github/issues/cybozu/WebUI)](https://github.com/cybozu/WebUI/issues)
 [![Github release](https://img.shields.io/github/v/release/cybozu/WebUI)](https://github.com/cybozu/WebUI/releases)
-[![Github license](https://img.shields.io/github/license/cybozu/WebUI)](https://github.com/cybozu/WebUI/)
+[![Github license](https://img.shields.io/github/license/cybozu/WebUI)](https://github.com/cybozu/WebUI/blob/main/LICENSE)
 
 ## Requirements
 
