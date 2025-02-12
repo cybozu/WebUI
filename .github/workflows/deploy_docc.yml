@@ -25,13 +25,15 @@ jobs:
 
       - name: Build DocC
         run: |
-          swift package --allow-writing-to-directory ./docs \
-            generate-documentation \
-            --target WebUI \
-            --disable-indexing \
-            --transform-for-static-hosting \
-            --hosting-base-path WebUI \
-            --output-path ./docs
+          $(xcrun --find docc) convert Sources/WebUI/Documentation.docc \
+            --fallback-display-name WebUI \
+            --fallback-bundle-identifier org.cybozu.WebUI \
+            --fallback-bundle-version 1 \
+            --output-dir Reference.doccarchive
+
+          $(xcrun --find docc) process-archive \
+             transform-for-static-hosting Reference.doccarchive \
+             --output-path ./docs
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
