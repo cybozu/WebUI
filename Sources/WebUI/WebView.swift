@@ -19,6 +19,7 @@ public struct WebView {
 
     private var uiDelegate: (any WKUIDelegate)?
     private var navigationDelegate: (any WKNavigationDelegate)?
+    private var scrollDelegate: (any UIScrollViewDelegate)?
     private var isInspectable = false
     private var allowsBackForwardNavigationGestures = false
     private var allowsLinkPreview = true
@@ -54,6 +55,17 @@ public struct WebView {
     public func navigationDelegate(_ navigationDelegate: any WKNavigationDelegate) -> Self {
         var modified = self
         modified.navigationDelegate = navigationDelegate
+        return modified
+    }
+    
+    /// Sets UIScrollViewDelegate to WebView.
+    /// - Parameters:
+    ///   - scrollDelegate: A type that conforms to the `UIScrollViewDelegate` protocol.
+    ///     You have control over web view behavior when you use a delegate.
+    /// - Returns: WebView that applies the received delegate.
+    public func scrollViewDelegate(_ scrollDelegate: any UIScrollViewDelegate) -> Self {
+        var modified = self
+        modified.scrollDelegate = scrollDelegate
         return modified
     }
 
@@ -114,6 +126,7 @@ public struct WebView {
     func applyModifiers(to webView: EnhancedWKWebView) {
         webView.uiDelegate = uiDelegate
         webView.navigationDelegate = navigationDelegate
+        webView.scrollView.delegate = scrollDelegate
         webView.isInspectable = isInspectable
         webView.allowsBackForwardNavigationGestures = allowsBackForwardNavigationGestures
         webView.allowsLinkPreview = allowsLinkPreview
