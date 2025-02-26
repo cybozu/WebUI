@@ -63,6 +63,14 @@ struct WebViewTests {
     }
 
     @MainActor @Test
+    func test_applyModifiers_isOpeque() {
+        let sut = WebView().isOpaque(false)
+        let webViewMock = EnhancedWKWebViewMock()
+        sut.applyModifiers(to: webViewMock)
+        #expect(!webViewMock.isOpaque)
+    }
+
+    @MainActor @Test
     func test_loadInitialRequest_do_not_load_URL_request_if_request_is_not_specified_in_init() {
         let sut = WebView()
         let webViewMock = EnhancedWKWebViewMock()

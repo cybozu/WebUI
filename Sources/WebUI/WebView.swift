@@ -24,6 +24,7 @@ public struct WebView {
     private var allowsLinkPreview = true
     private var allowsScrollViewBounces = true
     private var isRefreshable = false
+    private var isOpaque = true
 
     /// Creates new WebView.
     /// - Parameters:
@@ -110,6 +111,15 @@ public struct WebView {
         return modified
     }
 
+    /// Sets value for isOpaque to WebView.
+    /// - Parameter isOpaque: A Boolean value indicating whether the view fills its frame rectangle with opaque content.
+    /// - Returns: WebView that controls whether users can make the background of the view transparent.
+    public func isOpaque(_ isOpaque: Bool) -> Self {
+        var modified = self
+        modified.isOpaque = isOpaque
+        return modified
+    }
+
     @MainActor
     func applyModifiers(to webView: EnhancedWKWebView) {
         webView.uiDelegate = uiDelegate
@@ -119,6 +129,7 @@ public struct WebView {
         webView.allowsLinkPreview = allowsLinkPreview
         webView.allowsScrollViewBounces = allowsScrollViewBounces
         webView.isRefreshable = isRefreshable
+        webView.isOpaque = isOpaque
     }
 
     @MainActor
