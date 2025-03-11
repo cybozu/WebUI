@@ -42,7 +42,9 @@ class EnhancedWKWebView: WKWebView {
 
     var allowsOpaqueDrawing = true {
         willSet {
+            #if canImport(UIKit)
             isOpaque = newValue
+            #endif
         }
     }
 
