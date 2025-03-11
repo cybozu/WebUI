@@ -99,6 +99,15 @@ public struct WebView {
         return modified
     }
 
+    /// Sets value for isOpaque to WebView.
+    /// - Parameter enabled: A Boolean value indicating whether the view fills its frame rectangle with opaque content.
+    /// - Returns: WebView that controls whether users can make the background of the view transparent.
+    public func allowsOpaqueDrawing(_ enabled: Bool) -> Self {
+        var modified = self
+        modified.allowsOpaqueDrawing = enabled
+        return modified
+    }
+
     /// Marks this view as refreshable.
     ///
     /// Applying this modifier to a WebView reloads page contents when users perform an action to refresh.
@@ -108,15 +117,6 @@ public struct WebView {
     public func refreshable() -> Self {
         var modified = self
         modified.isRefreshable = true
-        return modified
-    }
-
-    /// Sets value for isOpaque to WebView.
-    /// - Parameter enabled: A Boolean value indicating whether the view fills its frame rectangle with opaque content.
-    /// - Returns: WebView that controls whether users can make the background of the view transparent.
-    public func allowsOpaqueDrawing(_ enabled: Bool) -> Self {
-        var modified = self
-        modified.allowsOpaqueDrawing = enabled
         return modified
     }
 
