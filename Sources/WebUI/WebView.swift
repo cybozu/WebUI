@@ -23,8 +23,8 @@ public struct WebView {
     private var allowsBackForwardNavigationGestures = false
     private var allowsLinkPreview = true
     private var allowsScrollViewBounces = true
-    private var isRefreshable = false
     private var allowsOpaqueDrawing = true
+    private var isRefreshable = false
 
     /// Creates new WebView.
     /// - Parameters:
