@@ -55,19 +55,19 @@ struct WebViewTests {
     }
 
     @MainActor @Test
+    func test_applyModifiers_allowsOpaqueDrawing() {
+        let sut = WebView().allowsOpaqueDrawing(false)
+        let webViewMock = EnhancedWKWebViewMock()
+        sut.applyModifiers(to: webViewMock)
+        #expect(!webViewMock.allowsOpaqueDrawing)
+    }
+
+    @MainActor @Test
     func test_applyModifiers_isRefreshable() {
         let sut = WebView().refreshable()
         let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
         #expect(webViewMock.isRefreshable)
-    }
-
-    @MainActor @Test
-    func test_applyModifiers_isOpeque() {
-        let sut = WebView().isOpaque(false)
-        let webViewMock = EnhancedWKWebViewMock()
-        sut.applyModifiers(to: webViewMock)
-        #expect(!webViewMock.isOpaque)
     }
 
     @MainActor @Test

@@ -40,6 +40,12 @@ class EnhancedWKWebView: WKWebView {
         }
     }
 
+    var allowsOpaqueDrawing = true {
+        willSet {
+            isOpaque = newValue
+        }
+    }
+
     var isRefreshable = false {
         willSet {
             if newValue {
