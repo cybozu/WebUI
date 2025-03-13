@@ -46,6 +46,9 @@ final class ExamplesUITests: XCTestCase {
         // WebView.allowsScrollViewBounces(_:)
         // Skip this test case as it is not possible to reproduce the operation.
 
+        // WebView.allowsOpaqueDrawing(_:)
+        // Skip this test case as it is not possible to reproduce the operation.
+
         XCTContext.runActivity(named: "WebView.refreshable()") { _ in
             let historyLabel = app.webViews.staticTexts["History"]
             XCTAssertTrue(historyLabel.waitForExistence(timeout: 3))

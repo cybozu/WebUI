@@ -59,6 +59,7 @@ struct ContentView: View {
                     .allowsInspectable(true)
                     .allowsBackForwardNavigationGestures(true)
                     .allowsLinkPreview(false)
+                    .allowsOpaqueDrawing(false)
                     .refreshable()
                     .border(Color.gray)
             }
