@@ -5,6 +5,7 @@ import Testing
 @testable import WebUI
 
 struct WebViewReaderTests {
+    #if canImport(UIKit)
     @MainActor @Test
     func WebViewProxy_will_also_be_destroyed_if_WebViewReader_is_destroyed() async {
         weak var actual = await withCheckedContinuation { continuation in
@@ -18,4 +19,5 @@ struct WebViewReaderTests {
         }
         #expect(actual == nil)
     }
+    #endif
 }
