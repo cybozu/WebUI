@@ -29,6 +29,9 @@ public final class WebViewProxy: ObservableObject {
     /// A Boolean value indicating whether there is a forward item in the back-forward list that can be navigated to.
     @Published public private(set) var canGoForward = false
 
+    /// The size of the content view.
+    @Published public private(set) var contentSize: CGSize = .zero
+
     private var tasks: [Task<Void, Never>] = []
 
     nonisolated init() {}
@@ -47,7 +50,7 @@ public final class WebViewProxy: ObservableObject {
         }
     }
 
-    private func observe(_ webView: WKWebView) {
+    private func observe(_ webView: EnhancedWKWebView) {
         tasks.forEach { $0.cancel() }
         tasks.removeAll()
 
@@ -81,7 +84,12 @@ public final class WebViewProxy: ObservableObject {
                 for await value in webView.publisher(for: \.canGoForward).bufferedValues() {
                     self?.canGoForward = value
                 }
-            }
+            },
+            Task { @MainActor [weak self] in
+                for await value in webView.scrollView.publisher(for: \.contentSize).bufferedValues() {
+                    self?.contentSize = value
+                }
+            },
         ]
     }
 
