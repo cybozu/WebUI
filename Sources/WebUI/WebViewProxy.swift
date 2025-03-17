@@ -29,8 +29,11 @@ public final class WebViewProxy: ObservableObject {
     /// A Boolean value indicating whether there is a forward item in the back-forward list that can be navigated to.
     @Published public private(set) var canGoForward = false
 
+    @Published private var _contentSize: CGSize = .zero
+
     /// The size of the content view.
-    @Published public private(set) var contentSize: CGSize = .zero
+    @available(macOS, unavailable)
+    public var contentSize: CGSize { _contentSize }
 
     private var tasks: [Task<Void, Never>] = []
 
@@ -87,7 +90,7 @@ public final class WebViewProxy: ObservableObject {
             },
             Task { @MainActor [weak self] in
                 for await value in webView.scrollView.publisher(for: \.contentSize).bufferedValues() {
-                    self?.contentSize = value
+                    self?._contentSize = value
                 }
             },
         ]
