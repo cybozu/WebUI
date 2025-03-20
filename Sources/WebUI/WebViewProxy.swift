@@ -114,6 +114,10 @@ public final class WebViewProxy: ObservableObject {
     public func goForward() {
         webView?.wrappedValue.goForward()
     }
+    
+    public func stopLoading() {
+        webView?.wrappedValue.stopLoading()
+    }
 
     /// Evaluates the specified JavaScript string.
     /// - Parameters:

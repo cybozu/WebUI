@@ -60,6 +60,17 @@ struct WebViewProxyTests {
         sut.goForward()
         #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).goForwardCalled)
     }
+    
+    @MainActor @Test
+    func stop_loadnig() {
+        let sut = WebViewProxy()
+        let webViewMock = Remakeable {
+            EnhancedWKWebViewMock() as EnhancedWKWebView
+        }
+        sut.setUp(webViewMock)
+        sut.stopLoading()
+        #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).stopLoadingCalled)
+    }
 
     @MainActor @Test
     func evaluate_JavaScript() async throws {
