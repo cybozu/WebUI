@@ -47,19 +47,20 @@ struct WebViewTests {
     }
 
     @MainActor @Test
-    func test_applyModifiers_allowsScrollViewBounces() {
-        let sut = WebView().allowsScrollViewBounces(true)
-        let webViewMock = EnhancedWKWebViewMock()
-        sut.applyModifiers(to: webViewMock)
-        #expect(webViewMock.allowsScrollViewBounces)
-    }
-
-    @MainActor @Test
     func test_applyModifiers_allowsOpaqueDrawing() {
         let sut = WebView().allowsOpaqueDrawing(false)
         let webViewMock = EnhancedWKWebViewMock()
         sut.applyModifiers(to: webViewMock)
         #expect(!webViewMock.allowsOpaqueDrawing)
+    }
+
+    #if canImport(UIKit)
+    @MainActor @Test
+    func test_applyModifiers_allowsScrollViewBounces() {
+        let sut = WebView().allowsScrollViewBounces(true)
+        let webViewMock = EnhancedWKWebViewMock()
+        sut.applyModifiers(to: webViewMock)
+        #expect(webViewMock.allowsScrollViewBounces)
     }
 
     @MainActor @Test
@@ -69,6 +70,7 @@ struct WebViewTests {
         sut.applyModifiers(to: webViewMock)
         #expect(webViewMock.isRefreshable)
     }
+    #endif
 
     @MainActor @Test
     func test_loadInitialRequest_do_not_load_URL_request_if_request_is_not_specified_in_init() {

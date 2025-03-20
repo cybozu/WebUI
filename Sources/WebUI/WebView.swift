@@ -22,9 +22,11 @@ public struct WebView {
     private var isInspectable = false
     private var allowsBackForwardNavigationGestures = false
     private var allowsLinkPreview = true
-    private var allowsScrollViewBounces = true
     private var allowsOpaqueDrawing = true
+    #if canImport(UIKit)
+    private var allowsScrollViewBounces = true
     private var isRefreshable = false
+    #endif
 
     /// Creates new WebView.
     /// - Parameters:
@@ -89,16 +91,6 @@ public struct WebView {
         return modified
     }
 
-    /// Sets value for scrollView.bounces to WebView.
-    /// - Parameters:
-    ///   - enabled: A Boolean value that controls whether the scroll view bounces past the edge of content and back again.
-    /// - Returns: WebView that controls whether the scroll view bounces past the edge of content and back again.
-    public func allowsScrollViewBounces(_ enabled: Bool) -> Self {
-        var modified = self
-        modified.allowsScrollViewBounces = enabled
-        return modified
-    }
-
     /// Sets value for isOpaque to WebView.
     /// - Parameter enabled: A Boolean value indicating whether the view fills its frame rectangle with opaque content.
     /// - Returns: WebView that controls whether users can make the background of the view transparent.
@@ -108,17 +100,31 @@ public struct WebView {
         return modified
     }
 
+    #if canImport(UIKit)
+    /// Sets value for scrollView.bounces to WebView.
+    /// - Parameters:
+    ///   - enabled: A Boolean value that controls whether the scroll view bounces past the edge of content and back again.
+    /// - Returns: WebView that controls whether the scroll view bounces past the edge of content and back again.
+    @available(macOS, unavailable)
+    public func allowsScrollViewBounces(_ enabled: Bool) -> Self {
+        var modified = self
+        modified.allowsScrollViewBounces = enabled
+        return modified
+    }
+
     /// Marks this view as refreshable.
     ///
     /// Applying this modifier to a WebView reloads page contents when users perform an action to refresh.
     ///
     /// For example, when you apply this modifier on iOS and iPadOS,
     /// the WebView enables a pull-to-refresh gesture that reloads the page contents.
+    @available(macOS, unavailable)
     public func refreshable() -> Self {
         var modified = self
         modified.isRefreshable = true
         return modified
     }
+    #endif
 
     @MainActor
     func applyModifiers(to webView: EnhancedWKWebView) {
@@ -127,9 +133,11 @@ public struct WebView {
         webView.isInspectable = isInspectable
         webView.allowsBackForwardNavigationGestures = allowsBackForwardNavigationGestures
         webView.allowsLinkPreview = allowsLinkPreview
-        webView.allowsScrollViewBounces = allowsScrollViewBounces
         webView.allowsOpaqueDrawing = allowsOpaqueDrawing
+        #if canImport(UIKit)
+        webView.allowsScrollViewBounces = allowsScrollViewBounces
         webView.isRefreshable = isRefreshable
+        #endif
     }
 
     @MainActor
