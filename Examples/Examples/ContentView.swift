@@ -59,7 +59,9 @@ struct ContentView: View {
                     .allowsInspectable(true)
                     .allowsBackForwardNavigationGestures(true)
                     .allowsLinkPreview(false)
+                    #if canImport(UIKit)
                     .refreshable()
+                    #endif
                     .border(Color.gray)
             }
             .onAppear {

@@ -1,28 +1,5 @@
 import WebKit
 
-/// This is a workaround for the absence of refresh control in macOS.
-#if canImport(UIKit)
-typealias RefreshControl = UIRefreshControl
-#else
-struct RefreshControl {
-    enum ControlEvent {
-        case valueChanged
-    }
-    func addTarget(_ target: Any?, action: Selector, for controlEvents: ControlEvent) {}
-    func endRefreshing() {}
-}
-private extension WKWebView {
-    struct ScrollView {
-        var bounces = false
-        var refreshControl: RefreshControl? = .init()
-    }
-    var scrollView: ScrollView {
-        get { .init() }
-        set {}
-    }
-}
-#endif
-
 class EnhancedWKWebView: WKWebView {
     override var navigationDelegate: (any WKNavigationDelegate)? {
         get {
@@ -34,11 +11,13 @@ class EnhancedWKWebView: WKWebView {
         }
     }
 
+    #if canImport(UIKit)
     var allowsScrollViewBounces = true {
         willSet {
             self.scrollView.bounces = newValue
         }
     }
+    #endif
 
     var allowsOpaqueDrawing = true {
         willSet {
@@ -48,6 +27,7 @@ class EnhancedWKWebView: WKWebView {
         }
     }
 
+    #if canImport(UIKit)
     var isRefreshable = false {
         willSet {
             if newValue {
@@ -57,18 +37,25 @@ class EnhancedWKWebView: WKWebView {
             }
         }
     }
+    #endif
 
     private(set) var navigationDelegateProxy: NavigationDelegateProxy!
 
+    #if canImport(UIKit)
     private lazy var refreshControl = {
-        let _refreshControl = RefreshControl()
+        let _refreshControl = UIRefreshControl()
         _refreshControl.addTarget(self, action: #selector(reload as () -> WKNavigation?), for: .valueChanged)
         return _refreshControl
     }()
+    #endif
 
     override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         super.init(frame: frame, configuration: configuration)
+        #if canImport(UIKit)
         navigationDelegateProxy = NavigationDelegateProxy(refreshControl: refreshControl)
+        #else
+        navigationDelegateProxy = NavigationDelegateProxy()
+        #endif
         super.navigationDelegate = navigationDelegateProxy
     }
 
@@ -79,11 +66,13 @@ class EnhancedWKWebView: WKWebView {
     final class NavigationDelegateProxy: NSObject {
         weak var delegate: (any WKNavigationDelegate)?
 
-        let refreshControl: RefreshControl
+        #if canImport(UIKit)
+        let refreshControl: UIRefreshControl
 
-        init(refreshControl: RefreshControl) {
+        init(refreshControl: UIRefreshControl) {
             self.refreshControl = refreshControl
         }
+        #endif
 
         override func responds(to aSelector: Selector!) -> Bool {
             super.responds(to: aSelector) || delegate?.responds(to: aSelector) == true
@@ -101,9 +90,11 @@ class EnhancedWKWebView: WKWebView {
 
 extension EnhancedWKWebView.NavigationDelegateProxy: WKNavigationDelegate {
     private func endRefreshing() {
+        #if canImport(UIKit)
         Task { @MainActor [refreshControl] in
             refreshControl.endRefreshing()
         }
+        #endif
     }
 
     func webView(
