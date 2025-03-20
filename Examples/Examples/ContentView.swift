@@ -60,6 +60,7 @@ struct ContentView: View {
                     .allowsBackForwardNavigationGestures(true)
                     .allowsLinkPreview(false)
                     .refreshable()
+                    .viewEnvironment(\.customUserAgent, "Customized User Agent")
                     .border(Color.gray)
             }
             .onAppear {
