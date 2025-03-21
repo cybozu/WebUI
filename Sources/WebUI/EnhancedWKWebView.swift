@@ -44,6 +44,8 @@ class EnhancedWKWebView: WKWebView {
         willSet {
             #if canImport(UIKit)
             isOpaque = newValue
+            #else
+            setValue(newValue, forKey: "drawsBackground")
             #endif
         }
     }
