@@ -53,7 +53,7 @@ public final class WebViewProxy: ObservableObject {
         }
     }
 
-    private func observe(_ webView: EnhancedWKWebView) {
+    private func observe(_ webView: WKWebView) {
         tasks.forEach { $0.cancel() }
         tasks.removeAll()
 
@@ -88,12 +88,16 @@ public final class WebViewProxy: ObservableObject {
                     self?.canGoForward = value
                 }
             },
+        ]
+        #if canImport(UIKit)
+        tasks.append(
             Task { @MainActor [weak self] in
                 for await value in webView.scrollView.publisher(for: \.contentSize).bufferedValues() {
                     self?._contentSize = value
                 }
-            },
-        ]
+            }
+        )
+        #endif
     }
 
     /// Navigates to a requested URL.

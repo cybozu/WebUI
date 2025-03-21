@@ -12,12 +12,10 @@ struct RefreshControl {
     func addTarget(_ target: Any?, action: Selector, for controlEvents: ControlEvent) {}
     func endRefreshing() {}
 }
-
 extension WKWebView {
-    class ScrollView: NSObject {
+    struct ScrollView {
         var bounces = false
         var refreshControl: RefreshControl? = .init()
-        @objc dynamic var contentSize: CGSize = .zero
     }
 
     var scrollView: ScrollView {
