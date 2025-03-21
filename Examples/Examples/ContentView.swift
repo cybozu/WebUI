@@ -61,6 +61,7 @@ struct ContentView: View {
                     .allowsLinkPreview(false)
                     .allowsOpaqueDrawing(false)
                     .refreshable()
+                    .viewEnvironment(\.customUserAgent, "Customized User Agent")
                     .border(Color.gray)
             }
             .onAppear {
