@@ -29,6 +29,9 @@ public final class WebViewProxy: ObservableObject {
     /// A Boolean value indicating whether there is a forward item in the back-forward list that can be navigated to.
     @Published public private(set) var canGoForward = false
 
+    /// A container for capturing the web view's content.
+    public var contentReader: WebViewProxy.ContentReader { ContentReader(wkWebView: webView!.wrappedValue) }
+
     private var tasks: [Task<Void, Never>] = []
 
     nonisolated init() {}
@@ -159,5 +162,16 @@ public final class WebViewProxy: ObservableObject {
     /// As a side effect, the WKWebView instance will be remade.
     public func clearAll() {
         webView?.remake()
+    }
+
+    /// A container for capturing the web view's content.
+    public struct ContentReader {
+        let wkWebView: WKWebView
+
+        /// Generates PDF data from the web view’s contents asynchronously.
+        @MainActor
+        public func pdf(configuration: WKPDFConfiguration = .init()) async throws -> Data {
+            return try await wkWebView.pdf(configuration: configuration)
+        }
     }
 }
