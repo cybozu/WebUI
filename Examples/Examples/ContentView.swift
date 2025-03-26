@@ -1,8 +1,11 @@
 import SwiftUI
 import WebUI
+import PDFKit
 
 struct ContentView: View {
     @StateObject var viewState = ContentViewState()
+
+    @State var pdf: PDFDocument?
 
     var body: some View {
         WebViewReader { proxy in
@@ -46,6 +49,24 @@ struct ContentView: View {
                     } label: {
                         Label("Load HTML String", systemImage: "doc")
                             .labelStyle(.iconOnly)
+                    }
+
+                    Button {
+                        Task {
+                            pdf = PDFDocument(data: try! await proxy.contentReader.pdf())
+                        }
+                    } label: {
+                        Label("Take PDF", systemImage: "printer")
+                            .labelStyle(.iconOnly)
+                    }
+                    .accessibilityIdentifier("take_pdf_button")
+
+                    if let pdf = pdf {
+                        ShareLink(item: pdf,
+                                  preview: SharePreview("PDF Document",
+                                                        image: Image(uiImage: (pdf.page(at: 0)?.thumbnail(of: CGSize(width: 100, height: 100),
+                                                                                                          for: .cropBox))!)))
+                        .labelStyle(.iconOnly)
                     }
                 }
                 .padding(.vertical, 8)
@@ -102,4 +123,30 @@ private extension WebViewProxy {
 
 #Preview {
     ContentView()
+}
+
+extension PDFDocument: @retroactive Transferable {
+    public static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(contentType: .pdf) { pdf in
+                if let data = pdf.dataRepresentation() {
+                    return data
+                } else {
+                    return Data()
+                }
+            } importing: { data in
+                if let pdf = PDFDocument(data: data) {
+                    return pdf
+                } else {
+                    return PDFDocument()
+                }
+            }
+
+        DataRepresentation(exportedContentType: .pdf) { pdf in
+            if let data = pdf.dataRepresentation() {
+                return data
+            } else {
+                return Data()
+            }
+        }
+     }
 }
