@@ -12,6 +12,7 @@ struct RefreshControl {
     func addTarget(_ target: Any?, action: Selector, for controlEvents: ControlEvent) {}
     func endRefreshing() {}
 }
+
 extension WKWebView {
     struct ScrollView {
         var bounces = false
