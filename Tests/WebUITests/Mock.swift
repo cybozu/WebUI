@@ -7,6 +7,8 @@ final class EnhancedWKWebViewMock: EnhancedWKWebView {
     private(set) var loadedBaseURL: URL?
     private(set) var reloadCalled = false
     private(set) var goBackCalled = false
+    private(set) var stopLoadingCalled = false
+
     private(set) var goForwardCalled = false
     private(set) var javaScriptString: String?
 
@@ -33,6 +35,11 @@ final class EnhancedWKWebViewMock: EnhancedWKWebView {
 
     override func goForward() -> WKNavigation? {
         goForwardCalled = true
+        return nil
+    }
+    
+    override func stopLoading() -> WKNavigation? {
+        stopLoadingCalled = true
         return nil
     }
 
