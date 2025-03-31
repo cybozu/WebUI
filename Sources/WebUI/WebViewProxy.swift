@@ -29,6 +29,18 @@ public final class WebViewProxy: ObservableObject {
     /// A Boolean value indicating whether there is a forward item in the back-forward list that can be navigated to.
     @Published public private(set) var canGoForward = false
 
+    @Published private var _contentSize: CGSize = .zero
+
+    /// The size of the content view.
+    @available(macOS, unavailable)
+    public var contentSize: CGSize { _contentSize }
+
+    @Published private var _contentOffset: CGPoint = .zero
+
+    // The point at which the origin of the content view is offset from the origin of the scroll view.
+    @available(macOS, unavailable)
+    public var contentOffset: CGPoint { _contentOffset }
+
     private var tasks: [Task<Void, Never>] = []
 
     nonisolated init() {}
@@ -81,8 +93,22 @@ public final class WebViewProxy: ObservableObject {
                 for await value in webView.publisher(for: \.canGoForward).bufferedValues() {
                     self?.canGoForward = value
                 }
-            }
+            },
         ]
+        #if canImport(UIKit)
+        tasks.append(contentsOf: [
+            Task { @MainActor [weak self] in
+                for await value in webView.scrollView.publisher(for: \.contentSize).bufferedValues() {
+                    self?._contentSize = value
+                }
+            },
+            Task { @MainActor [weak self] in
+                for await value in webView.scrollView.publisher(for: \.contentOffset).bufferedValues() {
+                    self?._contentOffset = value
+                }
+            },
+        ])
+        #endif
     }
 
     /// Navigates to a requested URL.
