@@ -29,13 +29,13 @@ public final class WebViewProxy: ObservableObject {
     /// A Boolean value indicating whether there is a forward item in the back-forward list that can be navigated to.
     @Published public private(set) var canGoForward = false
 
-    @Published private var _contentSize: CGSize = .zero
+    @Published private(set) var _contentSize: CGSize = .zero
 
     /// The size of the content view.
     @available(macOS, unavailable)
     public var contentSize: CGSize { _contentSize }
 
-    @Published private var _contentOffset: CGPoint = .zero
+    @Published private(set) var _contentOffset: CGPoint = .zero
 
     // The point at which the origin of the content view is offset from the origin of the scroll view.
     @available(macOS, unavailable)
