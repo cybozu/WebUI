@@ -1,9 +1,132 @@
+@preconcurrency import Combine
 import Foundation
 import Testing
 
 @testable import WebUI
 
 struct WebViewProxyTests {
+    @MainActor @Test
+    func property_binding_title() async throws {
+        let sut = WebViewProxy()
+        let webViewMock = Remakeable {
+            EnhancedWKWebViewMock(title: "dummy") as EnhancedWKWebView
+        }
+        sut.setUp(webViewMock)
+        let actual = try await wait(
+            for: sut.$title.values,
+            condition: { $0 == "dummy" },
+            timeout: .seconds(0.1)
+        )
+        #expect(actual)
+    }
+
+    @MainActor @Test
+    func property_binding_url() async throws {
+        let sut = WebViewProxy()
+        let webViewMock = Remakeable {
+            EnhancedWKWebViewMock(url: URL(string: "https://www.example.com")!) as EnhancedWKWebView
+        }
+        sut.setUp(webViewMock)
+        let actual = try await wait(
+            for: sut.$url.values,
+            condition: { $0 == URL(string: "https://www.example.com")! },
+            timeout: .seconds(0.1)
+        )
+        #expect(actual)
+    }
+
+    @MainActor @Test
+    func property_binding_isLoading() async throws {
+        let sut = WebViewProxy()
+        let webViewMock = Remakeable {
+            EnhancedWKWebViewMock(isLoading: true) as EnhancedWKWebView
+        }
+        sut.setUp(webViewMock)
+        let actual = try await wait(
+            for: sut.$isLoading.values,
+            condition: { $0 == true },
+            timeout: .seconds(0.1)
+        )
+        #expect(actual)
+    }
+
+    @MainActor @Test
+    func property_binding_estimatedProgress() async throws {
+        let sut = WebViewProxy()
+        let webViewMock = Remakeable {
+            EnhancedWKWebViewMock(estimatedProgress: 0.5) as EnhancedWKWebView
+        }
+        sut.setUp(webViewMock)
+        let actual = try await wait(
+            for: sut.$estimatedProgress.values,
+            condition: { $0 == 0.5 },
+            timeout: .seconds(0.1)
+        )
+        #expect(actual)
+    }
+
+    @MainActor @Test
+    func property_binding_canGoBack() async throws {
+        let sut = WebViewProxy()
+        let webViewMock = Remakeable {
+            EnhancedWKWebViewMock(canGoBack: true) as EnhancedWKWebView
+        }
+        sut.setUp(webViewMock)
+        let actual = try await wait(
+            for: sut.$canGoBack.values,
+            condition: { $0 == true },
+            timeout: .seconds(0.1)
+        )
+        #expect(actual)
+    }
+
+    @MainActor @Test
+    func property_binding_canGoForward() async throws {
+        let sut = WebViewProxy()
+        let webViewMock = Remakeable {
+            EnhancedWKWebViewMock(canGoForward: true) as EnhancedWKWebView
+        }
+        sut.setUp(webViewMock)
+        let actual = try await wait(
+            for: sut.$canGoForward.values,
+            condition: { $0 == true },
+            timeout: .seconds(0.1)
+        )
+        #expect(actual)
+    }
+
+    #if canImport(UIKit)
+    @MainActor @Test
+    func property_binding_contentSize() async throws {
+        let sut = WebViewProxy()
+        let webViewMock = Remakeable {
+            EnhancedWKWebViewMock(contentSize: .init(width: 50, height: 50)) as EnhancedWKWebView
+        }
+        sut.setUp(webViewMock)
+        let actual = try await wait(
+            for: sut.$_contentSize.values,
+            condition: { $0.equalTo(.init(width: 50, height: 50)) },
+            timeout: .seconds(0.1)
+        )
+        #expect(actual)
+    }
+
+    @MainActor @Test
+    func property_binding_contentOffset() async throws {
+        let sut = WebViewProxy()
+        let webViewMock = Remakeable {
+            EnhancedWKWebViewMock(contentOffset: .init(x: 50, y: 50)) as EnhancedWKWebView
+        }
+        sut.setUp(webViewMock)
+        let actual = try await wait(
+            for: sut.$_contentOffset.values,
+            condition: { $0.equalTo(.init(x: 50, y: 50)) },
+            timeout: .seconds(0.1)
+        )
+        #expect(actual)
+    }
+    #endif
+
     @MainActor @Test
     func load_the_specified_URLRequest() {
         let sut = WebViewProxy()
@@ -85,5 +208,69 @@ struct WebViewProxyTests {
         sut.clearAll()
         let newInstance = sut.webView?.wrappedValue
         #expect(oldInstance != newInstance)
+    }
+}
+
+private func wait<V: Equatable & Sendable>(
+    for sequence: AsyncPublisher<Published<V?>.Publisher>,
+    condition: @escaping @Sendable (V?) -> Bool,
+    timeout: Duration
+) async throws -> Bool {
+    try await withThrowingTaskGroup(of: Bool.self) { group in
+        defer { group.cancelAll() }
+
+        group.addTask {
+            try await Task { @MainActor in
+                for try await value in sequence {
+                    if condition(value) {
+                        return true
+                    }
+                }
+                return false
+            }
+            .value
+        }
+
+        group.addTask {
+            try await Task.sleep(for: timeout)
+            return false
+        }
+
+        guard let result = try await group.next() else {
+            return false
+        }
+        return result
+    }
+}
+
+private func wait<V: Equatable & Sendable>(
+    for sequence: AsyncPublisher<Published<V>.Publisher>,
+    condition: @escaping @Sendable (V) -> Bool,
+    timeout: Duration
+) async throws -> Bool {
+    try await withThrowingTaskGroup(of: Bool.self) { group in
+        defer { group.cancelAll() }
+
+        group.addTask {
+            try await Task { @MainActor in
+                for try await value in sequence {
+                    if condition(value) {
+                        return true
+                    }
+                }
+                return false
+            }
+            .value
+        }
+
+        group.addTask {
+            try await Task.sleep(for: timeout)
+            return false
+        }
+
+        guard let result = try await group.next() else {
+            return false
+        }
+        return result
     }
 }
