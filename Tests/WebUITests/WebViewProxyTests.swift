@@ -12,9 +12,9 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock(title: "dummy") as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        let actual = try await wait(
-            for: sut.$title.values,
-            condition: { $0 == "dummy" },
+        let actual = try await waitForValue(
+            in: sut.$title.values,
+            equalsTo: "dummy",
             timeout: .seconds(0.1)
         )
         #expect(actual)
@@ -27,9 +27,9 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock(url: URL(string: "https://www.example.com")!) as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        let actual = try await wait(
-            for: sut.$url.values,
-            condition: { $0 == URL(string: "https://www.example.com")! },
+        let actual = try await waitForValue(
+            in: sut.$url.values,
+            equalsTo: URL(string: "https://www.example.com")!,
             timeout: .seconds(0.1)
         )
         #expect(actual)
@@ -42,9 +42,9 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock(isLoading: true) as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        let actual = try await wait(
-            for: sut.$isLoading.values,
-            condition: { $0 == true },
+        let actual = try await waitForValue(
+            in: sut.$isLoading.values,
+            equalsTo: true,
             timeout: .seconds(0.1)
         )
         #expect(actual)
@@ -57,9 +57,9 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock(estimatedProgress: 0.5) as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        let actual = try await wait(
-            for: sut.$estimatedProgress.values,
-            condition: { $0 == 0.5 },
+        let actual = try await waitForValue(
+            in: sut.$estimatedProgress.values,
+            equalsTo: 0.5,
             timeout: .seconds(0.1)
         )
         #expect(actual)
@@ -72,9 +72,9 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock(canGoBack: true) as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        let actual = try await wait(
-            for: sut.$canGoBack.values,
-            condition: { $0 == true },
+        let actual = try await waitForValue(
+            in: sut.$canGoBack.values,
+            equalsTo: true,
             timeout: .seconds(0.1)
         )
         #expect(actual)
@@ -87,9 +87,9 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock(canGoForward: true) as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        let actual = try await wait(
-            for: sut.$canGoForward.values,
-            condition: { $0 == true },
+        let actual = try await waitForValue(
+            in: sut.$canGoForward.values,
+            equalsTo: true,
             timeout: .seconds(0.1)
         )
         #expect(actual)
@@ -103,9 +103,9 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock(contentSize: .init(width: 50, height: 50)) as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        let actual = try await wait(
-            for: sut.$_contentSize.values,
-            condition: { $0.equalTo(.init(width: 50, height: 50)) },
+        let actual = try await waitForValue(
+            in: sut.$_contentSize.values,
+            equalsTo: CGSize(width: 50, height: 50),
             timeout: .seconds(0.1)
         )
         #expect(actual)
@@ -118,9 +118,9 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock(contentOffset: .init(x: 50, y: 50)) as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        let actual = try await wait(
-            for: sut.$_contentOffset.values,
-            condition: { $0.equalTo(.init(x: 50, y: 50)) },
+        let actual = try await waitForValue(
+            in: sut.$_contentOffset.values,
+            equalsTo: CGPoint(x: 50, y: 50),
             timeout: .seconds(0.1)
         )
         #expect(actual)
@@ -211,24 +211,16 @@ struct WebViewProxyTests {
     }
 }
 
-private func wait<V: Equatable & Sendable>(
-    for sequence: AsyncPublisher<Published<V>.Publisher>,
-    condition: @escaping @Sendable (V) -> Bool,
+private func waitForValue<V: Equatable & Sendable>(
+    in sequence: AsyncPublisher<Published<V>.Publisher>,
+    equalsTo expectedValue: V,
     timeout: Duration
 ) async throws -> Bool {
     try await withThrowingTaskGroup(of: Bool.self) { group in
         defer { group.cancelAll() }
 
         group.addTask {
-            try await Task { @MainActor in
-                for try await value in sequence {
-                    if condition(value) {
-                        return true
-                    }
-                }
-                return false
-            }
-            .value
+            await sequence.first { $0 == expectedValue } != nil
         }
 
         group.addTask {
