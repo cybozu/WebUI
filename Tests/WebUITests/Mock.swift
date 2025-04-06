@@ -16,20 +16,20 @@ final class EnhancedWKWebViewMock: EnhancedWKWebView {
     private var _url: URL?
     override var url: URL? { _url }
 
-    private var _isLoading: Bool = false
+    private var _isLoading = false
     override var isLoading: Bool { _isLoading }
 
-    private var _estimatedProgress: Double = .zero
+    private var _estimatedProgress = Double.zero
     override var estimatedProgress: Double { _estimatedProgress }
 
-    private var _canGoBack: Bool = false
+    private var _canGoBack = false
     override var canGoBack: Bool { _canGoBack }
 
-    private var _canGoForward: Bool = false
+    private var _canGoForward = false
     override var canGoForward: Bool { _canGoForward }
 
     #if canImport(UIKit)
-    private var _contentSize: CGSize = .zero
+    private var _contentSize = CGSize.zero
     private var _contentOffset: CGPoint = .zero
     #endif
 
