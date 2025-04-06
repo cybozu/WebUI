@@ -1,6 +1,6 @@
 <picture>
   <source srcset="./Media/logo-dark.svg" media="(prefers-color-scheme: dark)" alt="WebUI by Cybozu">
-  <img src="./Media/logo.svg" alt="WebUI by Cybozu">
+  <img src="./Media/logo-light.svg" alt="WebUI by Cybozu">
 </picture>
 
 WebUI is a Swift package that provides WKWebView wrapped by SwiftUI.
