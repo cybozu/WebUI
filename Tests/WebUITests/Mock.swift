@@ -10,6 +10,24 @@ final class EnhancedWKWebViewMock: EnhancedWKWebView {
     private(set) var goForwardCalled = false
     private(set) var javaScriptString: String?
 
+    var _title: String?
+    override var title: String? { _title }
+
+    var _url: URL?
+    override var url: URL? { _url }
+
+    var _isLoading = false
+    override var isLoading: Bool { _isLoading }
+
+    var _estimatedProgress = Double.zero
+    override var estimatedProgress: Double { _estimatedProgress }
+
+    var _canGoBack = false
+    override var canGoBack: Bool { _canGoBack }
+
+    var _canGoForward = false
+    override var canGoForward: Bool { _canGoForward }
+
     override func load(_ request: URLRequest) -> WKNavigation? {
         loadedRequest = request
         return nil
