@@ -9,9 +9,10 @@ struct WebViewProxyTests {
     func property_binding_title() async throws {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
-            EnhancedWKWebViewMock(title: "dummy") as EnhancedWKWebView
+            EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?._title = "dummy"
         let actual = try await waitForValue(
             in: sut.$title.values,
             equalsTo: "dummy",
@@ -24,9 +25,10 @@ struct WebViewProxyTests {
     func property_binding_url() async throws {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
-            EnhancedWKWebViewMock(url: URL(string: "https://www.example.com")!) as EnhancedWKWebView
+            EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?._url = URL(string: "https://www.example.com")!
         let actual = try await waitForValue(
             in: sut.$url.values,
             equalsTo: URL(string: "https://www.example.com")!,
@@ -39,9 +41,10 @@ struct WebViewProxyTests {
     func property_binding_isLoading() async throws {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
-            EnhancedWKWebViewMock(isLoading: true) as EnhancedWKWebView
+            EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?._isLoading = true
         let actual = try await waitForValue(
             in: sut.$isLoading.values,
             equalsTo: true,
@@ -54,9 +57,10 @@ struct WebViewProxyTests {
     func property_binding_estimatedProgress() async throws {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
-            EnhancedWKWebViewMock(estimatedProgress: 0.5) as EnhancedWKWebView
+            EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?._estimatedProgress = 0.5
         let actual = try await waitForValue(
             in: sut.$estimatedProgress.values,
             equalsTo: 0.5,
@@ -69,9 +73,10 @@ struct WebViewProxyTests {
     func property_binding_canGoBack() async throws {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
-            EnhancedWKWebViewMock(canGoBack: true) as EnhancedWKWebView
+            EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?._canGoBack = true
         let actual = try await waitForValue(
             in: sut.$canGoBack.values,
             equalsTo: true,
@@ -84,9 +89,10 @@ struct WebViewProxyTests {
     func property_binding_canGoForward() async throws {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
-            EnhancedWKWebViewMock(canGoForward: true) as EnhancedWKWebView
+            EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?._canGoForward = true
         let actual = try await waitForValue(
             in: sut.$canGoForward.values,
             equalsTo: true,
@@ -100,9 +106,10 @@ struct WebViewProxyTests {
     func property_binding_contentSize() async throws {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
-            EnhancedWKWebViewMock(contentSize: .init(width: 50, height: 50)) as EnhancedWKWebView
+            EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.scrollView.contentSize = .init(width: 50, height: 50)
         let actual = try await waitForValue(
             in: sut.$_contentSize.values,
             equalsTo: CGSize(width: 50, height: 50),
@@ -115,9 +122,10 @@ struct WebViewProxyTests {
     func property_binding_contentOffset() async throws {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
-            EnhancedWKWebViewMock(contentOffset: .init(x: 50, y: 50)) as EnhancedWKWebView
+            EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.scrollView.contentOffset = .init(x: 50, y: 50)
         let actual = try await waitForValue(
             in: sut.$_contentOffset.values,
             equalsTo: CGPoint(x: 50, y: 50),
