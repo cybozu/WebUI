@@ -212,38 +212,6 @@ struct WebViewProxyTests {
 }
 
 private func wait<V: Equatable & Sendable>(
-    for sequence: AsyncPublisher<Published<V?>.Publisher>,
-    condition: @escaping @Sendable (V?) -> Bool,
-    timeout: Duration
-) async throws -> Bool {
-    try await withThrowingTaskGroup(of: Bool.self) { group in
-        defer { group.cancelAll() }
-
-        group.addTask {
-            try await Task { @MainActor in
-                for try await value in sequence {
-                    if condition(value) {
-                        return true
-                    }
-                }
-                return false
-            }
-            .value
-        }
-
-        group.addTask {
-            try await Task.sleep(for: timeout)
-            return false
-        }
-
-        guard let result = try await group.next() else {
-            return false
-        }
-        return result
-    }
-}
-
-private func wait<V: Equatable & Sendable>(
     for sequence: AsyncPublisher<Published<V>.Publisher>,
     condition: @escaping @Sendable (V) -> Bool,
     timeout: Duration
