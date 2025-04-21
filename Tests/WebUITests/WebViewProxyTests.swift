@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-
+import PDFKit
 @testable import WebUI
 
 struct WebViewProxyTests {
@@ -72,6 +72,18 @@ struct WebViewProxyTests {
         #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).javaScriptString == "test")
         let result = try #require(actual as? Bool)
         #expect(result)
+    }
+
+    @MainActor @Test
+    func pdf() async throws {
+        let sut = WebViewProxy()
+        let webViewMock = Remakeable {
+            EnhancedWKWebViewMock() as EnhancedWKWebView
+        }
+        sut.setUp(webViewMock)
+
+        let actual = try await sut.contentReader.pdf()
+        #expect(PDFDocument(data: actual) != nil)
     }
 
     @MainActor @Test
