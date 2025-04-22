@@ -227,7 +227,7 @@ private func waitForValue<V: Equatable & Sendable>(
     try await withThrowingTaskGroup(of: Bool.self) { group in
         defer { group.cancelAll() }
 
-        group.addTask {
+        group.addTask { @Sendable in
             await sequence.first { $0 == expectedValue } != nil
         }
 
