@@ -61,7 +61,7 @@ struct ContentView: View {
                     }
                     .accessibilityIdentifier("take_pdf_button")
 
-                    if let pdf = pdf {
+                    if let pdf {
                         ShareLink(item: pdf,
                                   preview: SharePreview("PDF Document",
                                                         image: Image(uiImage: (pdf.page(at: 0)?.thumbnail(of: CGSize(width: 100, height: 100),
