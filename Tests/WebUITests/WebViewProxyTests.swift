@@ -12,7 +12,7 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?._title = "dummy"
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.title = "dummy"
         let actual = try await waitForValue(
             in: sut.$title.values,
             equalsTo: "dummy",
@@ -28,7 +28,7 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?._url = URL(string: "https://www.example.com")!
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.url = URL(string: "https://www.example.com")!
         let actual = try await waitForValue(
             in: sut.$url.values,
             equalsTo: URL(string: "https://www.example.com")!,
@@ -44,7 +44,7 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?._isLoading = true
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.isLoading = true
         let actual = try await waitForValue(
             in: sut.$isLoading.values,
             equalsTo: true,
@@ -60,7 +60,7 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?._estimatedProgress = 0.5
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.estimatedProgress = 0.5
         let actual = try await waitForValue(
             in: sut.$estimatedProgress.values,
             equalsTo: 0.5,
@@ -76,7 +76,7 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?._canGoBack = true
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.canGoBack = true
         let actual = try await waitForValue(
             in: sut.$canGoBack.values,
             equalsTo: true,
@@ -92,7 +92,7 @@ struct WebViewProxyTests {
             EnhancedWKWebViewMock() as EnhancedWKWebView
         }
         sut.setUp(webViewMock)
-        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?._canGoForward = true
+        (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.canGoForward = true
         let actual = try await waitForValue(
             in: sut.$canGoForward.values,
             equalsTo: true,
