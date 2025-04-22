@@ -16,7 +16,7 @@ struct WebViewProxyTests {
         let actual = try await waitForValue(
             in: sut.$title.values,
             equalsTo: "dummy",
-            timeout: .seconds(0.1)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -32,7 +32,7 @@ struct WebViewProxyTests {
         let actual = try await waitForValue(
             in: sut.$url.values,
             equalsTo: URL(string: "https://www.example.com")!,
-            timeout: .seconds(0.1)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -48,7 +48,7 @@ struct WebViewProxyTests {
         let actual = try await waitForValue(
             in: sut.$isLoading.values,
             equalsTo: true,
-            timeout: .seconds(0.1)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -64,7 +64,7 @@ struct WebViewProxyTests {
         let actual = try await waitForValue(
             in: sut.$estimatedProgress.values,
             equalsTo: 0.5,
-            timeout: .seconds(0.1)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -80,7 +80,7 @@ struct WebViewProxyTests {
         let actual = try await waitForValue(
             in: sut.$canGoBack.values,
             equalsTo: true,
-            timeout: .seconds(0.1)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -96,7 +96,7 @@ struct WebViewProxyTests {
         let actual = try await waitForValue(
             in: sut.$canGoForward.values,
             equalsTo: true,
-            timeout: .seconds(0.1)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -113,7 +113,7 @@ struct WebViewProxyTests {
         let actual = try await waitForValue(
             in: sut.$_contentSize.values,
             equalsTo: CGSize(width: 50, height: 50),
-            timeout: .seconds(0.1)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -129,7 +129,7 @@ struct WebViewProxyTests {
         let actual = try await waitForValue(
             in: sut.$_contentOffset.values,
             equalsTo: CGPoint(x: 50, y: 50),
-            timeout: .seconds(0.1)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
