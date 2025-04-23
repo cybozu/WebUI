@@ -197,7 +197,7 @@ public final class WebViewProxy: ObservableObject {
         /// Generates PDF data from the web view’s contents asynchronously.
         @MainActor
         public func pdf(configuration: WKPDFConfiguration = .init()) async throws -> Data {
-            return try await wkWebView.pdf(configuration: configuration)
+            try await wkWebView.pdf(configuration: configuration)
         }
     }
 }
