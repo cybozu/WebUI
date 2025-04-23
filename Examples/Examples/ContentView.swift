@@ -5,8 +5,6 @@ import PDFKit
 struct ContentView: View {
     @StateObject var viewState = ContentViewState()
 
-    @State var pdf: PDFDocument?
-
     var body: some View {
         WebViewReader { proxy in
             VStack {
@@ -53,7 +51,7 @@ struct ContentView: View {
 
                     Button {
                         Task {
-                            pdf = PDFDocument(data: try! await proxy.contentReader.pdf())
+                            viewState.pdf = PDFDocument(data: try! await proxy.contentReader.pdf())
                         }
                     } label: {
                         Label("Take PDF", systemImage: "printer")
@@ -61,7 +59,7 @@ struct ContentView: View {
                     }
                     .accessibilityIdentifier("take_pdf_button")
 
-                    if let pdf {
+                    if let pdf = viewState.pdf {
                         ShareLink(item: pdf,
                                   preview: SharePreview("PDF Document",
                                                         image: Image(uiImage: (pdf.page(at: 0)?.thumbnail(of: CGSize(width: 100, height: 100),
