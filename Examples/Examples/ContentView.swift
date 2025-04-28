@@ -51,7 +51,7 @@ struct ContentView: View {
 
                     Button {
                         Task {
-                            viewState.pdf = PDFDocument(data: try! await proxy.contentReader.pdf())
+                            viewState.pdf = try! await proxy.contentReader.pdf()
                         }
                     } label: {
                         Label("Take PDF", systemImage: "printer")
@@ -59,7 +59,8 @@ struct ContentView: View {
                     }
                     .accessibilityIdentifier("take_pdf_button")
 
-                    if let pdf = viewState.pdf {
+                    if let data = viewState.pdf,
+                       let pdf = PDFDocument(data: data) {
                         ShareLink(item: pdf,
                                   preview: SharePreview("PDF Document",
                                                         image: Image(uiImage: (pdf.page(at: 0)?.thumbnail(of: CGSize(width: 100, height: 100),

@@ -1,5 +1,4 @@
 import WebKit
-import PDFKit
 
 #if canImport(UIKit)
 private typealias OSEnvironment = UIApplication
@@ -39,7 +38,7 @@ final class ContentViewState: NSObject, ObservableObject {
     @Published var webDialog: WebDialog?
     @Published var showDialog = false
     @Published var promptInput = ""
-    @Published var pdf: PDFDocument?
+    @Published var pdf: Data?
 
     let configuration = WKWebViewConfiguration()
     let request = URLRequest(url: URL(string: "https://cybozu.github.io/webview-debugger")!)
