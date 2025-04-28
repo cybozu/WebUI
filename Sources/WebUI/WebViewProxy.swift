@@ -21,7 +21,7 @@ public final class WebViewProxy: ObservableObject {
     @Published public private(set) var isLoading = false
 
     /// An estimate of what fraction of the current navigation has been completed.
-    @Published public private(set) var estimatedProgress: Double = .zero
+    @Published public private(set) var estimatedProgress = Double.zero
 
     /// A Boolean value indicating whether there is a back item in the back-forward list that can be navigated to.
     @Published public private(set) var canGoBack = false
@@ -32,13 +32,13 @@ public final class WebViewProxy: ObservableObject {
     /// A container for capturing the web view's content.
     public var contentReader: WebViewProxy.ContentReader { ContentReader(wkWebView: webView!.wrappedValue) }
 
-    @Published private var _contentSize: CGSize = .zero
+    @Published private(set) var _contentSize = CGSize.zero
 
     /// The size of the content view.
     @available(macOS, unavailable)
     public var contentSize: CGSize { _contentSize }
 
-    @Published private var _contentOffset: CGPoint = .zero
+    @Published private(set) var _contentOffset = CGPoint.zero
 
     // The point at which the origin of the content view is offset from the origin of the scroll view.
     @available(macOS, unavailable)
