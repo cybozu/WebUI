@@ -63,8 +63,7 @@ struct ContentView: View {
                        let pdf = PDFDocument(data: data) {
                         ShareLink(item: pdf,
                                   preview: SharePreview("PDF Document",
-                                                        image: Image(uiImage: (pdf.page(at: 0)?.thumbnail(of: CGSize(width: 100, height: 100),
-                                                                                                          for: .cropBox))!)))
+                                                        image: pdf.thumbnail ?? Image(systemName: "doc.text")))
                         .labelStyle(.iconOnly)
                     }
                 }
@@ -136,4 +135,11 @@ extension PDFDocument: @retroactive Transferable {
             pdf.dataRepresentation() ?? .init()
         }
      }
+}
+
+private extension PDFDocument {
+    var thumbnail: Image? {
+        guard let firstPage = page(at: 0) else { return nil }
+        return Image(uiImage: firstPage.thumbnail(of: CGSize(width: 100, height: 100), for: .cropBox))
+    }
 }
