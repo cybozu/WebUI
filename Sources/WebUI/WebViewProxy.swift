@@ -192,7 +192,7 @@ public final class WebViewProxy: ObservableObject {
 
     /// A container for capturing the web view's content.
     public struct ContentReader {
-        let wkWebView: WKWebView
+        var wkWebView: WKWebView
 
         /// Generates PDF data from the web view’s contents asynchronously.
         @MainActor
