@@ -14,7 +14,7 @@ struct WebViewProxyTests {
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.title = "dummy"
         let actual = try await waitForValue(
-            in: sut.$title.values,
+            in: sut.$title.bufferedValues(),
             equalsTo: "dummy",
             timeout: .seconds(5.0)
         )
@@ -30,7 +30,7 @@ struct WebViewProxyTests {
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.url = URL(string: "https://www.example.com")!
         let actual = try await waitForValue(
-            in: sut.$url.values,
+            in: sut.$url.bufferedValues(),
             equalsTo: URL(string: "https://www.example.com")!,
             timeout: .seconds(5.0)
         )
@@ -46,7 +46,7 @@ struct WebViewProxyTests {
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.isLoading = true
         let actual = try await waitForValue(
-            in: sut.$isLoading.values,
+            in: sut.$isLoading.bufferedValues(),
             equalsTo: true,
             timeout: .seconds(5.0)
         )
@@ -62,7 +62,7 @@ struct WebViewProxyTests {
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.estimatedProgress = 0.5
         let actual = try await waitForValue(
-            in: sut.$estimatedProgress.values,
+            in: sut.$estimatedProgress.bufferedValues(),
             equalsTo: 0.5,
             timeout: .seconds(5.0)
         )
@@ -78,7 +78,7 @@ struct WebViewProxyTests {
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.canGoBack = true
         let actual = try await waitForValue(
-            in: sut.$canGoBack.values,
+            in: sut.$canGoBack.bufferedValues(),
             equalsTo: true,
             timeout: .seconds(5.0)
         )
@@ -94,7 +94,7 @@ struct WebViewProxyTests {
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.canGoForward = true
         let actual = try await waitForValue(
-            in: sut.$canGoForward.values,
+            in: sut.$canGoForward.bufferedValues(),
             equalsTo: true,
             timeout: .seconds(5.0)
         )
@@ -111,7 +111,7 @@ struct WebViewProxyTests {
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.scrollView.contentSize = .init(width: 50, height: 50)
         let actual = try await waitForValue(
-            in: sut.$_contentSize.values,
+            in: sut.$_contentSize.bufferedValues(),
             equalsTo: CGSize(width: 50, height: 50),
             timeout: .seconds(5.0)
         )
@@ -127,7 +127,7 @@ struct WebViewProxyTests {
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.scrollView.contentOffset = .init(x: 50, y: 50)
         let actual = try await waitForValue(
-            in: sut.$_contentOffset.values,
+            in: sut.$_contentOffset.bufferedValues(),
             equalsTo: CGPoint(x: 50, y: 50),
             timeout: .seconds(5.0)
         )
@@ -232,7 +232,7 @@ struct WebViewProxyTests {
 }
 
 private func waitForValue<V: Equatable & Sendable>(
-    in sequence: AsyncPublisher<Published<V>.Publisher>,
+    in sequence: AsyncPublisher<Publishers.Buffer<Published<V>.Publisher>>,
     equalsTo expectedValue: V,
     timeout: Duration
 ) async throws -> Bool {
