@@ -32,7 +32,7 @@ public final class WebViewProxy: ObservableObject {
     /// A container for capturing the web view's content.
     public var contentReader: ContentReader {
         guard let webView else { fatalError("[WebViewProxy] webView was not set up. This typically indicates a lifecycle issue.") }
-        return .init(wkWebView: webView.wrappedValue)
+        return .init(webView: webView.wrappedValue)
     }
 
     @Published private(set) var _contentSize = CGSize.zero
@@ -195,12 +195,12 @@ public final class WebViewProxy: ObservableObject {
 
     /// A container for capturing the web view's content.
     public struct ContentReader {
-        var wkWebView: WKWebView
+        var webView: WKWebView
 
         /// Generates PDF data from the web view’s contents asynchronously.
         @MainActor
         public func pdf(configuration: WKPDFConfiguration = .init()) async throws -> Data {
-            try await wkWebView.pdf(configuration: configuration)
+            try await webView.pdf(configuration: configuration)
         }
     }
 }
