@@ -30,7 +30,10 @@ public final class WebViewProxy: ObservableObject {
     @Published public private(set) var canGoForward = false
 
     /// A container for capturing the web view's content.
-    public var contentReader: WebViewProxy.ContentReader { ContentReader(wkWebView: webView!.wrappedValue) }
+    public var contentReader: ContentReader {
+        guard let webView else { fatalError("[WebViewProxy] webView was not set up. This typically indicates a lifecycle issue.") }
+        return .init(wkWebView: webView.wrappedValue)
+    }
 
     @Published private(set) var _contentSize = CGSize.zero
 
