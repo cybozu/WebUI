@@ -61,9 +61,13 @@ struct ContentView: View {
 
                     if let data = viewState.pdf,
                        let pdf = PDFDocument(data: data) {
-                        ShareLink(item: pdf,
-                                  preview: SharePreview("PDF Document",
-                                                        image: pdf.thumbnail ?? Image(systemName: "doc.text")))
+                        ShareLink(
+                            item: pdf,
+                            preview: SharePreview(
+                                "PDF Document",
+                                image: pdf.thumbnail ?? Image(systemName: "doc.text")
+                            )
+                        )
                         .labelStyle(.iconOnly)
                     }
                 }
