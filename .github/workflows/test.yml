@@ -33,8 +33,7 @@ jobs:
             -only-testing:WebUITests \
             -destination "platform=iOS Simulator,name=iPhone 16,OS=18.3.1" \
             -derivedDataPath DerivedData \
-            -resultBundlePath TestResults/unit_test_result_bundle | \
-            xcbeautify && exit ${PIPESTATUS[0]}
+            -resultBundlePath TestResults/unit_test_result_bundle
 
       - name: Run UI Tests
         run: |
