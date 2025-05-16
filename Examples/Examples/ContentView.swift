@@ -132,6 +132,7 @@ extension PDFDocument: @retroactive Transferable {
         DataRepresentation(exportedContentType: .pdf) { pdf in
             pdf.dataRepresentation() ?? .init()
         }
+        .suggestedFileName("Sample.pdf")
      }
 }
 
