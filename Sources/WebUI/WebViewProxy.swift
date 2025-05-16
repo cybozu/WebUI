@@ -11,10 +11,10 @@ import WebKit
 public final class WebViewProxy: ObservableObject {
     private(set) weak var webView: Remakeable<EnhancedWKWebView>?
 
-    /// The page title.
+    /// The current webpage title.
     @Published public private(set) var title: String?
 
-    /// The active URL.
+    /// The current webpage URL.
     @Published public private(set) var url: URL?
 
     /// A Boolean value indicating whether the view is currently loading content.
@@ -37,13 +37,13 @@ public final class WebViewProxy: ObservableObject {
 
     @Published private(set) var _contentSize = CGSize.zero
 
-    /// The size of the content view.
+    /// The size of the web view’s content.
     @available(macOS, unavailable)
     public var contentSize: CGSize { _contentSize }
 
     @Published private(set) var _contentOffset = CGPoint.zero
 
-    // The point at which the origin of the content view is offset from the origin of the scroll view.
+    /// The point at which the origin of the web view’s content is offset from the origin of the scroll view.
     @available(macOS, unavailable)
     public var contentOffset: CGPoint { _contentOffset }
 
