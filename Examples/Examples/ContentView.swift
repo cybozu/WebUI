@@ -129,12 +129,6 @@ private extension WebViewProxy {
 
 extension PDFDocument: @retroactive Transferable {
     public static var transferRepresentation: some TransferRepresentation {
-        DataRepresentation(contentType: .pdf) { pdf in
-            pdf.dataRepresentation() ?? .init()
-        } importing: { data in
-            PDFDocument(data: data) ?? .init()
-        }
-
         DataRepresentation(exportedContentType: .pdf) { pdf in
             pdf.dataRepresentation() ?? .init()
         }
