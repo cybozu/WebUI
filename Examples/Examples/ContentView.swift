@@ -144,6 +144,11 @@ extension PDFDocument: @retroactive Transferable {
 private extension PDFDocument {
     var thumbnail: Image? {
         guard let firstPage = page(at: 0) else { return nil }
-        return Image(uiImage: firstPage.thumbnail(of: CGSize(width: 100, height: 100), for: .cropBox))
+        let image = firstPage.thumbnail(of: CGSize(width: 100, height: 100), for: .cropBox)
+        #if canImport(UIKit)
+        return Image(uiImage: image)
+        #elseif canImport(AppKit)
+        return Image(nsImage: image)
+        #endif
     }
 }
