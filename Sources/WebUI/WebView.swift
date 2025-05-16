@@ -89,7 +89,7 @@ public struct WebView {
         return modified
     }
 
-    /// Sets value for scrollView.bounces to WebView.
+    /// Sets value for bounces to ScrollView in WebView.
     /// - Parameters:
     ///   - enabled: A Boolean value that controls whether the scroll view bounces past the edge of content and back again.
     /// - Returns: WebView that controls whether the scroll view bounces past the edge of content and back again.
@@ -113,7 +113,7 @@ public struct WebView {
     /// Applying this modifier to a WebView reloads page contents when users perform an action to refresh.
     ///
     /// For example, when you apply this modifier on iOS and iPadOS,
-    /// the WebView enables a pull-to-refresh gesture that reloads the page contents.
+    /// the WebView enables a pull-to-refresh gesture that reloads the webpage contents.
     public func refreshable() -> Self {
         var modified = self
         modified.isRefreshable = true
