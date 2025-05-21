@@ -4,6 +4,7 @@ import Testing
 import PDFKit
 @testable import WebUI
 
+@Suite(.serialized)
 struct WebViewProxyTests {
     @MainActor @Test
     func property_binding_title() async throws {
