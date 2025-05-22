@@ -4,6 +4,7 @@ import Testing
 import PDFKit
 @testable import WebUI
 
+@Suite(.serialized)
 struct WebViewProxyTests {
     @MainActor @Test
     func property_binding_title() async throws {
@@ -13,10 +14,11 @@ struct WebViewProxyTests {
         }
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.title = "dummy"
+        await Task.megaYield()
         let actual = try await waitForValue(
             in: sut.$title.values,
             equalsTo: "dummy",
-            timeout: .seconds(5.0)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -29,10 +31,11 @@ struct WebViewProxyTests {
         }
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.url = URL(string: "https://www.example.com")!
+        await Task.megaYield()
         let actual = try await waitForValue(
             in: sut.$url.values,
             equalsTo: URL(string: "https://www.example.com")!,
-            timeout: .seconds(5.0)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -45,10 +48,11 @@ struct WebViewProxyTests {
         }
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.isLoading = true
+        await Task.megaYield()
         let actual = try await waitForValue(
             in: sut.$isLoading.values,
             equalsTo: true,
-            timeout: .seconds(5.0)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -61,10 +65,11 @@ struct WebViewProxyTests {
         }
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.estimatedProgress = 0.5
+        await Task.megaYield()
         let actual = try await waitForValue(
             in: sut.$estimatedProgress.values,
             equalsTo: 0.5,
-            timeout: .seconds(5.0)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -77,10 +82,11 @@ struct WebViewProxyTests {
         }
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.canGoBack = true
+        await Task.megaYield()
         let actual = try await waitForValue(
             in: sut.$canGoBack.values,
             equalsTo: true,
-            timeout: .seconds(5.0)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -93,10 +99,11 @@ struct WebViewProxyTests {
         }
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.canGoForward = true
+        await Task.megaYield()
         let actual = try await waitForValue(
             in: sut.$canGoForward.values,
             equalsTo: true,
-            timeout: .seconds(5.0)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -110,10 +117,11 @@ struct WebViewProxyTests {
         }
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.scrollView.contentSize = .init(width: 50, height: 50)
+        await Task.megaYield()
         let actual = try await waitForValue(
             in: sut.$_contentSize.values,
             equalsTo: CGSize(width: 50, height: 50),
-            timeout: .seconds(5.0)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -126,10 +134,11 @@ struct WebViewProxyTests {
         }
         sut.setUp(webViewMock)
         (webViewMock.wrappedValue as? EnhancedWKWebViewMock)?.scrollView.contentOffset = .init(x: 50, y: 50)
+        await Task.megaYield()
         let actual = try await waitForValue(
             in: sut.$_contentOffset.values,
             equalsTo: CGPoint(x: 50, y: 50),
-            timeout: .seconds(5.0)
+            timeout: .seconds(0.5)
         )
         #expect(actual)
     }
@@ -252,5 +261,15 @@ private func waitForValue<V: Equatable & Sendable>(
             return false
         }
         return result
+    }
+}
+
+extension Task where Success == Never, Failure == Never {
+    static func megaYield() async {
+        for _ in 0 ..< 10 {
+            await Task<Void, Never>.detached(priority: .background) {
+                await Task.yield()
+            }.value
+        }
     }
 }
