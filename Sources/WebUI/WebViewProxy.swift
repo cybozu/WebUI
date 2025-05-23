@@ -47,13 +47,13 @@ public final class WebViewProxy: ObservableObject {
     @available(macOS, unavailable)
     public var contentOffset: CGPoint { _contentOffset }
 
-    private var tasks: [Task<Void, Never>] = []
+    private var task: Task<Void, Never>?
 
     nonisolated init() {}
 
     deinit {
-        tasks.forEach { $0.cancel() }
-        tasks.removeAll()
+        task?.cancel()
+        task = nil
     }
 
     func setUp(_ webView: Remakeable<EnhancedWKWebView>) {
@@ -66,55 +66,53 @@ public final class WebViewProxy: ObservableObject {
     }
 
     private func observe(_ webView: WKWebView) {
-        tasks.forEach { $0.cancel() }
-        tasks.removeAll()
-
-        tasks = [
-            Task { @MainActor [weak self] in
-                for await value in webView.publisher(for: \.title).bufferedValues() {
-                    self?.title = value
+        task?.cancel()
+        task = Task { [weak self] in
+            await withTaskGroup(of: Void.self) { group in
+                group.addTask { @MainActor @Sendable in
+                    for await value in webView.publisher(for: \.title).bufferedValues() {
+                        self?.title = value
+                    }
                 }
-            },
-            Task { @MainActor [weak self] in
-                for await value in webView.publisher(for: \.url).bufferedValues() {
-                    self?.url = value
+                group.addTask { @MainActor @Sendable in
+                    for await value in webView.publisher(for: \.url).bufferedValues() {
+                        self?.url = value
+                    }
                 }
-            },
-            Task { @MainActor [weak self] in
-                for await value in webView.publisher(for: \.isLoading).bufferedValues() {
-                    self?.isLoading = value
+                group.addTask { @MainActor @Sendable in
+                    for await value in webView.publisher(for: \.isLoading).bufferedValues() {
+                        self?.isLoading = value
+                    }
                 }
-            },
-            Task { @MainActor [weak self] in
-                for await value in webView.publisher(for: \.estimatedProgress).bufferedValues() {
-                    self?.estimatedProgress = value
+                group.addTask { @MainActor @Sendable in
+                    for await value in webView.publisher(for: \.estimatedProgress).bufferedValues() {
+                        self?.estimatedProgress = value
+                    }
                 }
-            },
-            Task { @MainActor [weak self] in
-                for await value in webView.publisher(for: \.canGoBack).bufferedValues() {
-                    self?.canGoBack = value
+                group.addTask { @MainActor @Sendable in
+                    for await value in webView.publisher(for: \.canGoBack).bufferedValues() {
+                        self?.canGoBack = value
+                    }
                 }
-            },
-            Task { @MainActor [weak self] in
-                for await value in webView.publisher(for: \.canGoForward).bufferedValues() {
-                    self?.canGoForward = value
+                group.addTask { @MainActor @Sendable in
+                    for await value in webView.publisher(for: \.canGoForward).bufferedValues() {
+                        self?.canGoForward = value
+                    }
                 }
-            },
-        ]
-        #if canImport(UIKit)
-        tasks.append(contentsOf: [
-            Task { @MainActor [weak self] in
-                for await value in webView.scrollView.publisher(for: \.contentSize).bufferedValues() {
-                    self?._contentSize = value
+                #if canImport(UIKit)
+                group.addTask { @MainActor @Sendable in
+                    for await value in webView.scrollView.publisher(for: \.contentSize).bufferedValues() {
+                        self?._contentSize = value
+                    }
                 }
-            },
-            Task { @MainActor [weak self] in
-                for await value in webView.scrollView.publisher(for: \.contentOffset).bufferedValues() {
-                    self?._contentOffset = value
+                group.addTask { @MainActor @Sendable in
+                    for await value in webView.scrollView.publisher(for: \.contentOffset).bufferedValues() {
+                        self?._contentOffset = value
+                    }
                 }
-            },
-        ])
-        #endif
+                #endif
+            }
+        }
     }
 
     /// Navigates to a requested URL.
