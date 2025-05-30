@@ -19,9 +19,6 @@ let package = Package(
             targets: ["WebUI"]
         )
     ],
-    dependencies: [
-        .package(url: "https://github.com/apple/swift-docc-plugin.git", exact: "1.4.3")
-    ],
     targets: [
         .target(
             name: "WebUI",

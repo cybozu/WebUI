@@ -25,13 +25,15 @@ jobs:
 
       - name: Build DocC
         run: |
-          swift package --allow-writing-to-directory ./docs \
-            generate-documentation \
-            --target WebUI \
-            --disable-indexing \
-            --transform-for-static-hosting \
-            --hosting-base-path WebUI \
-            --output-path ./docs
+          xcodebuild docbuild \
+            -scheme WebUI \
+            -destination "generic/platform=iOS" \
+            -derivedDataPath DerivedData
+
+          $(xcrun --find docc) process-archive \
+             transform-for-static-hosting DerivedData/Build/Products/Debug-*/WebUI.doccarchive \
+             --output-path ./docs \
+             --hosting-base-path "WebUI"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
