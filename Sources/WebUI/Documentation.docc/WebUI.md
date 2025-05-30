@@ -3,7 +3,7 @@
 @Metadata {
     @PageImage(purpose: icon,
                source: "logo",
-               alt: "A icon representing the WebUI package.")
+               alt: "An icon representing the WebUI package.")
     @PageColor(blue)
 }
 
