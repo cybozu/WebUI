@@ -1,9 +1,11 @@
 # ``WebUI``
 
 @Metadata {
-    @PageImage(purpose: icon,
-               source: "logo",
-               alt: "An icon representing the WebUI package.")
+    @PageImage(
+        purpose: icon,
+        source: "logo",
+        alt: "An icon representing the WebUI package."
+    )
     @PageColor(blue)
 }
 
