@@ -1,5 +1,14 @@
 # ``WebUI``
 
+@Metadata {
+    @PageImage(
+        purpose: icon,
+        source: "logo",
+        alt: "An icon representing the WebUI package."
+    )
+    @PageColor(blue)
+}
+
 WebUI is a Swift Package for building WebView in SwiftUI. It wraps WKWebView and provides a simple API to load a URL or HTML string.
 
 ## Additional Resources
