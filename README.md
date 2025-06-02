@@ -160,6 +160,10 @@ WebUI is available through [Swift Package Manager](https://github.com/apple/swif
 
 This library does not collect or track user information, so it does not include a PrivacyInfo.xcprivacy file.
 
+## Contributing to WebUI
+
+Contributions to WebUI are welcomed and encouraged! Please see the [Contributing Guide](/CONTRIBUTING.md).
+
 ## Demo
 
 This repository includes demonstration app for iOS & macOS.
