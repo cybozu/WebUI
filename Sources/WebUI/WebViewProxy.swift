@@ -198,7 +198,11 @@ public final class WebViewProxy: ObservableObject {
         /// Generates PDF data from the web view’s contents asynchronously.
         @MainActor
         public func pdf(configuration: WKPDFConfiguration = .init()) async throws -> Data {
+            #if targetEnvironment(simulator)
+            fatalError("createPDF is not supprted for simulator.")
+            #else
             try await webView.pdf(configuration: configuration)
+            #endif
         }
     }
 }
