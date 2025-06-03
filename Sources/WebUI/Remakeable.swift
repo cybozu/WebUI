@@ -1,12 +1,12 @@
 #if canImport(UIKit)
 import UIKit
-typealias OSView = UIView
+typealias PlatformView = UIView
 #elseif canImport(AppKit)
 import AppKit
-typealias OSView = NSView
+typealias PlatformView = NSView
 #endif
 
-final class Remakeable<Content: OSView>: OSView {
+final class Remakeable<Content: PlatformView>: PlatformView {
     private(set) var wrappedValue: Content {
         didSet {
             action?(wrappedValue)
