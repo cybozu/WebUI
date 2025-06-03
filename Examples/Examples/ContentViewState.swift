@@ -1,10 +1,10 @@
 import WebKit
 
 #if canImport(UIKit)
-private typealias OSEnvironment = UIApplication
+private typealias PlatformEnvironment = UIApplication
 #elseif canImport(AppKit)
-private typealias OSEnvironment = NSWorkspace
-private extension OSEnvironment {
+private typealias PlatformEnvironment = NSWorkspace
+private extension PlatformEnvironment {
     @MainActor func open(_ url: URL) async -> Bool {
         let syncOpen: (URL) -> Bool = self.open
         return syncOpen(url)
@@ -160,7 +160,7 @@ extension ContentViewState: WKNavigationDelegate {
         }
 
         // Open the URL in an external app.
-        let resultOpenURL = await OSEnvironment.shared.open(requestedURL)
+        let resultOpenURL = await PlatformEnvironment.shared.open(requestedURL)
         guard !resultOpenURL else {
             return (.cancel, preferences)
         }
