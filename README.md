@@ -19,8 +19,8 @@ WebUI is a Swift package that provides WKWebView wrapped by SwiftUI.
 - Compatible with macOS 13.3+
 
 > [!NOTE]
-> Xcode 16.4 has a bug where it cannot resolve the path for libswiftWebKit.dylib in the iOS Simulator.
-> A workaround is required to run apps in the iOS Simulator. Please see the release notes for details.
+> Xcode 16.4 has a bug where it cannot resolve the path for `libswiftWebKit.dylib` in the iOS Simulator.  
+> A workaround is required to run apps in the iOS Simulator. Please see the release notes for details.  
 > ref: https://developer.apple.com/forums/thread/785964
 
 ## Usage
