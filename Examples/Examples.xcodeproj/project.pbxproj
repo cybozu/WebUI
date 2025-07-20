@@ -118,7 +118,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 183D259B2B566967001FDBDB /* Build configuration list for PBXNativeTarget "Examples" */;
 			buildPhases = (
-				184E6AF92E2B8BB000D08EBE /* Library Swift WebKit Workaround */,
 				183D25882B56695D001FDBDB /* Sources */,
 				183D25892B56695D001FDBDB /* Frameworks */,
 				183D258A2B56695D001FDBDB /* Resources */,
@@ -209,29 +208,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		184E6AF92E2B8BB000D08EBE /* Library Swift WebKit Workaround */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Library Swift WebKit Workaround";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"$PLATFORM_DISPLAY_NAME\" = \"iOS Simulator\" ]; then\n    KEYWORD=\"iOS ${TARGET_DEVICE_OS_VERSION}\"\n    DYLD_FALLBACK_FRAMEWORK_PATH=$(xcrun simctl list devices -v | grep \"$KEYWORD\" | awk -F'[][]' '{print $2}')\n    DYLD_FALLBACK_FRAMEWORK_PATH=\"${DYLD_FALLBACK_FRAMEWORK_PATH}/Contents/Resources/RuntimeRoot/System/Cryptexes/OS/usr/lib/swift/\"\n    LIBRARY_FILE=\"libswiftWebKit.dylib\"\n    ln -sf \"${DYLD_FALLBACK_FRAMEWORK_PATH}/${LIBRARY_FILE}\" \"${BUILT_PRODUCTS_DIR}/${LIBRARY_FILE}\"\n    echo \"👉Created an alias for ${LIBRARY_FILE}\"\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		183D25882B56695D001FDBDB /* Sources */ = {
