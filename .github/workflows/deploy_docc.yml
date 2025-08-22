@@ -36,7 +36,7 @@ jobs:
              --hosting-base-path "WebUI"
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4.0.0
         with:
           path: docs
 
