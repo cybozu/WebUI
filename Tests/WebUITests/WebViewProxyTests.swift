@@ -4,6 +4,12 @@ import Testing
 import PDFKit
 @testable import WebUI
 
+#if targetEnvironment(simulator)
+    let isSkipPDFTest = true
+#else
+    let isSkipPDFTest = false
+#endif
+
 @Suite(.serialized)
 struct WebViewProxyTests {
     @MainActor @Test
@@ -214,7 +220,7 @@ struct WebViewProxyTests {
         #expect(result)
     }
 
-    @MainActor @Test
+    @MainActor @Test(.disabled(if: isSkipPDFTest, "createPDF is not supprted for simulator."))
     func pdf() async throws {
         let sut = WebViewProxy()
         let webViewMock = Remakeable {
