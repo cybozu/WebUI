@@ -15,13 +15,6 @@ WebUI is a Swift package that provides WKWebView wrapped by SwiftUI.
 > A native `WebView` for SwiftUI was officially announced by Apple at WWDC 25.
 > However, as its minimum deployment target is iOS 26 and higher, WebUI continues to be an effective solution for projects that must support earlier versions of iOS.
 
-> [!NOTE]
-> Xcode 16.4 has a bug where it cannot resolve the path for `libswiftWebKit.dylib` in the iOS Simulator.  
-> A workaround is required to run apps in the iOS Simulator. Please see the release notes for details.  
-> ref: https://developer.apple.com/forums/thread/785964
->
-> If you do not need the PDF output feature, or if you do not need to verify its functionality in the simulator, please use the `3.2.1-workaround-for-xcode-16-4` branch.
-
 ## Requirements
 
 - Development with Xcode 16.4+
