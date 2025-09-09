@@ -1,6 +1,5 @@
 import SwiftUI
 import WebUI
-import PDFKit
 
 struct ContentView: View {
     @StateObject var viewState = ContentViewState()
@@ -47,28 +46,6 @@ struct ContentView: View {
                     } label: {
                         Label("Load HTML String", systemImage: "doc")
                             .labelStyle(.iconOnly)
-                    }
-
-                    Button {
-                        Task {
-                            viewState.pdf = try! await proxy.contentReader.pdf()
-                        }
-                    } label: {
-                        Label("Take PDF", systemImage: "printer")
-                            .labelStyle(.iconOnly)
-                    }
-                    .accessibilityIdentifier("take_pdf_button")
-
-                    if let data = viewState.pdf,
-                       let pdf = PDFDocument(data: data) {
-                        ShareLink(
-                            item: pdf,
-                            preview: SharePreview(
-                                "PDF Document",
-                                image: pdf.thumbnail ?? Image(systemName: "doc.text")
-                            )
-                        )
-                        .labelStyle(.iconOnly)
                     }
                 }
                 .padding(.vertical, 8)
@@ -125,25 +102,4 @@ private extension WebViewProxy {
 
 #Preview {
     ContentView()
-}
-
-extension PDFDocument: @retroactive Transferable {
-    public static var transferRepresentation: some TransferRepresentation {
-        DataRepresentation(exportedContentType: .pdf) { pdf in
-            pdf.dataRepresentation() ?? .init()
-        }
-        .suggestedFileName("Sample.pdf")
-     }
-}
-
-private extension PDFDocument {
-    var thumbnail: Image? {
-        guard let firstPage = page(at: 0) else { return nil }
-        let image = firstPage.thumbnail(of: CGSize(width: 100, height: 100), for: .cropBox)
-        #if canImport(UIKit)
-        return Image(uiImage: image)
-        #elseif canImport(AppKit)
-        return Image(nsImage: image)
-        #endif
-    }
 }
