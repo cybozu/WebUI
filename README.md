@@ -142,7 +142,7 @@ WebUI is available through [Swift Package Manager](https://github.com/apple/swif
            .library(name: "SomeProduct", targets: ["SomeProduct"])
        ],
        dependencies: [
-           .package(url: "https://github.com/cybozu/WebUI.git", exact: "3.2.1")
+           .package(url: "https://github.com/cybozu/WebUI.git", exact: "4.0.0")
        ],
        targets: [
            .target(
