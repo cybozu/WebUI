@@ -34,17 +34,22 @@ struct ContentView: View {
                         Label("Reload", systemImage: "arrow.clockwise")
                             .labelStyle(.iconOnly)
                     }
-                    Button {
-                        proxy.clearAll()
-                        proxy.load(request: viewState.request)
+
+                    Menu {
+                        Button {
+                            proxy.loadHTMLString(viewState.htmlString, baseURL: viewState.htmlURL)
+                        } label: {
+                            Label("Load HTML String", systemImage: "doc")
+                        }
+
+                        Button {
+                            proxy.clearAll()
+                            proxy.load(request: viewState.request)
+                        } label: {
+                            Label("Clear", systemImage: "clear")
+                        }
                     } label: {
-                        Label("Clear", systemImage: "clear")
-                            .labelStyle(.iconOnly)
-                    }
-                    Button {
-                        proxy.loadHTMLString(viewState.htmlString, baseURL: viewState.htmlURL)
-                    } label: {
-                        Label("Load HTML String", systemImage: "doc")
+                        Label("More", systemImage: "ellipsis.circle")
                             .labelStyle(.iconOnly)
                     }
                 }
