@@ -37,6 +37,24 @@ struct ContentView: View {
 
                     Menu {
                         Button {
+                            proxy.wormhole { webView in
+                                let viewScale = webView?.value(forKey: "viewScale") as? Double ?? 1.0
+                                webView?.setValue(viewScale + 0.1, forKey: "viewScale")
+                            }
+                        } label: {
+                            Label("Zoom In", systemImage: "plus.magnifyingglass")
+                        }
+
+                        Button {
+                            proxy.wormhole { webView in
+                                let viewScale = webView?.value(forKey: "viewScale") as? Double ?? 1.0
+                                webView?.setValue(max(viewScale - 0.1, 0.1), forKey: "viewScale")
+                            }
+                        } label: {
+                            Label("Zoom Out", systemImage: "minus.magnifyingglass")
+                        }
+
+                        Button {
                             proxy.loadHTMLString(viewState.htmlString, baseURL: viewState.htmlURL)
                         } label: {
                             Label("Load HTML String", systemImage: "doc")

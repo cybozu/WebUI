@@ -184,4 +184,11 @@ public final class WebViewProxy: ObservableObject {
     public func clearAll() {
         webView?.remake()
     }
+
+    /// Provides direct access to `WKWebView`.
+    ///
+    /// This is a “wormhole” used only when you absolutely need to access WKWebView’s properties or methods.
+    public func wormhole<R: Sendable>(_ body: @Sendable (WKWebView?) throws -> R) rethrows -> R {
+        try body(webView?.wrappedValue)
+    }
 }
