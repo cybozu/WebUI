@@ -140,6 +140,11 @@ extension ContentViewState: WKNavigationDelegate {
         decidePolicyFor navigationAction: WKNavigationAction,
         preferences: WKWebpagePreferences
     ) async -> (WKNavigationActionPolicy, WKWebpagePreferences) {
+        #if canImport(UIKit)
+        preferences.preferredContentMode = .mobile
+        #elseif canImport(AppKit)
+        preferences.preferredContentMode = .desktop
+        #endif
         guard let requestedURL = navigationAction.request.url else {
             return (.cancel, preferences)
         }
