@@ -26,12 +26,26 @@ struct ContentView: View {
                     }
                     .disabled(!proxy.canGoForward)
 
-                    Spacer()
-
                     Button {
                         proxy.reload()
                     } label: {
                         Label("Reload", systemImage: "arrow.clockwise")
+                            .labelStyle(.iconOnly)
+                    }
+
+                    Spacer()
+
+                    Button {
+                        viewState.zoomIn()
+                    } label: {
+                        Label("Zoom In", systemImage: "plus.magnifyingglass")
+                            .labelStyle(.iconOnly)
+                    }
+
+                    Button {
+                        viewState.zoomOut()
+                    } label: {
+                        Label("Zoom Out", systemImage: "minus.magnifyingglass")
                             .labelStyle(.iconOnly)
                     }
 
@@ -65,6 +79,7 @@ struct ContentView: View {
                     .allowsBackForwardNavigationGestures(true)
                     .allowsLinkPreview(false)
                     .allowsOpaqueDrawing(false)
+                    .pageScaleFactor(viewState.pageScaleFactor)
                     .refreshable()
                     .border(Color.gray)
             }
