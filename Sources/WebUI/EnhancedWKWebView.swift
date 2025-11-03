@@ -1,5 +1,6 @@
 import WebKit
 
+@dynamicMemberLookup
 class EnhancedWKWebView: WKWebView {
     override var navigationDelegate: (any WKNavigationDelegate)? {
         get {
@@ -53,6 +54,15 @@ class EnhancedWKWebView: WKWebView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    subscript(dynamicMember key: String) -> Any? {
+        get {
+            value(forKey: key)
+        }
+        set {
+            setValue(newValue, forKey: key)
+        }
     }
 
     final class NavigationDelegateProxy: NSObject {
