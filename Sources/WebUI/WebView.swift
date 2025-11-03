@@ -109,6 +109,7 @@ public struct WebView {
     }
 
     /// Marks this view as refreshable.
+    /// - Returns: WebView that reloads page contents when users perform an action to refresh.
     ///
     /// Applying this modifier to a WebView reloads page contents when users perform an action to refresh.
     ///
