@@ -141,7 +141,7 @@ public struct WebView {
         webView.allowsLinkPreview = allowsLinkPreview
         webView.allowsScrollViewBounces = allowsScrollViewBounces
         webView.allowsOpaqueDrawing = allowsOpaqueDrawing
-        webView.viewScale = pageScaleFactor
+        webView.pageScaleFactor = pageScaleFactor
         webView.isRefreshable = isRefreshable
     }
 

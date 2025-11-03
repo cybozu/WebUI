@@ -28,6 +28,24 @@ class EnhancedWKWebView: WKWebView {
         }
     }
 
+    var pageScaleFactor: CGFloat {
+        get {
+            #if canImport(UIKit)
+            
+            (self.viewScale as? CGFloat) ?? 1
+            #else
+            pageZoom
+            #endif
+        }
+        set {
+            #if canImport(UIKit)
+            self.viewScale = newValue
+            #else
+            pageZoom = newValue
+            #endif
+        }
+    }
+
     var isRefreshable = false {
         willSet {
             if newValue {
