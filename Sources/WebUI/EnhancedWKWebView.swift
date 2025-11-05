@@ -1,6 +1,5 @@
 import WebKit
 
-@dynamicMemberLookup
 class EnhancedWKWebView: WKWebView {
     override var navigationDelegate: (any WKNavigationDelegate)? {
         get {
@@ -31,14 +30,14 @@ class EnhancedWKWebView: WKWebView {
     var pageScaleFactor: CGFloat {
         get {
             #if canImport(UIKit)
-            (self.viewScale as? CGFloat) ?? 1
+            (value(forKey: "viewScale") as? CGFloat) ?? 1
             #else
             pageZoom
             #endif
         }
         set {
             #if canImport(UIKit)
-            self.viewScale = newValue
+            setValue(newValue, forKey: "viewScale")
             #else
             pageZoom = newValue
             #endif
@@ -71,15 +70,6 @@ class EnhancedWKWebView: WKWebView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    subscript(dynamicMember key: String) -> Any? {
-        get {
-            value(forKey: key)
-        }
-        set {
-            setValue(newValue, forKey: key)
-        }
     }
 
     final class NavigationDelegateProxy: NSObject {
