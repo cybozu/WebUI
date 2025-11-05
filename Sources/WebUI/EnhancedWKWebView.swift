@@ -31,7 +31,6 @@ class EnhancedWKWebView: WKWebView {
     var pageScaleFactor: CGFloat {
         get {
             #if canImport(UIKit)
-            
             (self.viewScale as? CGFloat) ?? 1
             #else
             pageZoom
