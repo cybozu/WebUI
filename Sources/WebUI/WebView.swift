@@ -110,7 +110,7 @@ public struct WebView {
     }
 
     /// Sets the scale factor by which the web view scales content.
-    /// - Parameter factor: A fraction greater than 0.0 you use to specify the page scale.
+    /// - Parameter factor: A fraction greater than or equal to 0.01 used to specify the page scale.
     /// - Returns: WebView that applies the page scale factor.
     ///
     /// The default value is 1.0. If a value less than 0.01 is provided, it will be clamped to 0.01.
