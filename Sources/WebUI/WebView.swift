@@ -113,7 +113,7 @@ public struct WebView {
     /// - Parameter factor: A fraction greater than 0.0 you use to specify the page scale.
     /// - Returns: WebView that applies the page scale factor.
     ///
-    /// The default value is 1.0. And the minimum value is 0.01.
+    /// The default value is 1.0. If a value less than 0.01 is provided, it will be clamped to 0.01.
     public func pageScaleFactor(_ factor: CGFloat) -> Self {
         var modified = self
         modified.pageScaleFactor = max(0.01, factor)
