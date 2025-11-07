@@ -24,6 +24,7 @@ public struct WebView {
     private var allowsLinkPreview = true
     private var allowsScrollViewBounces = true
     private var allowsOpaqueDrawing = true
+    private var pageScaleFactor: CGFloat = 1.0
     private var isRefreshable = false
 
     /// Creates new WebView.
@@ -108,6 +109,17 @@ public struct WebView {
         return modified
     }
 
+    /// Sets the scale factor by which the web view scales content.
+    /// - Parameter factor: A fraction greater than or equal to 0.01 used to specify the page scale.
+    /// - Returns: WebView that applies the page scale factor.
+    ///
+    /// The default value is 1.0. If a value less than 0.01 is provided, it will be clamped to 0.01.
+    public func pageScaleFactor(_ factor: CGFloat) -> Self {
+        var modified = self
+        modified.pageScaleFactor = max(0.01, factor)
+        return modified
+    }
+
     /// Marks this view as refreshable.
     /// - Returns: WebView that reloads page contents when users perform an action to refresh.
     ///
@@ -130,6 +142,7 @@ public struct WebView {
         webView.allowsLinkPreview = allowsLinkPreview
         webView.allowsScrollViewBounces = allowsScrollViewBounces
         webView.allowsOpaqueDrawing = allowsOpaqueDrawing
+        webView.pageScaleFactor = pageScaleFactor
         webView.isRefreshable = isRefreshable
     }
 

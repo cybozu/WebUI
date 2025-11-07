@@ -63,6 +63,22 @@ struct WebViewTests {
     }
 
     @MainActor @Test
+    func test_applyModifiers_pageScaleFactor() {
+        let sut = WebView().pageScaleFactor(1.5)
+        let webViewMock = EnhancedWKWebViewMock()
+        sut.applyModifiers(to: webViewMock)
+        #expect(webViewMock.pageScaleFactor == 1.5)
+    }
+
+    @MainActor @Test
+    func test_applyModifiers_pageScaleFactor_setting_zero() {
+        let sut = WebView().pageScaleFactor(0)
+        let webViewMock = EnhancedWKWebViewMock()
+        sut.applyModifiers(to: webViewMock)
+        #expect(webViewMock.pageScaleFactor == 0.01)
+    }
+
+    @MainActor @Test
     func test_applyModifiers_isRefreshable() {
         let sut = WebView().refreshable()
         let webViewMock = EnhancedWKWebViewMock()

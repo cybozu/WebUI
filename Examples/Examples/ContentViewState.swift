@@ -35,6 +35,7 @@ final class ContentViewState: NSObject, ObservableObject {
         }
     }
 
+    @Published var pageScaleFactor: CGFloat = 1.0
     @Published var webDialog: WebDialog?
     @Published var showDialog = false
     @Published var promptInput = ""
@@ -74,6 +75,14 @@ final class ContentViewState: NSObject, ObservableObject {
     private func showPrompt(_ prompt: String, _ defaultText: String?, _ continuation: CheckedContinuation<String?, Never>) {
         webDialog = .prompt(prompt, defaultText ?? "", continuation)
         showDialog = true
+    }
+
+    func zoomIn() {
+        pageScaleFactor += 0.1
+    }
+
+    func zoomOut() {
+        pageScaleFactor = max(pageScaleFactor - 0.1, 0.1)
     }
 
     func dialogOK() {
