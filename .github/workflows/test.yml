@@ -31,7 +31,7 @@ jobs:
             -project Examples/Examples.xcodeproj \
             -scheme Examples \
             -only-testing:WebUITests \
-            -destination "platform=iOS Simulator,name=iPhone 17,OS=26.0" \
+            -destination "platform=iOS Simulator,name=iPhone 17,OS=26.0.1" \
             -derivedDataPath DerivedData \
             -resultBundlePath TestResults/unit_test_result_bundle | \
             xcbeautify && exit ${PIPESTATUS[0]}
@@ -42,7 +42,7 @@ jobs:
             -project Examples/Examples.xcodeproj \
             -scheme Examples \
             -only-testing:ExamplesUITests \
-            -destination "platform=iOS Simulator,name=iPhone 17,OS=26.0" \
+            -destination "platform=iOS Simulator,name=iPhone 17,OS=26.0.1" \
             -derivedDataPath DerivedData \
             -resultBundlePath TestResults/ui_test_result_bundle | \
             xcbeautify && exit ${PIPESTATUS[0]}
