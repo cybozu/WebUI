@@ -58,6 +58,12 @@ final class ExamplesUITests: XCTestCase {
             XCTAssertTrue(app.webViews.staticTexts["0"].waitForExistence(timeout: 3))
         }
 
+        XCTContext.runActivity(named: "View.viewEnvironment") { _ in
+            app.webViews.buttons["User Agent"].tap()
+            XCTAssertTrue(app.alerts.staticTexts["Customized User Agent"].waitForExistence(timeout: 3))
+            app.alerts.buttons["OK"].tap()
+        }
+
         XCTContext.runActivity(named: "WebViewProxy.loadHTMLString()") { _ in
             app.buttons["More"].tap()
             app.buttons["Load HTML String"].tap()
