@@ -25,6 +25,7 @@ public struct WebView {
     private var allowsScrollViewBounces = true
     private var allowsOpaqueDrawing = true
     private var pageScaleFactor: CGFloat = 1.0
+    private var contentInsetAdjustmentBehavior = ContentInsetAdjustmentBehavior.automatic
     private var isRefreshable = false
 
     /// Creates new WebView.
@@ -120,6 +121,21 @@ public struct WebView {
         return modified
     }
 
+    /// Sets the behavior for determining the adjusted content offsets.
+    /// - Parameter behavior: The behavior for determining the adjusted content offsets.
+    /// - Returns: WebView that applies the content inset adgustment behavior.
+    ///
+    /// This modifier specifies how the safe area insets are used to modify the content area of the scroll view.
+    /// The default value of this property is `ContentInsetAdjustmentBehavior.automatic`.
+    ///
+    /// If you want to use a WebView in full screen on iOS and iPadOS,
+    /// you should specify `ContentInsetAdjustmentBehavior.never` and also apply `SwiftUI.View.ignoresSafeArea()`.
+    public func contentInsetAdjustmentBehavior(_ behavior: ContentInsetAdjustmentBehavior) -> Self {
+        var modified = self
+        modified.contentInsetAdjustmentBehavior = behavior
+        return modified
+    }
+
     /// Marks this view as refreshable.
     /// - Returns: WebView that reloads page contents when users perform an action to refresh.
     ///
@@ -143,6 +159,7 @@ public struct WebView {
         webView.allowsScrollViewBounces = allowsScrollViewBounces
         webView.allowsOpaqueDrawing = allowsOpaqueDrawing
         webView.pageScaleFactor = pageScaleFactor
+        webView.contentInsetAdjustmentBehavior = contentInsetAdjustmentBehavior
         webView.isRefreshable = isRefreshable
     }
 

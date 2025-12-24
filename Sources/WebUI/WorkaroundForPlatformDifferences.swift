@@ -1,9 +1,17 @@
 import WebKit
 
-/// This is a workaround for the absence of refresh control in macOS.
+/// This is a workaround for APIs that are available in UIKit but not in macOS.
 #if canImport(UIKit)
+public typealias ContentInsetAdjustmentBehavior = UIScrollView.ContentInsetAdjustmentBehavior
 typealias RefreshControl = UIRefreshControl
 #else
+public enum ContentInsetAdjustmentBehavior {
+    case automatic
+    case scrollableAxes
+    case never
+    case always
+}
+
 struct RefreshControl {
     enum ControlEvent {
         case valueChanged
@@ -16,6 +24,7 @@ struct RefreshControl {
 extension WKWebView {
     struct ScrollView {
         var bounces = false
+        var contentInsetAdjustmentBehavior = ContentInsetAdjustmentBehavior.automatic
         var refreshControl: RefreshControl? = .init()
     }
 
