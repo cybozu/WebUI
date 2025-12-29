@@ -37,6 +37,12 @@ class EnhancedWKWebView: WKWebView {
         }
     }
 
+    var contentInsetAdjustmentBehavior: ContentInsetAdjustmentBehavior = .automatic {
+        willSet {
+            self.scrollView.contentInsetAdjustmentBehavior = newValue
+        }
+    }
+
     var isRefreshable = false {
         willSet {
             if newValue {
