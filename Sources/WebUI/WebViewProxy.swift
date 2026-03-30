@@ -164,18 +164,7 @@ public final class WebViewProxy: ObservableObject {
     /// ```
     @discardableResult
     public func evaluateJavaScript(_ javaScriptString: String) async throws -> Any? {
-        guard let webView else { return nil }
-        return try await withCheckedThrowingContinuation { continuation in
-            webView.wrappedValue.evaluateJavaScript(javaScriptString) { result, error in
-                Task { @MainActor in
-                    if let error {
-                        continuation.resume(throwing: error)
-                    } else {
-                        continuation.resume(returning: result)
-                    }
-                }
-            }
-        }
+        try await webView?.wrappedValue.evaluateJavaScript(javaScriptString)
     }
 
     /// Clears all properties managed by `WKWebView`.
