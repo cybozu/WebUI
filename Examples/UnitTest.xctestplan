@@ -15,7 +15,8 @@
       "containerPath" : "container:Examples.xcodeproj",
       "identifier" : "183D258B2B56695D001FDBDB",
       "name" : "Examples"
-    }
+    },
+    "testTimeoutsEnabled" : true
   },
   "testTargets" : [
     {
@@ -23,13 +24,6 @@
         "containerPath" : "container:..",
         "identifier" : "WebUITests",
         "name" : "WebUITests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:Examples.xcodeproj",
-        "identifier" : "1899E0F32BC7AE8E00BDCFD4",
-        "name" : "ExamplesUITests"
       }
     }
   ],

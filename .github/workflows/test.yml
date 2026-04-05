@@ -30,7 +30,7 @@ jobs:
           xcodebuild test \
             -project Examples/Examples.xcodeproj \
             -scheme Examples \
-            -only-testing:WebUITests \
+            -testPlan UnitTest \
             -destination "platform=iOS Simulator,name=iPhone 17,OS=26.0.1" \
             -derivedDataPath DerivedData \
             -resultBundlePath TestResults/unit_test_result_bundle | \
@@ -41,7 +41,7 @@ jobs:
           xcodebuild test-without-building \
             -project Examples/Examples.xcodeproj \
             -scheme Examples \
-            -only-testing:ExamplesUITests \
+            -testPlan UITest \
             -destination "platform=iOS Simulator,name=iPhone 17,OS=26.0.1" \
             -derivedDataPath DerivedData \
             -resultBundlePath TestResults/ui_test_result_bundle | \
