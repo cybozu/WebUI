@@ -24,13 +24,6 @@
         "identifier" : "WebUITests",
         "name" : "WebUITests"
       }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:Examples.xcodeproj",
-        "identifier" : "1899E0F32BC7AE8E00BDCFD4",
-        "name" : "ExamplesUITests"
-      }
     }
   ],
   "version" : 1
