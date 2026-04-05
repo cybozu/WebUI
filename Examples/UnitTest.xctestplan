@@ -15,7 +15,8 @@
       "containerPath" : "container:Examples.xcodeproj",
       "identifier" : "183D258B2B56695D001FDBDB",
       "name" : "Examples"
-    }
+    },
+    "testTimeoutsEnabled" : true
   },
   "testTargets" : [
     {
