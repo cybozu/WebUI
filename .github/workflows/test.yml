@@ -34,7 +34,7 @@ jobs:
           xcodebuild test \
             -project Examples/Examples.xcodeproj \
             -scheme Examples \
-            -destination "platform=iOS Simulator,name=iPhone 17,OS=26.2" \
+            -destination "platform=iOS Simulator,arch=arm64,name=iPhone 17,OS=26.2" \
             -derivedDataPath DerivedData \
             -resultBundlePath TestResults/ui_test_result_bundle | \
             xcbeautify
