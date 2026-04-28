@@ -40,3 +40,11 @@ jobs:
             -derivedDataPath DerivedData \
             -resultBundlePath TestResults/ui_test_result_bundle | \
             xcbeautify
+
+      - name: Upload UI Test Result Bundle
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ui-test-result-bundle
+          path: TestResults/ui_test_result_bundle.xcresult
+          if-no-files-found: warn
