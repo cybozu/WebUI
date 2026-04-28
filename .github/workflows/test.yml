@@ -13,10 +13,10 @@ concurrency:
 jobs:
   test:
     name: Test
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 30
     env:
-      DEVELOPER_DIR: "/Applications/Xcode_26.0.1.app/Contents/Developer"
+      DEVELOPER_DIR: "/Applications/Xcode_26.2.0.app/Contents/Developer"
 
     steps:
       - name: Checkout
@@ -42,7 +42,7 @@ jobs:
             -project Examples/Examples.xcodeproj \
             -scheme Examples \
             -testPlan UITest \
-            -destination "platform=iOS Simulator,name=iPhone 17,OS=26.0.1" \
+            -destination "platform=iOS Simulator,name=iPhone 17,OS=26.2" \
             -derivedDataPath DerivedData \
             -resultBundlePath TestResults/ui_test_result_bundle | \
             xcbeautify && exit ${PIPESTATUS[0]}
