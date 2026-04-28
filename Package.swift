@@ -1,4 +1,4 @@
-// swift-tools-version: 6.1
+// swift-tools-version: 6.2
 
 import PackageDescription
 
@@ -9,8 +9,8 @@ let swiftSettings: [SwiftSetting] = [
 let package = Package(
     name: "WebUI",
     platforms: [
-        .macOS("13.3"),
         .iOS("16.4"),
+        .macOS("13.3"),
         .visionOS(.v2),
     ],
     products: [
