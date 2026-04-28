@@ -26,23 +26,25 @@ jobs:
         run: xcodebuild -version
 
       - name: Run Unit Tests
+        run: swift test
+
+      - name: Run UI Tests
+        shell: bash
         run: |
           xcodebuild test \
             -project Examples/Examples.xcodeproj \
             -scheme Examples \
-            -testPlan UnitTest \
-            -destination "platform=iOS Simulator,name=iPhone 17,OS=26.2" \
-            -derivedDataPath DerivedData \
-            -resultBundlePath TestResults/unit_test_result_bundle | \
-            xcbeautify && exit ${PIPESTATUS[0]}
-
-      - name: Run UI Tests
-        run: |
-          xcodebuild test-without-building \
-            -project Examples/Examples.xcodeproj \
-            -scheme Examples \
-            -testPlan UITest \
-            -destination "platform=iOS Simulator,name=iPhone 17,OS=26.2" \
+            -destination "platform=iOS Simulator,arch=arm64,name=iPhone 17,OS=26.2" \
+            -maximum-concurrent-test-simulator-destinations 1 \
+            -parallel-testing-enabled NO \
             -derivedDataPath DerivedData \
             -resultBundlePath TestResults/ui_test_result_bundle | \
-            xcbeautify && exit ${PIPESTATUS[0]}
+            xcbeautify
+
+      - name: Upload UI Test Result Bundle
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ui-test-result-bundle
+          path: TestResults/ui_test_result_bundle.xcresult
+          if-no-files-found: warn
