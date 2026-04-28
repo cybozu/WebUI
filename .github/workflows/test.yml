@@ -35,6 +35,8 @@ jobs:
             -project Examples/Examples.xcodeproj \
             -scheme Examples \
             -destination "platform=iOS Simulator,arch=arm64,name=iPhone 17,OS=26.2" \
+            -maximum-concurrent-test-simulator-destinations 1 \
+            -parallel-testing-enabled NO \
             -derivedDataPath DerivedData \
             -resultBundlePath TestResults/ui_test_result_bundle | \
             xcbeautify
