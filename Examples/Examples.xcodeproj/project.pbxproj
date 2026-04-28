@@ -35,9 +35,7 @@
 		183D25952B566967001FDBDB /* Examples.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Examples.entitlements; sourceTree = "<group>"; };
 		183D259E2B56699B001FDBDB /* WebUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WebUI; path = ..; sourceTree = "<group>"; };
 		183D25A22B566AE8001FDBDB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		183D25A42B566BDB001FDBDB /* UnitTest.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTest.xctestplan; sourceTree = "<group>"; };
 		1852BC8E2CBFB72600133987 /* sample.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = sample.html; sourceTree = "<group>"; };
-		185A19072F8249510043C4C9 /* UITest.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UITest.xctestplan; sourceTree = "<group>"; };
 		1899E0F42BC7AE8E00BDCFD4 /* ExamplesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExamplesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1899E0F62BC7AE8E00BDCFD4 /* ExamplesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamplesUITests.swift; sourceTree = "<group>"; };
 		18C686112B6B3DB600D45A40 /* ContentViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewState.swift; sourceTree = "<group>"; };
@@ -65,8 +63,6 @@
 		183D25832B56695D001FDBDB = {
 			isa = PBXGroup;
 			children = (
-				185A19072F8249510043C4C9 /* UITest.xctestplan */,
-				183D25A42B566BDB001FDBDB /* UnitTest.xctestplan */,
 				183D259E2B56699B001FDBDB /* WebUI */,
 				183D258E2B56695D001FDBDB /* Examples */,
 				1899E0F52BC7AE8E00BDCFD4 /* ExamplesUITests */,
