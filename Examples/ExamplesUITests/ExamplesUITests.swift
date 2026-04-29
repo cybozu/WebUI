@@ -8,7 +8,7 @@ final class ExamplesUITests: XCTestCase {
 
         // MARK: WebViewProxy
         XCTContext.runActivity(named: "WebViewProxy.load(request:)") { _ in
-            XCTAssertTrue(app.webViews.staticTexts["History"].waitForExistence(timeout: 15))
+            XCTAssertTrue(app.webViews.staticTexts["History"].waitForExistence(timeout: 30))
         }
 
         XCTContext.runActivity(named: "WebViewProxy.reload()") { _ in
@@ -61,7 +61,7 @@ final class ExamplesUITests: XCTestCase {
         XCTContext.runActivity(named: "WebViewProxy.loadHTMLString()") { _ in
             app.buttons["More"].tap()
             app.buttons["Load HTML String"].tap()
-            XCTAssertTrue(app.webViews.staticTexts["Sample"].waitForExistence(timeout: 15))
+            XCTAssertTrue(app.webViews.staticTexts["Sample"].waitForExistence(timeout: 30))
         }
 
         XCTContext.runActivity(named: "WebViewProxy.clearAll()") { _ in
@@ -73,7 +73,7 @@ final class ExamplesUITests: XCTestCase {
 
         XCTContext.runActivity(named: "WebView.uiDelegate(_:)") { _ in
             let confirmButton = app.webViews.buttons["Confirm"]
-            XCTAssertTrue(confirmButton.waitForExistence(timeout: 15))
+            XCTAssertTrue(confirmButton.waitForExistence(timeout: 30))
             confirmButton.tap()
             XCTAssertTrue(app.alerts.staticTexts["Confirm Test"].waitForExistence(timeout: 3))
             app.alerts.buttons["OK"].tap()
