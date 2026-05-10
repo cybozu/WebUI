@@ -12,7 +12,7 @@ import WebKit
 /// }
 /// ```
 @available(iOS 16.4, macOS 13.3, *)
-public struct WebView {
+public struct WebView: WebViewRepresentable {
     var configuration: WKWebViewConfiguration
 
     private var initialRequest: URLRequest?
