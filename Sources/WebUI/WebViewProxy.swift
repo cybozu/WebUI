@@ -167,6 +167,52 @@ public final class WebViewProxy: ObservableObject {
         try await webView?.wrappedValue.evaluateJavaScript(javaScriptString)
     }
 
+    /// Calls the specified JavaScript string as an async JavaScript function.
+    /// - Parameters:
+    ///   - functionBody: The JavaScript string to use as the function body.
+    ///   - arguments: A dictionary of the arguments to pass to the function call.
+    ///     Each key in the dictionary corresponds to the name of an argument in the `functionBody` string,
+    ///     and the value of that key is the value to use during the evaluation of the code.
+    ///   - contentWorld: The namespace in which to evaluate the JavaScript code. The default is `WKContentWorld.page`.
+    /// - Returns: The result of the script evaluation, or nil if WebViewProxy loses its reference to the ``WebView``.
+    /// - Throws: `WebKit.WKError`
+    ///
+    /// Unlike ``evaluateJavaScript(_:)``, the JavaScript string is treated as the body of an async function,
+    /// so you can use `await` expressions and return a value with a `return` statement.
+    ///
+    /// The following example fetches a status code of the specified URL when the ``WebView`` appears.
+    ///
+    /// ```swift
+    /// var body: some View {
+    ///     WebViewReader { proxy in
+    ///         WebView()
+    ///             .task {
+    ///                 do {
+    ///                     let script = "const response = await fetch(url); return response.status;"
+    ///                     let status = try await proxy.callAsyncJavaScript(
+    ///                         script,
+    ///                         arguments: ["url": "https://www.example.com"]
+    ///                     )
+    ///                 } catch {
+    ///                     print(error.localizedDescription)
+    ///                 }
+    ///             }
+    ///     }
+    /// }
+    /// ```
+    @discardableResult
+    public func callAsyncJavaScript(
+        _ functionBody: String,
+        arguments: [String: Any] = [:],
+        contentWorld: WKContentWorld = .page
+    ) async throws -> Any? {
+        try await webView?.wrappedValue.callAsyncJavaScript(
+            functionBody,
+            arguments: arguments,
+            contentWorld: contentWorld
+        )
+    }
+
     /// Clears all properties managed by `WKWebView`.
     ///
     /// As a side effect, the WKWebView instance will be remade.

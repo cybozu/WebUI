@@ -55,6 +55,16 @@ class EnhancedWKWebView: WKWebView {
 
     private(set) var navigationDelegateProxy: NavigationDelegateProxy!
 
+    // The Swift refined version of `callAsyncJavaScript` is defined in an extension of `WKWebView`,
+    // so it cannot be overridden in tests. This wrapper makes it mockable.
+    func callAsyncJavaScript(
+        _ functionBody: String,
+        arguments: [String: Any],
+        contentWorld: WKContentWorld
+    ) async throws -> Any? {
+        try await callAsyncJavaScript(functionBody, arguments: arguments, in: nil, contentWorld: contentWorld)
+    }
+
     private lazy var refreshControl = {
         let _refreshControl = RefreshControl()
         _refreshControl.addTarget(self, action: #selector(reload as () -> WKNavigation?), for: .valueChanged)
