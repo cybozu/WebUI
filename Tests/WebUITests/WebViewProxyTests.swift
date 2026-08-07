@@ -1,6 +1,7 @@
 @preconcurrency import Combine
 import Foundation
 import Testing
+import WebKit
 @testable import WebUI
 
 @Suite(.serialized)
@@ -209,6 +210,26 @@ struct WebViewProxyTests {
         sut.setUp(webViewMock)
         let actual = try await sut.evaluateJavaScript("test")
         #expect((webViewMock.wrappedValue as! EnhancedWKWebViewMock).javaScriptString == "test")
+        let result = try #require(actual as? Bool)
+        #expect(result)
+    }
+
+    @MainActor @Test
+    func call_async_JavaScript() async throws {
+        let sut = WebViewProxy()
+        let webViewMock = Remakeable {
+            EnhancedWKWebViewMock() as EnhancedWKWebView
+        }
+        sut.setUp(webViewMock)
+        let actual = try await sut.callAsyncJavaScript(
+            "test",
+            arguments: ["key": "value"],
+            contentWorld: .defaultClient
+        )
+        let mock = webViewMock.wrappedValue as! EnhancedWKWebViewMock
+        #expect(mock.asyncJavaScriptFunctionBody == "test")
+        #expect(mock.asyncJavaScriptArguments?["key"] as? String == "value")
+        #expect(mock.asyncJavaScriptContentWorld == .defaultClient)
         let result = try #require(actual as? Bool)
         #expect(result)
     }

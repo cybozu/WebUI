@@ -9,6 +9,9 @@ final class EnhancedWKWebViewMock: EnhancedWKWebView {
     private(set) var goBackCalled = false
     private(set) var goForwardCalled = false
     private(set) var javaScriptString: String?
+    private(set) var asyncJavaScriptFunctionBody: String?
+    private(set) var asyncJavaScriptArguments: [String: Any]?
+    private(set) var asyncJavaScriptContentWorld: WKContentWorld?
 
     private var _title: String?
     override var title: String? {
@@ -78,6 +81,17 @@ final class EnhancedWKWebViewMock: EnhancedWKWebView {
     ) {
         self.javaScriptString = javaScriptString
         completionHandler?(true, nil)
+    }
+
+    override func callAsyncJavaScript(
+        _ functionBody: String,
+        arguments: [String: Any],
+        contentWorld: WKContentWorld
+    ) async throws -> Any? {
+        asyncJavaScriptFunctionBody = functionBody
+        asyncJavaScriptArguments = arguments
+        asyncJavaScriptContentWorld = contentWorld
+        return true
     }
 }
 
