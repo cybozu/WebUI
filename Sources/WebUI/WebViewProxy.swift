@@ -173,7 +173,7 @@ public final class WebViewProxy: ObservableObject {
     ///   - arguments: A dictionary of the arguments to pass to the function call.
     ///     Each key in the dictionary corresponds to the name of an argument in the `functionBody` string,
     ///     and the value of that key is the value to use during the evaluation of the code.
-    ///   - contentWorld: The namespace in which to evaluate the JavaScript code. The default is `WKContentWorld.page`.
+    ///   - contentWorld: The namespace in which to evaluate the JavaScript code.
     /// - Returns: The result of the script evaluation, or nil if WebViewProxy loses its reference to the ``WebView``.
     /// - Throws: `WebKit.WKError`
     ///
@@ -191,7 +191,8 @@ public final class WebViewProxy: ObservableObject {
     ///                     let script = "const response = await fetch(url); return response.status;"
     ///                     let status = try await proxy.callAsyncJavaScript(
     ///                         script,
-    ///                         arguments: ["url": "https://www.example.com"]
+    ///                         arguments: ["url": "https://www.example.com"],
+    ///                         contentWorld: .page
     ///                     )
     ///                 } catch {
     ///                     print(error.localizedDescription)
@@ -204,7 +205,7 @@ public final class WebViewProxy: ObservableObject {
     public func callAsyncJavaScript(
         _ functionBody: String,
         arguments: [String: Any] = [:],
-        contentWorld: WKContentWorld = .page
+        contentWorld: WKContentWorld
     ) async throws -> Any? {
         try await webView?.wrappedValue.callAsyncJavaScript(
             functionBody,
