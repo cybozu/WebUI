@@ -75,6 +75,14 @@ final class EnhancedWKWebViewMock: EnhancedWKWebView {
         return nil
     }
 
+    override func evaluateJavaScript(
+        _ javaScriptString: String,
+        completionHandler: (@MainActor (Any?, (any Error)?) -> Void)? = nil
+    ) {
+        self.javaScriptString = javaScriptString
+        completionHandler?(true, nil)
+    }
+
     override func callAsyncJavaScript(
         _ functionBody: String,
         arguments: [String: Any],
@@ -84,14 +92,6 @@ final class EnhancedWKWebViewMock: EnhancedWKWebView {
         asyncJavaScriptArguments = arguments
         asyncJavaScriptContentWorld = contentWorld
         return true
-    }
-
-    override func evaluateJavaScript(
-        _ javaScriptString: String,
-        completionHandler: (@MainActor (Any?, (any Error)?) -> Void)? = nil
-    ) {
-        self.javaScriptString = javaScriptString
-        completionHandler?(true, nil)
     }
 }
 
