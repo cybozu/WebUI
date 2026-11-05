@@ -15,12 +15,6 @@ private extension PlatformEnvironment {
 @MainActor
 final class ContentViewState: NSObject, ObservableObject {
     enum WebDialog {
-        enum Phase {
-            case idle
-            case presented
-            case dismissing
-        }
-
         case alert(_ message: String, _ continuation: CheckedContinuation<Void, Never>)
         case confirm(_ message: String, _ continuation: CheckedContinuation<Bool, Never>)
         case prompt(_ prompt: String, _ defaultText: String, _ continuation: CheckedContinuation<String?, Never>)
@@ -43,19 +37,13 @@ final class ContentViewState: NSObject, ObservableObject {
 
     @Published var pageScaleFactor: CGFloat = 1.0
     @Published var webDialog: WebDialog?
-    @Published var showDialog = false {
-        didSet { updateDialogPhase(from: oldValue) }
-    }
+    @Published var showDialog = false
     @Published var promptInput = ""
 
     let configuration = WKWebViewConfiguration()
     let request = URLRequest(url: URL(string: "https://cybozu.github.io/webview-debugger")!)
     let htmlURL = Bundle.main.url(forResource: "sample", withExtension: "html")!
     let htmlString: String
-
-    private var dialogPhase = WebDialog.Phase.idle
-    // WebKit serializes JavaScript dialogs per page, so at most one request waits here.
-    private var dialogDismissalWaiter: CheckedContinuation<Void, Never>?
 
     override init() {
         htmlString = try! String(contentsOf: htmlURL, encoding: .utf8)
@@ -74,62 +62,37 @@ final class ContentViewState: NSObject, ObservableObject {
         }
     }
 
-    private func updateDialogPhase(from oldValue: Bool) {
-        switch (oldValue, showDialog) {
-        case (_, true):
-            dialogPhase = .presented
-        case (true, false):
-            #if os(iOS)
-            // SwiftUI writes `false` to `isPresented` once more after the alert has been torn down,
-            // and an alert presented before that write is dropped. Keep waiting for it.
-            dialogPhase = .dismissing
-            #else
-            // There is no second write on macOS; the binding has settled at this point.
-            settleDialog()
-            #endif
-        case (false, false) where dialogPhase == .dismissing:
-            settleDialog()
-        default:
-            break
-        }
-    }
-
-    private func settleDialog() {
-        dialogPhase = .idle
-        let waiter = dialogDismissalWaiter
-        dialogDismissalWaiter = nil
-        waiter?.resume()
-    }
-
-    private func waitForDialogDismissal() async {
-        guard dialogPhase != .idle else { return }
-        await withCheckedContinuation { continuation in
-            dialogDismissalWaiter = continuation
-        }
-    }
-
     private func showAlert(_ message: String) async {
-        await waitForDialogDismissal()
         await withCheckedContinuation { continuation in
             webDialog = .alert(message, continuation)
             showDialog = true
         }
+        await waitForDialogDismissal()
     }
 
     private func showConfirm(_ message: String) async -> Bool {
-        await waitForDialogDismissal()
-        return await withCheckedContinuation { continuation in
+        let result: Bool = await withCheckedContinuation { continuation in
             webDialog = .confirm(message, continuation)
             showDialog = true
         }
+        await waitForDialogDismissal()
+        return result
     }
 
     private func showPrompt(_ prompt: String, _ defaultText: String?) async -> String? {
-        await waitForDialogDismissal()
-        return await withCheckedContinuation { continuation in
+        let result: String? = await withCheckedContinuation { continuation in
             webDialog = .prompt(prompt, defaultText ?? "", continuation)
             showDialog = true
         }
+        await waitForDialogDismissal()
+        return result
+    }
+
+    // WORKAROUND: SwiftUI drops an alert that is presented while the previous one is still being dismissed
+    // (observed on iOS 27), and the page then stays blocked inside the JavaScript dialog.
+    // Give the dismissal a moment to settle before returning the result to WebKit.
+    private func waitForDialogDismissal() async {
+        try? await Task.sleep(for: .milliseconds(100))
     }
 
     func zoomIn() {
