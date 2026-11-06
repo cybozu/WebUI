@@ -62,19 +62,37 @@ final class ContentViewState: NSObject, ObservableObject {
         }
     }
 
-    private func showAlert(_ message: String, _ continuation: CheckedContinuation<Void, Never>) {
-        webDialog = .alert(message, continuation)
-        showDialog = true
+    private func showAlert(_ message: String) async {
+        await withCheckedContinuation { continuation in
+            webDialog = .alert(message, continuation)
+            showDialog = true
+        }
+        await waitForDialogDismissal()
     }
 
-    private func showConfirm(_ message: String, _ continuation: CheckedContinuation<Bool, Never>) {
-        webDialog = .confirm(message, continuation)
-        showDialog = true
+    private func showConfirm(_ message: String) async -> Bool {
+        let result = await withCheckedContinuation { continuation in
+            webDialog = .confirm(message, continuation)
+            showDialog = true
+        }
+        await waitForDialogDismissal()
+        return result
     }
 
-    private func showPrompt(_ prompt: String, _ defaultText: String?, _ continuation: CheckedContinuation<String?, Never>) {
-        webDialog = .prompt(prompt, defaultText ?? "", continuation)
-        showDialog = true
+    private func showPrompt(_ prompt: String, _ defaultText: String?) async -> String? {
+        let result = await withCheckedContinuation { continuation in
+            webDialog = .prompt(prompt, defaultText ?? "", continuation)
+            showDialog = true
+        }
+        await waitForDialogDismissal()
+        return result
+    }
+
+    // WORKAROUND: SwiftUI drops an alert that is presented while the previous one is still being dismissed
+    // (observed on iOS 27), and the page then stays blocked inside the JavaScript dialog.
+    // Give the dismissal a moment to settle before returning the result to WebKit.
+    private func waitForDialogDismissal() async {
+        try? await Task.sleep(for: .milliseconds(100))
     }
 
     func zoomIn() {
@@ -116,9 +134,7 @@ extension ContentViewState: WKUIDelegate {
         runJavaScriptAlertPanelWithMessage message: String,
         initiatedByFrame frame: WKFrameInfo
     ) async {
-        await withCheckedContinuation { continuation in
-            showAlert(message, continuation)
-        }
+        await showAlert(message)
     }
 
     func webView(
@@ -126,9 +142,7 @@ extension ContentViewState: WKUIDelegate {
         runJavaScriptConfirmPanelWithMessage message: String,
         initiatedByFrame frame: WKFrameInfo
     ) async -> Bool {
-        await withCheckedContinuation { continuation in
-            showConfirm(message, continuation)
-        }
+        await showConfirm(message)
     }
 
     func webView(
@@ -137,9 +151,7 @@ extension ContentViewState: WKUIDelegate {
         defaultText: String?,
         initiatedByFrame frame: WKFrameInfo
     ) async -> String? {
-        await withCheckedContinuation { continuation in
-            showPrompt(prompt, defaultText, continuation)
-        }
+        await showPrompt(prompt, defaultText)
     }
 }
 
@@ -164,10 +176,8 @@ extension ContentViewState: WKNavigationDelegate {
         }
 
         // Check if the user wants to open the URL in an external app.
-        let resultConfirm = await withCheckedContinuation { continuation in
-            let urlString = requestedURL.absoluteString
-            showConfirm("Open this link in external app?\n\(urlString)", continuation)
-        }
+        let urlString = requestedURL.absoluteString
+        let resultConfirm = await showConfirm("Open this link in external app?\n\(urlString)")
         guard resultConfirm else {
             return (.cancel, preferences)
         }
@@ -179,9 +189,7 @@ extension ContentViewState: WKNavigationDelegate {
         }
 
         // Show an alert if the external app fails to open the URL.
-        await withCheckedContinuation { continuation in
-            showAlert("Failed to open the link in external app.", continuation)
-        }
+        await showAlert("Failed to open the link in external app.")
 
         return (.cancel, preferences)
     }
