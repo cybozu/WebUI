@@ -71,7 +71,7 @@ final class ContentViewState: NSObject, ObservableObject {
     }
 
     private func showConfirm(_ message: String) async -> Bool {
-        let result: Bool = await withCheckedContinuation { continuation in
+        let result = await withCheckedContinuation { continuation in
             webDialog = .confirm(message, continuation)
             showDialog = true
         }
@@ -80,7 +80,7 @@ final class ContentViewState: NSObject, ObservableObject {
     }
 
     private func showPrompt(_ prompt: String, _ defaultText: String?) async -> String? {
-        let result: String? = await withCheckedContinuation { continuation in
+        let result = await withCheckedContinuation { continuation in
             webDialog = .prompt(prompt, defaultText ?? "", continuation)
             showDialog = true
         }
